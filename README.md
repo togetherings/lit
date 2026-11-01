@@ -14,6 +14,8 @@ and speed targets in `config.js` are both reached.
 * **Releases** (right-hand side of the repository page): every tagged version has one zip per lesson, in two forms:
   `LIT-lesson01-all-v022.zip` (every language, the learner can switch in *Options*) and
   `LIT-lesson01-fr-v022.zip` (a single language).
+* **Live site** (GitHub Pages): https://togetherings.github.io/lit/ - every lesson with all its languages, to try or share
+  a link. Nothing is reported to a coach there, and progress is kept in the browser only.
 * Or build them yourself: `python3 build.py --all` (zips go to `dist/`). See below.
 
 ## Repository layout
@@ -50,6 +52,7 @@ python3 build.py 01 --lang fr         lesson 01, French only (no language picker
 python3 build.py 01 --lang en,en-gb   only those languages
 python3 build.py 01 --default fr      the language shown first
 python3 build.py --all                everything: each lesson "all" plus one zip per language
+python3 build.py --site               the GitHub Pages site (folder site/): front page + every lesson, all languages
 ```
 
 The zip's `config.js` is `shared/config.js` + `lessons/NN/config.js` + the version and language list that build.py adds.
@@ -59,6 +62,14 @@ The zip's `config.js` is `shared/config.js` + `lessons/NN/config.js` + the versi
 1. Change `VERSION` (for example `023`), commit, and push to `main`. The workflow checks and builds everything.
 2. Tag it: `git tag v023 && git push origin v023`. The workflow builds again and publishes a release with all the zips.
    (The tag must equal `v` + the contents of `VERSION`, otherwise the workflow stops.)
+
+## GitHub Pages (the live site)
+
+The workflow publishes `site/` (made by `build.py --site`) every time `main` changes. **One-time setup:** in the repository,
+Settings → Pages → Source = **GitHub Actions**. (Free Pages need a public repository.) The site is at
+`https://togetherings.github.io/lit/`, with each lesson at `/lesson01/`, `/lesson02/` ... A new lesson folder under
+`lessons/` appears on the front page automatically. To look at it locally: `python3 build.py --site`, then
+`python3 -m http.server -d site` and open http://localhost:8000/.
 
 ## Making a new lesson
 

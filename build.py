@@ -8,6 +8,7 @@ Every zip is ONE lesson: index.html at the top, plus the shared program and the 
     python3 build.py 01 --lang fr        lesson 01, French only                    -> LIT-lesson01-fr-v022.zip
     python3 build.py 01 --lang en,en-gb  lesson 01, only these languages           -> LIT-lesson01-en+en-gb-v022.zip
     python3 build.py --all               every lesson: the all-languages zip and one zip per language
+    python3 build.py --site              a folder, site/, for GitHub Pages: every lesson with all its languages
     python3 build.py 01 --default fr     the language shown first (default: the first one, "en" if there is one)
 
 The zips are written to the dist/ folder. The version number comes from the VERSION file and is shown on the page.
@@ -65,8 +66,8 @@ def resolved_lesson(lesson, code):
         lesson, code, lesson, m.group(1), keyboard, copy)
 
 
-def build(lesson, langs, default=None):
-    """Make one zip. langs = list of language codes, or None for all of the lesson's languages."""
+def assemble(lesson, langs, default=None):
+    """Collect the files of one lesson build. Returns (files, chosen): files maps each path inside the zip to its bytes."""
     available = lesson_languages(lesson)
     chosen = langs or available
     for c in chosen:
@@ -111,7 +112,13 @@ def build(lesson, langs, default=None):
     cfg += ("\n\n// ===== Written by build.py =====\nTT.config.version = \"%s\";\nTT.config.languages = [%s];\nTT.config.language = \"%s\";\n"
             % (ver, ", ".join('"%s"' % c for c in chosen), first))
     files["config.js"] = cfg.encode("utf-8")
+    return files, chosen
 
+
+def build(lesson, langs, default=None):
+    """Make one zip. langs = list of language codes, or None for all of the lesson's languages."""
+    files, chosen = assemble(lesson, langs, default)
+    ver = version()
     os.makedirs(DIST, exist_ok=True)
     label = "all" if langs is None else "+".join(chosen)
     out = os.path.join(DIST, "LIT-lesson%s-%s-v%s.zip" % (lesson, label, ver))
@@ -127,14 +134,87 @@ def build(lesson, langs, default=None):
     return out
 
 
+def unescape(text):
+    """Turn \\u00E9 written in a language file back into the character."""
+    return re.sub(r"\\u([0-9A-Fa-f]{4})", lambda m: chr(int(m.group(1), 16)), text)
+
+
+def build_site():
+    """Make site/ for GitHub Pages: every lesson with all its languages, at site/lessonNN/, and a front page."""
+    import html, shutil
+    site = os.path.join(ROOT, "site")
+    if os.path.isdir(site):
+        shutil.rmtree(site)
+    os.makedirs(site)
+    items = []
+    for lesson in sorted(d for d in os.listdir(LESSONS) if os.path.isdir(os.path.join(LESSONS, d))):
+        files, chosen = assemble(lesson, None)
+        for name, data in files.items():
+            path = os.path.join(site, "lesson" + lesson, name)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "wb") as f:
+                f.write(data)
+        first = resolved_lesson(lesson, chosen[0])
+        title = unescape(re.search(r'title:\s*"([^"]*)"', first).group(1))
+        names = [unescape(re.search(r'name:\s*"([^"]*)"', read(os.path.join(SHARED, "keyboards", c + ".js"))).group(1)) for c in chosen]
+        items.append((lesson, title, names))
+        print("site/lesson%s/   %s   languages: %s" % (lesson, title, ", ".join(chosen)))
+    rows = "\n".join(
+        '    <li><a href="lesson%s/">%s</a><span>%s</span></li>' % (n, html.escape(t), html.escape(" \u00B7 ".join(langs)))
+        for n, t, langs in items)
+    page = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LIT: Lessons In Typing</title>
+<style>
+  :root { --bg: #d3e9f6; --card: #fffdf8; --ink: #1c3557; --soft: #5b6f8a; --accent: #f6c453; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #101a2b; --card: #17243a; --ink: #e8eef8; --soft: #9fb2cc; --accent: #c99a2e; } }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.5 system-ui, sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 32px 16px; }
+  .card { background: var(--card); border: 3px solid var(--ink); border-radius: 14px; padding: 24px; }
+  h1 { margin: 0 0 4px; font-size: 1.6rem; }
+  p { margin: 0 0 16px; color: var(--soft); }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { margin: 0 0 12px; }
+  li a { display: block; padding: 12px 16px; border: 3px solid var(--ink); border-radius: 10px; background: var(--accent); color: #1c3557; font-weight: bold; text-decoration: none; }
+  li a:hover, li a:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  li span { display: block; margin-top: 4px; font-size: .9rem; color: var(--soft); }
+  small { color: var(--soft); }
+  small a { color: var(--ink); }
+</style>
+</head>
+<body>
+<main>
+  <div class="card">
+    <h1>LIT: Lessons In Typing</h1>
+    <p>Learn to touch type. Choose a lesson; you can change the language in its Options page.</p>
+    <ul>
+%s
+    </ul>
+    <p><small>Version %s. Progress is saved in this browser only. For Kolibri, download the zip files from the <a href="https://github.com/togetherings/lit/releases">releases page</a>.</small></p>
+  </div>
+</main>
+</body>
+</html>
+""" % (rows, version())
+    with open(os.path.join(site, "index.html"), "w", encoding="utf-8") as f:
+        f.write(page)
+    open(os.path.join(site, ".nojekyll"), "w").close()       # tell GitHub Pages to serve the files exactly as they are
+
+
 def main():
     ap = argparse.ArgumentParser(description="Build Kolibri-ready zips of LIT lessons.")
     ap.add_argument("lesson", nargs="?", help="lesson number, e.g. 01")
     ap.add_argument("--lang", help="only these language codes, comma separated (default: all of the lesson's languages)")
     ap.add_argument("--default", help="the language shown first")
     ap.add_argument("--all", action="store_true", help="build every lesson: all languages together, and each language alone")
+    ap.add_argument("--site", action="store_true", help="build site/ for GitHub Pages (every lesson, all languages, with a front page)")
     args = ap.parse_args()
-    if args.all:
+    if args.site:
+        build_site()
+    elif args.all:
         for lesson in sorted(d for d in os.listdir(LESSONS) if os.path.isdir(os.path.join(LESSONS, d))):
             langs = lesson_languages(lesson)
             build(lesson, None)
