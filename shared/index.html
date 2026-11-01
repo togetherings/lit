@@ -1,0 +1,103 @@
+<!doctype html>
+<!--
+  LIT: Lessons In Typing - this page is only the "frame": empty pages that the JavaScript fills in.
+  The lesson (keys, finger advice, practice sentences), the keyboard and all the wording live in the
+  lesson/, keyboards/ and ui/ files, so this file has no text of its own.
+
+  Pages, in order:
+    Page 1  What is touch typing?     (can be switched off in config.js)
+    Page 2  The new keys and fingers
+    Page 3  Typing practice
+    Page 4  Results
+
+  This file is shared by every lesson. build.py copies it, with the lesson's files, into a zip.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LIT: Lessons In Typing</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <h1 id="appTitle"></h1>
+  <span id="version"></span>
+</header>
+
+<main>
+  <!-- Page 1: what is touch typing? -->
+  <section id="page-touch" hidden>
+    <div id="touchBody"></div>
+    <div class="buttons">
+      <button type="button" id="touchNext" class="primary" data-ui="next"></button>
+      <button type="button" id="optionsBtn1" class="options-btn" data-ui="options"></button>
+    </div>
+  </section>
+
+  <!-- Page 2: the new keys and which finger to use -->
+  <section id="page-keys" hidden>
+    <div id="keysBody"></div>
+    <div class="buttons">
+      <button type="button" id="startBtn" class="primary" data-ui="start"></button>
+      <button type="button" id="keysBack" data-ui="back"></button>
+      <button type="button" id="optionsBtn2" class="options-btn" data-ui="options"></button>
+    </div>
+  </section>
+
+  <!-- Page 3: typing practice -->
+  <section id="page-practice" hidden>
+    <div id="practiceTop">
+      <p id="progressText"></p>
+      <span id="capsWarning" hidden></span>
+      <span id="timer">0:00</span>
+    </div>
+    <p id="strictNote" hidden></p>
+    <p id="listName" hidden></p>
+    <div id="sentence" aria-live="off"></div>
+    <!-- Always takes up space (hidden with CSS visibility) so showing it never moves the buttons -->
+    <p id="focusHint" data-ui="clickToType"></p>
+    <div id="practiceKeyboard" class="keyboard"></div>
+    <div class="buttons">
+      <button type="button" id="practiceBack" data-ui="backToKeys"></button>
+    </div>
+  </section>
+
+  <!-- Page 4: results -->
+  <section id="page-results" hidden>
+    <div id="resultsBody" aria-live="polite"></div>
+    <div class="buttons">
+      <button type="button" id="retryBtn" class="primary" data-ui="tryAgain"></button>
+      <button type="button" id="resultsBack" data-ui="reviewKeys"></button>
+    </div>
+  </section>
+</main>
+
+<!-- Options page: a panel over Page 1 / Page 2 (filled in by app.js) -->
+<div id="page-options" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="optionsTitle">
+  <div class="options-card">
+    <h2 id="optionsTitle" data-ui="optionsTitle"></h2>
+    <div id="optionsBody"></div>
+    <div class="buttons">
+      <button type="button" id="optionsApply" class="primary" data-ui="apply"></button>
+      <button type="button" id="optionsBack" data-ui="back"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Invisible box that receives the typing (also lets tablets show a keyboard) -->
+<input id="capture" type="text" autocomplete="off" autocapitalize="off"
+       autocorrect="off" spellcheck="false" aria-label="Type here">
+
+<!-- ========== SCRIPTS (the order matters) ========== -->
+<script src="js/core.js"></script>        <!-- shared TT object -->
+<script src="config.js"></script>         <!-- settings and pass marks -->
+<script src="js/prefs.js"></script>       <!-- the learner's Options choices: theme, skin tone, language -->
+<script src="js/engine.js"></script>      <!-- typing logic (no screen code) -->
+<script src="js/hand-art.js"></script>    <!-- hand outline shapes (SVG path data) -->
+<script src="js/hands.js"></script>       <!-- places and colours the two hand pictures -->
+<script src="js/progress.js"></script>    <!-- saving progress + reporting to Kolibri (SCORM 1.2) -->
+<script src="js/loader.js"></script>      <!-- loads the languages listed in config.js (lesson/, keyboards/ and ui/ files), then js/app.js -->
+</body>
+</html>
