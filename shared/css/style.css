@@ -1,0 +1,240 @@
+/* style.css - all the looks. Colours are variables at the top, so they are easy to change.
+   LIGHT colours are in :root; DARK mode overrides them in :root[data-theme="dark"] (js/prefs.js sets
+   data-theme from the "theme" setting / the learner's Options choice / the device's own setting). */
+:root {
+  --bg: #cfe8f3;           /* page background */
+  --paper: #fffdf7;        /* cards and the header */
+  --ink: #1d3557;          /* text and borders */
+  --muted: #5b6b7f;        /* quieter text */
+  --field: #ffffff;        /* white-ish boxes: buttons, the typing box */
+  --on-color: #1d3557;     /* text that sits on a pastel colour (keys, chips): always dark */
+  --sun: #f6c453;  --sun-hover: #fbd980;
+  --ok: #bfe6c3;   --on-ok: #1d3557;   --bad: #e4584a;
+  --good: #1f7a3a; --warn: #b04a2a;    /* "Lesson complete" / "Not quite yet" text colours */
+  --notice-bg: #fff4d6;
+  --new-border: var(--ink);            /* the thick border on keys taught in THIS lesson */
+  --key-border: #999; --locked-bg: #ececec; --locked-fg: #aaa; --locked-border: #ccc;
+  --svg-key: #ffffff; --svg-key-stroke: #9aa5b1; --svg-label: #5b6b7f;   /* the Page 1 keyboard picture */
+  /* one colour per finger (also used for the keyboards and the hands) */
+  --f-lp: #f7b2ad; --f-lr: #f9d29c; --f-lm: #f6e58d; --f-li: #b8e0a2;
+  --f-ri: #9fd8e6; --f-rm: #a9bfef; --f-rr: #cdb4ee; --f-rp: #efb3d8; --f-lt: #d9d9d9; --f-rt: #d9d9d9;
+  /* hand pictures */
+  --hl: #e4584a;            /* outline drawn round a fingertip when its key is hovered (Page 2) */
+  --skin: #4a2c1b;          /* skin tone (set from the Options page / config.js skinTones) */
+  --skin-outline: #2e1b10;  /* dark edge around the hands (worked out from the skin tone) */
+  --hand-opacity: .8;       /* how solid the hands on the keyboard are (1 = not see-through) */
+  --hand-glow: none;        /* light glow round the hands (switched on in dark mode so ANY skin tone shows) */
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0d1626; --paper: #17233a; --ink: #e8eef8; --muted: #a3b3ca; --field: #223250;
+  --ok: #2e6a47; --on-ok: #f2fff6; --good: #7fe0a6; --warn: #ffa98a; --notice-bg: #4a3d12;
+  --new-border: #ffffff;
+  --key-border: #6e7f9c; --locked-bg: #26354f; --locked-fg: #7c8ead; --locked-border: #34455f;
+  --svg-key: #26354f; --svg-key-stroke: #566a8a; --svg-label: #b7c4d8;
+  --hand-glow: drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 4px rgba(255, 255, 255, .8));
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body { font-family: "Trebuchet MS", Verdana, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.5; }
+
+header { display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+         padding: .6rem 1rem; background: var(--paper); border-bottom: 3px solid var(--ink); }
+h1 { margin: 0; font-size: 1.3rem; }
+#version { color: var(--muted); font-size: .85rem; }
+main { max-width: 52rem; margin: 0 auto; padding: 1rem; }
+section { background: var(--paper); border: 3px solid var(--ink); border-radius: 16px; padding: 1.25rem; }
+h2 { margin-top: 0; }
+h3 { margin-bottom: .3rem; }
+
+/* buttons */
+button { font: inherit; font-weight: bold; padding: .65rem 1.1rem; border: 3px solid var(--ink);
+         border-radius: 12px; background: var(--field); color: var(--ink); cursor: pointer; }
+button.primary { background: var(--sun); color: var(--on-color); }
+button:hover:not(:disabled) { background: var(--sun-hover); color: var(--on-color); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+button:focus-visible { outline: 4px solid var(--bad); outline-offset: 2px; }
+.buttons { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.25rem; }
+.options-btn { margin-left: auto; }               /* floats to the right of the other buttons */
+
+/* Page 2: new left-hand keys | the hands | new right-hand keys */
+.keylayout { display: grid; grid-template-columns: 1fr auto 1fr; grid-template-areas: "l h r"; column-gap: 1rem; align-items: start; margin: .5rem 0 0; }
+.keycol.left { grid-area: l; } .keycol.right { grid-area: r; text-align: right; } .keylayout .figure { grid-area: h; }
+.keycol h4 { margin: .2rem 0 .3rem; }
+.figure.small { width: 350px; max-width: 100%; min-width: 0; margin: 0 auto; }   /* the hands: 350px wide (less only if the screen is narrower) */
+.newkeys { list-style: none; padding: 0; margin: .25rem 0; }
+.newkeys li { display: flex; align-items: center; flex-wrap: wrap; gap: .1rem .6rem; margin: .35rem 0; }
+.keycol.right .newkeys li { flex-direction: row-reverse; text-align: right; }   /* key on the outside edge, as on the right hand */
+/* one hand hidden (lesson.hideHand): only that hand's column and picture are shown */
+.keylayout.one-hand { grid-template-columns: auto auto; justify-content: center; }
+.keylayout.one-hand.hide-right { grid-template-areas: "l h"; }
+.keylayout.one-hand.hide-left { grid-template-areas: "h r"; }
+@media (max-width: 48rem) {   /* narrow screens: the two lists side by side, the hands below them */
+  .keylayout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "l r" "h h"; }
+  .keylayout.one-hand { grid-template-columns: minmax(0, 1fr); justify-content: stretch; }
+  .keylayout.one-hand.hide-right { grid-template-areas: "l" "h"; }
+  .keylayout.one-hand.hide-left { grid-template-areas: "r" "h"; }
+}
+/* hovering a coloured key or a listed key outlines its finger on the hands */
+#keysBody [data-finger]:hover { outline: 3px solid var(--hl); outline-offset: 1px; position: relative; z-index: 11; }
+.chip { display: inline-block; min-width: 4.5rem; text-align: center; padding: .15rem .6rem; color: var(--on-color); background: var(--fc, var(--field));
+        border: 2px solid var(--ink); border-radius: 8px; font-weight: bold; }
+
+/* the sentence being typed */
+#practiceTop { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: .5rem; }
+#progressText { margin: 0; color: var(--muted); }
+#capsWarning { background: var(--sun); color: var(--on-color); border-radius: 999px; padding: .05rem .8rem; font-weight: bold; font-size: .85rem; }
+/* the timer is deliberately small and faint: easy to ignore, easy to find */
+#timer { color: var(--muted); font-size: .85rem; opacity: .7; font-variant-numeric: tabular-nums; }
+#sentence { font-family: Consolas, Menlo, "Courier New", monospace; font-size: clamp(1.4rem, 4.5vw, 2.1rem);
+            line-height: 2.2; padding: .5rem; background: var(--field); border: 2px solid var(--ink); border-radius: 10px;
+            min-height: 4rem; word-break: break-word; }
+.ch { display: inline-block; min-width: .6em; text-align: center; border-bottom: 3px solid transparent; }
+.ch.sym { font-family: "Segoe UI Symbol", "DejaVu Sans Mono", "Arial Unicode MS", sans-serif; }   /* Tab and Enter symbols */
+/* Page 3: name of the current sentence list, and the "fix every mistake" notice */
+#listName { margin: .1rem 0 .3rem; font-weight: bold; }
+#strictNote { margin: .3rem 0 .6rem; padding: .4rem .7rem; background: var(--notice-bg); border-left: 4px solid var(--sun); border-radius: 6px; font-size: .95rem; }
+.ch.ok  { background: var(--ok); color: var(--on-ok); }
+.ch.bad { background: var(--bad); color: #fff; border-bottom-color: #7a1f16; text-decoration: underline wavy; } /* not colour alone */
+.ch.cur { background: var(--sun); color: var(--on-color); border-bottom-color: var(--ink); }
+/* Always occupies its line; only its visibility changes, so buttons below never jump. */
+#focusHint { color: var(--bad); font-weight: bold; margin: .4rem 0; min-height: 1.5em; visibility: hidden; }
+#focusHint.show { visibility: visible; }
+.note { background: var(--ok); color: var(--on-ok); border-radius: 8px; padding: .5rem .75rem; }
+
+/* results */
+.pass { color: var(--good); } .notyet { color: var(--warn); }
+.met::before { content: "\2713  "; color: var(--good); } .unmet::before { content: "\2717  "; color: var(--bad); }
+
+/* on-screen keyboard: key size shrinks on narrow screens so all rows fit */
+/* width: max-content + auto side margins = the whole keyboard is centred as one block */
+/* every row is 15 key-widths wide, like a real keyboard; --key shrinks on narrow screens */
+.keyboard { --gap: 3px; --key: min(2.5rem, calc((100vw - 5.2rem) / 15 - 3px)); width: max-content; max-width: 100%; margin: 1rem auto; }
+.kb-row { display: flex; gap: var(--gap); margin-bottom: var(--gap); }
+/* Each key's look comes from three variables: --fc (fill), --bc (border colour), --bw (border width). */
+.key { position: relative; --fc: var(--field); --bc: var(--key-border); --bw: 1px;
+       display: inline-flex; align-items: center; justify-content: center; flex: none; height: var(--key); white-space: nowrap;
+       /* --w = how many normal-key widths wide (set per key by app.js: Tab 1.5, Enter 2.25, space 6.25 ...) */
+       width: calc((var(--key) + var(--gap)) * var(--w, 1) - var(--gap));
+       background: var(--fc); border: var(--bw) solid var(--bc); color: var(--on-color);
+       border-radius: 6px; font-size: calc(var(--key) * .42); overflow: hidden; }
+  .f-lp { --fc: var(--f-lp); }
+  .f-lr { --fc: var(--f-lr); }
+  .f-lm { --fc: var(--f-lm); }
+  .f-li { --fc: var(--f-li); }
+  .f-ri { --fc: var(--f-ri); }
+  .f-rm { --fc: var(--f-rm); }
+  .f-rr { --fc: var(--f-rr); }
+  .f-rp { --fc: var(--f-rp); }
+  .f-lt { --fc: var(--f-lt); }
+  .f-rt { --fc: var(--f-rt); }
+/* normal / shifted labels. The keyboard gets "letters-up" (capitals) and/or "symbols-up" (shifted symbols);
+   the Page 1 picture uses the single class "shifted" instead */
+.key .up, .key .ag, .key .as { display: none; }
+.keyboard.letters-up .key.ltr .lo, .keyboard.symbols-up .key.sym .lo { display: none; }
+.keyboard.letters-up .key.ltr .up, .keyboard.symbols-up .key.sym .up { display: inline; }
+/* AltGr mode: the keyboard gets "layer-ag" or "layer-ags" and every letter / symbol key shows that layer's character */
+.keyboard.layer-ag .key.ltr .lo, .keyboard.layer-ag .key.sym .lo, .keyboard.layer-ags .key.ltr .lo, .keyboard.layer-ags .key.sym .lo { display: none; }
+.keyboard.layer-ag .key.ltr .ag, .keyboard.layer-ag .key.sym .ag { display: inline; }
+.keyboard.layer-ags .key.ltr .as, .keyboard.layer-ags .key.sym .as { display: inline; }
+.key.locked { --fc: var(--locked-bg); --bc: var(--locked-border); color: var(--locked-fg); }   /* after the f- rules so it wins */
+.key.new { --bw: 3px; --bc: var(--new-border); font-weight: bold; }
+/* the little raised bar on F and J */
+.key .bump { position: absolute; left: 50%; bottom: 13%; width: 36%; height: 3px; margin-left: -18%; background: currentColor; opacity: .5; border-radius: 2px; }
+/* The highlighted key must be drawn above its neighbours, or they cover its outline:
+   position + z-index lift it out of the normal paint order. */
+.key.next { outline: 4px solid var(--bad); outline-offset: 1px; position: relative; z-index: 10; }
+.keyspacer { flex: none; height: var(--key); width: calc((var(--key) + var(--gap)) * var(--w, 1) - var(--gap)); visibility: hidden; }
+
+/* ISO Enter: ONE key in an L shape, two rows tall - full width on the top row, narrower on the row below.
+   It sits in the upper row and is drawn taller (the row below keeps a gap for it). The border and fill are two
+   layers cut to the L shape, so they follow the state colours (--bc, --bw, --fc) like every other key. */
+.key.isoenter { --U: calc(var(--key) + var(--gap)); height: calc(var(--key) * 2 + var(--gap)); align-self: flex-start;
+                margin-bottom: calc(-1 * (var(--key) + var(--gap))); background: none; border: 0; overflow: visible; }
+.key.isoenter::before, .key.isoenter::after { content: ""; position: absolute; inset: 0; }
+.key.isoenter::before { background: var(--bc);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, calc(var(--U) * .25) 100%, calc(var(--U) * .25) var(--key), 0 var(--key)); }
+.key.isoenter::after { background: var(--fc);
+  clip-path: polygon(var(--bw) var(--bw), calc(100% - var(--bw)) var(--bw), calc(100% - var(--bw)) calc(100% - var(--bw)),
+                     calc(var(--U) * .25 + var(--bw)) calc(100% - var(--bw)), calc(var(--U) * .25 + var(--bw)) calc(var(--key) - var(--bw)),
+                     var(--bw) calc(var(--key) - var(--bw))); }
+.key.isoenter .lbl { position: absolute; z-index: 1; left: 0; right: 0; top: 0; height: var(--key); display: flex; align-items: center; justify-content: center; }
+/* outlines cannot follow the L shape, so the highlight uses a shadow that does */
+.key.isoenter.next, #keysBody .key.isoenter[data-finger]:hover { outline: none; z-index: 10; }
+.key.isoenter.next { filter: drop-shadow(2px 0 0 var(--bad)) drop-shadow(-2px 0 0 var(--bad)) drop-shadow(0 2px 0 var(--bad)) drop-shadow(0 -2px 0 var(--bad)); }
+#keysBody .key.isoenter[data-finger]:hover { filter: drop-shadow(2px 0 0 var(--hl)) drop-shadow(-2px 0 0 var(--hl)) drop-shadow(0 2px 0 var(--hl)) drop-shadow(0 -2px 0 var(--hl)); }
+
+/* hand pictures (shapes carry class names only; the colours are all here) */
+.figure { margin: 1rem auto; max-width: 34rem; }
+.hands-svg { display: block; width: 100%; height: auto; }
+.skin { fill: var(--skin); stroke: var(--skin-outline); stroke-width: 3; stroke-linejoin: round; }
+.hands-over { opacity: var(--hand-opacity); pointer-events: none; filter: var(--hand-glow); }   /* the mouse "sees" the keys under the hands */
+.hands-open { filter: var(--hand-glow); }
+/* keys drawn behind the hands on Page 1 */
+.hk   { fill: var(--svg-key); stroke: var(--svg-key-stroke); stroke-width: 2; }
+/* Page 1 keys coloured by finger (config.js: colorKeysOnPage1) - same colours as the keyboard on Page 2 */
+.hk-lp { fill: var(--f-lp); } .hk-lr { fill: var(--f-lr); } .hk-lm { fill: var(--f-lm); } .hk-li { fill: var(--f-li); }
+.hk-ri { fill: var(--f-ri); } .hk-rm { fill: var(--f-rm); } .hk-rr { fill: var(--f-rr); } .hk-rp { fill: var(--f-rp); }
+.hk-lt { fill: var(--f-lt); } .hk-rt { fill: var(--f-rt); }
+.hl   { font: bold 17px "Trebuchet MS", Verdana, sans-serif; fill: var(--svg-label); }
+/* labels on a coloured (pastel) key are always dark, in dark mode too */
+.hk-lp + .hl, .hk-lp + .hl + .hl,
+.hk-lr + .hl, .hk-lr + .hl + .hl,
+.hk-lm + .hl, .hk-lm + .hl + .hl,
+.hk-li + .hl, .hk-li + .hl + .hl,
+.hk-ri + .hl, .hk-ri + .hl + .hl,
+.hk-rm + .hl, .hk-rm + .hl + .hl,
+.hk-rr + .hl, .hk-rr + .hl + .hl,
+.hk-rp + .hl, .hk-rp + .hl + .hl,
+.hk-lt + .hl, .hk-lt + .hl + .hl,
+.hk-rt + .hl, .hk-rt + .hl + .hl { fill: var(--on-color); }
+.hl.sm { font-size: 14px; }
+.hl { pointer-events: none; }      /* key labels never block the mouse, so hovering a key's label hovers the key */
+.hands-svg .up { display: none; }
+.hands-svg.shifted .lo { display: none; }
+.hands-svg.shifted .up { display: inline; }
+.bump { fill: var(--svg-key-stroke); }
+/* finger colours on Page 2: one rule per finger, using the same colours as the keyboard */
+.fo { stroke: var(--skin-outline); stroke-width: 2; opacity: .9; }
+.fo-lp { fill: var(--f-lp); } .fo-rp { fill: var(--f-rp); }
+.fo-lr { fill: var(--f-lr); } .fo-lm { fill: var(--f-lm); } .fo-li { fill: var(--f-li); }
+.fo-ri { fill: var(--f-ri); } .fo-rm { fill: var(--f-rm); } .fo-rr { fill: var(--f-rr); }
+.fo-lt { fill: var(--f-lt); } .fo-rt { fill: var(--f-rt); }
+/* the open hands are drawn larger than the keyboard hands, so their lines are thinner */
+.hands-open .skin { stroke-width: 3; }
+.hands-open .fo { stroke-width: 1.8; }
+.hands-open .hr { stroke-width: 4.5; }
+/* highlight rings: invisible until a finger is hovered on Page 2 */
+.hr { fill: none; stroke: var(--hl); stroke-width: 3; stroke-linejoin: round; visibility: hidden; pointer-events: none; }
+.hr.on { visibility: visible; }
+
+/* pictures floated beside the text; each place has its own size */
+.side-image { float: right; height: auto; margin: 0 0 .5rem 1rem; }
+.side-image.intro  { width: min(30%, 11rem); }
+:root[data-theme="dark"] .side-image { background: #fff; border-radius: 12px; }   /* pictures with a white background stay tidy */
+/* results page: text on the left, the picture centred in the space to its right */
+.result-layout { display: flex; align-items: center; gap: 1rem; }
+.result-text { flex: 0 1 auto; }
+.result-pic { flex: 1 1 0; min-width: 5rem; display: flex; justify-content: center; align-items: center; }
+.side-image.result { float: none; margin: 0; width: min(100%, 9rem); }
+.figure, #page-results .buttons { clear: both; }
+
+/* Options page: a panel over the page */
+.overlay { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 100; background: rgba(0, 0, 0, .55);
+           display: flex; align-items: center; justify-content: center; padding: 1rem; overflow: auto; }
+.options-card { background: var(--paper); color: var(--ink); border: 3px solid var(--ink); border-radius: 16px; padding: 1.25rem;
+                width: 100%; max-width: 34rem; max-height: 100%; overflow: auto; }
+.options-card fieldset { border: 2px solid var(--muted); border-radius: 10px; margin: .75rem 0; padding: .5rem .9rem .8rem; }
+.options-card legend { font-weight: bold; padding: 0 .3rem; }
+.opt-row { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; }
+.opt-row label { display: flex; align-items: center; gap: .4rem; cursor: pointer; }
+.swatches { display: flex; flex-wrap: wrap; gap: .7rem; }
+.swatch { position: relative; display: flex; flex-direction: column; align-items: center; gap: .25rem; cursor: pointer; font-size: .85rem; }
+.swatch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.swatch .dot { width: 2.4rem; height: 2.4rem; border-radius: 50%; border: 3px solid var(--muted); }
+.swatch input:checked + .dot { border-color: var(--ink); box-shadow: 0 0 0 3px var(--sun); }
+.swatch input:focus-visible + .dot { outline: 3px solid var(--bad); outline-offset: 3px; }
+.options-card select { font: inherit; padding: .4rem .6rem; background: var(--field); color: var(--ink); border: 2px solid var(--ink); border-radius: 8px; }
+
+#capture { position: absolute; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; }
