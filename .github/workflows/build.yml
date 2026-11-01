@@ -1,5 +1,7 @@
 # Checks every lesson and builds the Kolibri zips on every push and pull request.
 # When you push a tag such as v022 (it must match the VERSION file), the zips are also attached to a GitHub Release.
+# Every push to main also publishes the live site (GitHub Pages: https://togetherings.github.io/lit/).
+# One-time setting: Settings > Pages > Source = "GitHub Actions".
 name: Build lessons
 
 on:
@@ -23,6 +25,8 @@ jobs:
         run: node tests/check_lessons.js
       - name: Build every zip
         run: python3 build.py --all
+      - name: Build the Pages site (checked on every push; published only from main, below)
+        run: python3 build.py --site
       - uses: actions/upload-artifact@v4
         with:
           name: lit-zips
@@ -35,3 +39,25 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release create "$GITHUB_REF_NAME" dist/*.zip --title "LIT $GITHUB_REF_NAME" --generate-notes
+
+  # Publishes the live site. Runs only for pushes to main, after the checks above have passed.
+  pages:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 build.py --site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
