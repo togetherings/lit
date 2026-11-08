@@ -1,44 +1,28 @@
 /*
   core.js - creates the one shared object, "TT", that every other file uses.
-  Language files register themselves here by calling TT.addLanguage(...).
+
+  A lesson is played in one language, which is three things put together when the page starts
+  (see loader.js):
+    keyboards/<language>.json   the physical keyboard: rows, Shift/AltGr layers, dead keys, which finger types which key
+    lessons/NN/<language>.json  the lesson's edition in that language: the "what is touch typing?" page, the keys
+                                taught, the advice and the practice sentences
+    lang/<language>.json        the wording on screen and the finger names (read with EduGame.t)
+  The EduGame Kit's helper picks the language, and finds the nearest file of each: a UK English learner (en-GB)
+  gets keyboards/en-GB.json and, while there's no lessons/NN/en-GB.json, the English edition lessons/NN/en.json.
 */
 var TT = {
-  // A "language" is a keyboard + the on-screen wording + one lesson, put together when the page starts:
-  //   keyboards/<code>.js   TT.addKeyboard({...})  the physical keyboard (rows, Shift/AltGr layers, dead keys, fingers)
-  //   ui/<code>.js          TT.addUi({...})        the wording on screen and the finger names
-  //   lesson/<code>.js      TT.addLesson({...})    the lesson: keys taught, advice, practice sentences
-  // buildLanguages() joins them into TT.languages[code], which is what app.js uses.
-  languages: {},   // language code -> the joined language object
-  keyboards: {}, uis: {}, lessons: {},
-
-  addKeyboard: function (kb) { this.keyboards[kb.code] = kb; },
-  addUi: function (ui) { this.uis[ui.code] = ui; },
-  addLesson: function (def) { this.lessons[def.keyboard] = def; },
-
-  // Join the pieces. A lesson file names its keyboard (its own code) and its wording ("ui"); "lessonFrom" may name
-  // another lesson file whose lesson (keys, advice, sentences) is copied, so the same lesson is written only once.
-  buildLanguages: function () {
-    var self = this;
-    function copy(x) { return JSON.parse(JSON.stringify(x)); }       // the lesson is changed while running: give each language its own copy
-    Object.keys(this.lessons).forEach(function (code) {
-      var def = self.lessons[code], kb = self.keyboards[code], ui = self.uis[def.ui];
-      var from = def.lessonFrom ? self.lessons[def.lessonFrom] : def;
-      if (!kb) { console.warn("Language \"" + code + "\": keyboards/" + code + ".js is missing"); return; }
-      if (!ui) { console.warn("Language \"" + code + "\": ui/" + def.ui + ".js is missing"); return; }
-      if (!from || !from.lesson) { console.warn("Language \"" + code + "\": no lesson found (lessonFrom \"" + def.lessonFrom + "\")"); return; }
-      var lang = {};
-      [kb, ui].forEach(function (part) { Object.keys(part).forEach(function (k) { lang[k] = part[k]; }); });
-      lang.code = code;
-      lang.lesson = copy(from.lesson);
-      // the lesson's sentence lists are plain data, so the copy above keeps them; the checker needs nothing more
-      self.languages[code] = lang;
-    });
+  // Join a keyboard and a lesson edition into the "language" app.js uses: the keyboard's fields, and .lesson.
+  makeLanguage: function (keyboard, lesson, code) {
+    var lang = JSON.parse(JSON.stringify(keyboard || {}));     // the lesson is changed while running: give it its own copy
+    lang.code = code;
+    lang.lesson = JSON.parse(JSON.stringify(lesson || {}));
+    return lang;
   },
 
   // Turn the key names typed into knownKeys / newKeys into the exact names the program uses.
   //  - Upper/lower case does not matter: "A", "a", "TAB", "tab" and "Tab" all work.
   //  - "space" is the space bar, and "shift" means BOTH Shift keys (ShiftL and ShiftR).
-  //  - Other nicknames (see keyAliases in the language file) work too, e.g. "capslock".
+  //  - Other nicknames (see keyAliases in the keyboard file) work too, e.g. "capslock".
   // Letters become lowercase (the keyboard rows use lowercase). Symbols such as ! or 1 are left alone.
   // The labels drawn on the keys are NOT affected: they come from the keyboard layout.
   normalizeKeys: function (lang, list) {
@@ -65,7 +49,7 @@ var TT = {
   // practice sentence uses a character whose key has not been taught yet.
   checkLesson: function (lang) {
     var lesson = lang.lesson, specials = lang.specialKeys || {}, shiftMap = lang.shiftMap || {};
-    ["id", "title", "knownKeys", "newKeys", "intro", "sentenceLists"].forEach(function (f) {
+    ["id", "title", "knownKeys", "newKeys", "advice", "sentenceLists"].forEach(function (f) {
       if (!lesson[f]) { console.warn("Lesson is missing '" + f + "'"); }
     });
 
@@ -111,7 +95,7 @@ var TT = {
     Object.keys(lang.fingerKeys || {}).forEach(function (f) { lang.fingerKeys[f].split("").forEach(function (ch) { fingered[ch] = true; }); });
     (lang.keyboardRows || []).forEach(function (row) {
       row.forEach(function (t) {
-        if (t !== "" && !specials[t] && !fingered[t]) { console.warn("Key \"" + t + "\" in keyboardRows has no finger: add it to fingerKeys in the language file"); }
+        if (t !== "" && !specials[t] && !fingered[t]) { console.warn("Key \"" + t + "\" in keyboardRows has no finger: add it to fingerKeys in the keyboard file"); }
       });
     });
 

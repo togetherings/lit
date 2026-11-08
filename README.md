@@ -2,83 +2,95 @@
 
 A touch-typing tutor for the [Kolibri](https://learningequality.org/kolibri/) offline learning platform, in several
 languages and keyboard layouts. Each lesson is an HTML5 app packaged as **one zip** (`index.html` at its root) that
-you import into Kolibri as an HTML5 resource. Plain HTML, CSS and JavaScript: no frameworks, no network access, so it
-loads quickly and works offline (and from `file://` for testing).
+you upload to a channel in Kolibri Studio as an HTML5 app. It is a Scored Game made with
+[EduGame Kit](https://github.com/togetherings/edugame-kit), so the [Kolibri Games](https://github.com/togetherings/kolibri-games)
+plugin can show scoreboards for it. Plain HTML, CSS and JavaScript: no frameworks, no network access, so it loads
+quickly and works offline.
 
 Each lesson walks the learner through: **1.** what is touch typing (optional) → **2.** the new keys and which
 finger types each → **3.** typing practice with sentences → **4.** results. The lesson is *passed* when the accuracy
-and speed targets in `config.js` are both reached.
+and speed targets in `config.js` are both reached. Every page's text belongs to the lesson, in each language.
 
 ## Get the zips
 
-* **Releases** (right-hand side of the repository page): every tagged version has one zip per lesson, in two forms:
-  `LIT-lesson01-all-v022.zip` (every language, the learner can switch in *Options*) and
-  `LIT-lesson01-fr-v022.zip` (a single language).
+* **Releases** (right-hand side of the repository page): every version has one zip per lesson, in two forms:
+  `lit-lesson-01-0.23.0.zip` (every language: the learner chooses in *Options*, and gets Kolibri's language until they
+  do) and `lit-lesson-01-fr-0.23.0.zip` (a single language).
 * **Live site** (GitHub Pages): https://togetherings.github.io/lit/ - every lesson with all its languages, to try or share
   a link. Nothing is reported to a coach there, and progress is kept in the browser only.
-* Or build them yourself: `python3 build.py --all` (zips go to `dist/`). See below.
+* Or build them yourself with [EduGame Kit](https://github.com/togetherings/edugame-kit) (see below).
 
 ## Repository layout
 
+LIT is a Scored Game made with EduGame Kit. Three kinds of material, each in its own place: **words** in `lang/`,
+**content** (keyboards and lessons) in `keyboards/` and `lessons/`, and **settings** in `config.js` and `edugame.json`.
+
 ```
-VERSION                    the version number (three digits); shown on the page and in the zip name
-build.py                   makes the zips
-shared/                    the same for every lesson
-  index.html  config.js    the page frame, and the DEFAULT settings
-  css/  js/  images/       look, program, pictures
-  keyboards/<code>.js      one physical keyboard: rows, Shift/AltGr layers, dead keys, which finger types which key
-  ui/<name>.js             the wording on screen in one language, and the finger names
+edugame.json               the version, languages, scoring, and the packages: one zip per lesson
+config.js                  the DEFAULT settings (pass marks, timer, pictures, skin tones ...)
+index.html  css/  js/  images/      the page frame, look, program and pictures (the same for every lesson)
+lang/<language>.json       the wording on screen in one language, and the finger and skin tone names
+keyboards/<language>.json  one physical keyboard: rows, Shift/AltGr layers, dead keys, which finger types which key
 lessons/
-  01/                      LESSON 1
-    config.js              settings that differ from the defaults for this lesson
-    en.js  en-gb.js        the lesson for each keyboard: keys taught, advice, practice sentences
-    fr.js  es-la.js
-art/                       the hand drawings (Inkscape SVGs): the source for shared/js/hand-art.js
-tools/import_hands.py      rebuilds shared/js/hand-art.js from art/
-tests/                     check_lessons.js (no browser needed), browser_smoke.py (plays the built zips)
-.github/workflows/         checks and builds on every push; attaches the zips to a release when you push a tag
+  01/                      LESSON 1, one edition per language:
+    en.json  fr.json  es-419.json     the "what is touch typing?" page, keys taught, advice, practice sentences
+art/                       the hand drawings (Inkscape SVGs): the source for js/hand-art.js
+tools/import_hands.py      rebuilds js/hand-art.js from art/
+tests/                     check_lessons.js (no browser needed), e2e_browser.py (plays every lesson and language)
+.github/workflows/         checks and builds on every push; attaches the zips to a release; publishes the site
 ```
 
-A *language* is a **keyboard + wording + lesson** joined when the page starts. The language code is the keyboard's file
-name (`en` US keyboard, `en-gb` UK, `fr` French AZERTY, `es-la` Latin American Spanish). Two keyboards can share the
-same wording (`en` and `en-gb` both use `ui/en.js`), and a lesson file can say `lessonFrom: "en"` to reuse the
-English lesson on another keyboard, so each lesson is written once.
+A *language* is a code: `en` (English, US keyboard), `en-GB` (English, UK keyboard), `fr` (French, AZERTY) and `es-419`
+(Latin American Spanish). For each, the game takes the nearest file in `lang/`, `keyboards/` and the lesson's folder:
+`en-GB` has its own keyboard, but no lesson file of its own, so it gets the English edition (`lessons/01/en.json`) and
+`lang/en.json`'s words (`lang/en-GB.json` only names the language). So each lesson is written once per language.
+
+**Every page of a lesson is the lesson's own**, in each edition: Page 1 (`touchTyping`: a title and paragraphs, the
+"what is touch typing?" introduction; leave it out and the lesson starts at the new keys), Page 2 (`title`, `advice`,
+the keys) and the sentences.
+
+The **Options** button is EduGame Kit's, in the header at the top of the page: Appearance (light, dark or auto),
+Language, and LIT's own choice, the hands' skin tone. The appearance is kept on the device; the language and skin tone
+are kept with the learner, so they follow them in Kolibri.
 
 ## Building
 
-```
-python3 build.py 01                   lesson 01, every language in one zip
-python3 build.py 01 --lang fr         lesson 01, French only (no language picker is shown)
-python3 build.py 01 --lang en,en-gb   only those languages
-python3 build.py 01 --default fr      the language shown first
-python3 build.py --all                everything: each lesson "all" plus one zip per language
-python3 build.py --site               the GitHub Pages site (folder site/): front page + every lesson, all languages
-```
+Install EduGame Kit (`pip install git+https://github.com/togetherings/edugame-kit.git`), then:
 
-The zip's `config.js` is `shared/config.js` + `lessons/NN/config.js` + the version and language list that build.py adds.
+```
+edugame preview .                          play it in the kit's test page (as Kolibri, or as a website)
+edugame preview . --lang fr                French only
+edugame check .                            missing words, and other problems
+edugame build . -o dist                    each lesson with every language: dist/lit-lesson-01-0.23.0.zip
+edugame build . -o dist --each-language    each lesson, one language at a time: dist/lit-lesson-01-fr-0.23.0.zip
+edugame build . --package lesson-01 --lang en,en-GB
+edugame pages . -o site                    the GitHub Pages site: a front page and every lesson
+```
 
 ## Releasing
 
-1. Change `VERSION` (for example `023`), commit, and push to `main`. The workflow checks and builds everything.
-2. Tag it: `git tag v023 && git push origin v023`. The workflow builds again and publishes a release with all the zips.
-   (The tag must equal `v` + the contents of `VERSION`, otherwise the workflow stops.)
+1. Change `version` in `edugame.json` (for example `0.24.0`), add a line to `CHANGELOG.md`, and merge into `main`.
+2. Publish a release on GitHub's Releases page with the tag `v0.24.0` (it must equal `v` + the version). The workflow
+   builds every zip and attaches them to the release.
 
 ## GitHub Pages (the live site)
 
-The workflow publishes `site/` (made by `build.py --site`) every time `main` changes. **One-time setup:** in the repository,
-Settings → Pages → Source = **GitHub Actions**. (Free Pages need a public repository.) The site is at
-`https://togetherings.github.io/lit/`, with each lesson at `/lesson01/`, `/lesson02/` ... A new lesson folder under
-`lessons/` appears on the front page automatically. To look at it locally: `python3 build.py --site`, then
-`python3 -m http.server -d site` and open http://localhost:8000/.
+The `GitHub Pages` workflow publishes the site (`edugame pages`) every time `main` changes. **One-time setup:** in the
+repository, Settings → Pages → Source = **GitHub Actions**. (Free Pages need a public repository.) Each lesson is a
+package, with its own Play button on the front page.
 
 ## Making a new lesson
 
 1. Copy `lessons/01` to `lessons/02`.
-2. In each language file change `id` (`en-02` ... progress is saved under it: never change it later), `title`,
-   `knownKeys` (keys taught in earlier lessons), `newKeys`, `intro` and the practice sentences.
-3. Set `showTouchTypingIntro: false` in `lessons/02/config.js` if the lesson should start at the new keys.
+2. In each edition change `id` (`en-02` ... the lesson's scoreboard and the learner's best result are kept under it:
+   never change it later), `title`, `touchTyping` (or leave it out to start at the new keys), `knownKeys` (keys taught
+   in earlier lessons), `newKeys`, `advice` and the practice sentences.
+3. Add the lesson to `packages` in `edugame.json` (copy lesson 1's: `id`, `title`, `description`, `files`, and
+   `config.lesson`), with its title and description in each `lang/<language>.json` (`package.lesson_02` ...), and
+   its scoreboards to `scoring.boards.names` (`"en-02": "board.en_02"` ...). Settings that differ for this lesson go in
+   its package's `config.settings`, like `{"thresholds": {"accuracy": 95, "wpm": 12}}`.
 4. Run `node tests/check_lessons.js`: it warns about any sentence using a key that has not been taught, and about
-   keys without a finger. Then `python3 build.py 02`.
+   keys without a finger. Then `edugame preview . --package lesson-02`.
 
 Keys in `knownKeys` / `newKeys`: case does not matter (`"A"`, `"a"`, `"TAB"`); `"space"` is the space bar; `"shift"` is
 both Shift keys (or `"ShiftL"` / `"ShiftR"`). Numbers and symbols are taught in two states: list `"1"` for the key's
@@ -89,9 +101,12 @@ to pick at random each attempt; `0` = unused) and the `sentences`. An attempt ty
 
 ## Adding a language or keyboard
 
-* **New keyboard**: copy the nearest `shared/keyboards/*.js`, change the rows, maps and fingers, give it a new `code`
-  and `name`. Then add `lessons/NN/<code>.js` for each lesson (it names the keyboard and wording to use).
-* **New wording**: copy a `shared/ui/*.js` file and translate it.
+* **New language**: run `edugame translate . sw`. It adds `sw` to `languages` in `edugame.json` and makes
+  `lang/sw.json` with the English words to translate; put the language's own name in `_language`. Then add
+  `keyboards/sw.json` (copy the nearest keyboard) and an edition of each lesson, `lessons/NN/sw.json`, written for
+  that language and keyboard.
+* **New keyboard for a language** (like `en-GB`): add the code to `languages`, `keyboards/<code>.json`, and a
+  `lang/<code>.json` with just its `_language` name. It uses its base language's lessons and words until it has its own.
 * Keyboard options: `isoEnter` (L-shaped Enter), `altGr` (an Alt and an AltGr key, plus two more layers on the keys),
   extra keys beside Left Shift, Right Shift and Backspace (put a character in that slot of `keyboardRows`), and
   `deadKeys`.
@@ -104,23 +119,24 @@ to pick at random each attempt; `0` = unused) and the `sentences`. An attempt ty
 
 When the pass marks are reached the SCORM 1.2 status `passed` is sent (Kolibri currently ignores `completed`). **No
 score is ever sent**: Kolibri reads a score as "percent completed" and would not finish the lesson unless accuracy
-reached 100%. Progress (best passed result) is saved in SCORM `suspend_data` and `localStorage`, so it follows the
-learner across devices.
+reached 100%. EduGame Kit's helper keeps the best passed result (accuracy, then speed) for each edition's board
+(`en-01`, `fr-01` ...) in SCORM `suspend_data`, so it follows the learner across devices, and the Kolibri Games plugin
+shows scoreboards from it.
 
 ## Testing
 
 ```
 node tests/check_lessons.js        lesson checks, no browser needed (this also runs in the workflow)
-python3 build.py --all && python3 tests/browser_smoke.py     plays every built zip in Chromium (needs playwright)
+python3 -m tests.e2e_browser       plays every lesson in every language in Chromium (needs EduGame Kit and Playwright)
 ```
 
 ## Notes
 
 * Hands: `art/left-hand-rest.svg` (Page 1) and `art/left-hand-open.svg` (Page 2) are the source drawings. After
-  changing them run `python3 tools/import_hands.py` (needs numpy, scipy, opencv-python) to rebuild `shared/js/hand-art.js`.
-* The picture beside the text (`shared/images/lion-placeholder.png`) is a placeholder; the file names are set in `config.js` (`images`).
+  changing them run `python3 tools/import_hands.py` (needs numpy, scipy, opencv-python) to rebuild `js/hand-art.js`.
+* The picture beside the text (`images/lion-placeholder.png`) is a placeholder; the file names are set in `config.js` (`images`).
 * The AltGr layers of the UK and Latin American keyboards are not yet checked against the manufacturers' charts.
 
 ## Licence
 
-MIT, see `LICENSE`. Check that you have the right to publish any pictures you add to `shared/images`.
+MIT, see `LICENSE`. Check that you have the right to publish any pictures you add to `images/`.

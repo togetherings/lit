@@ -1,16 +1,18 @@
 <!doctype html>
 <!--
   LIT: Lessons In Typing - this page is only the "frame": empty pages that the JavaScript fills in.
-  The lesson (keys, finger advice, practice sentences), the keyboard and all the wording live in the
-  lesson/, keyboards/ and ui/ files, so this file has no text of its own.
+  The lesson (the touch-typing page, keys, finger advice, practice sentences), the keyboard and all the wording
+  live in lessons/, keyboards/ and lang/, so this file has no text of its own. data-t="<key>" marks a word from
+  lang/<language>.json, which the EduGame Kit's helper fills in. The helper also adds the header at the top: the
+  lesson's title and the Options button.
 
   Pages, in order:
-    Page 1  What is touch typing?     (can be switched off in config.js)
+    Page 1  What is touch typing?     (the lesson's "touchTyping" text; left out when a lesson has none)
     Page 2  The new keys and fingers
     Page 3  Typing practice
     Page 4  Results
 
-  This file is shared by every lesson. build.py copies it, with the lesson's files, into a zip.
+  This file is shared by every lesson. "edugame build" puts it, with each lesson's files, into a zip.
 -->
 <html lang="en">
 <head>
@@ -21,18 +23,12 @@
 </head>
 <body>
 
-<header>
-  <h1 id="appTitle"></h1>
-  <span id="version"></span>
-</header>
-
 <main>
   <!-- Page 1: what is touch typing? -->
   <section id="page-touch" hidden>
     <div id="touchBody"></div>
     <div class="buttons">
-      <button type="button" id="touchNext" class="primary" data-ui="next"></button>
-      <button type="button" id="optionsBtn1" class="options-btn" data-ui="options"></button>
+      <button type="button" id="touchNext" class="primary" data-t="next"></button>
     </div>
   </section>
 
@@ -40,9 +36,8 @@
   <section id="page-keys" hidden>
     <div id="keysBody"></div>
     <div class="buttons">
-      <button type="button" id="startBtn" class="primary" data-ui="start"></button>
-      <button type="button" id="keysBack" data-ui="back"></button>
-      <button type="button" id="optionsBtn2" class="options-btn" data-ui="options"></button>
+      <button type="button" id="startBtn" class="primary" data-t="start"></button>
+      <button type="button" id="keysBack" data-t="back"></button>
     </div>
   </section>
 
@@ -57,10 +52,10 @@
     <p id="listName" hidden></p>
     <div id="sentence" aria-live="off"></div>
     <!-- Always takes up space (hidden with CSS visibility) so showing it never moves the buttons -->
-    <p id="focusHint" data-ui="clickToType"></p>
+    <p id="focusHint" data-t="clickToType"></p>
     <div id="practiceKeyboard" class="keyboard"></div>
     <div class="buttons">
-      <button type="button" id="practiceBack" data-ui="backToKeys"></button>
+      <button type="button" id="practiceBack" data-t="backToKeys"></button>
     </div>
   </section>
 
@@ -68,36 +63,26 @@
   <section id="page-results" hidden>
     <div id="resultsBody" aria-live="polite"></div>
     <div class="buttons">
-      <button type="button" id="retryBtn" class="primary" data-ui="tryAgain"></button>
-      <button type="button" id="resultsBack" data-ui="reviewKeys"></button>
+      <button type="button" id="retryBtn" class="primary" data-t="tryAgain"></button>
+      <button type="button" id="resultsBack" data-t="reviewKeys"></button>
     </div>
   </section>
 </main>
 
-<!-- Options page: a panel over Page 1 / Page 2 (filled in by app.js) -->
-<div id="page-options" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="optionsTitle">
-  <div class="options-card">
-    <h2 id="optionsTitle" data-ui="optionsTitle"></h2>
-    <div id="optionsBody"></div>
-    <div class="buttons">
-      <button type="button" id="optionsApply" class="primary" data-ui="apply"></button>
-      <button type="button" id="optionsBack" data-ui="back"></button>
-    </div>
-  </div>
-</div>
-
 <!-- Invisible box that receives the typing (also lets tablets show a keyboard) -->
 <input id="capture" type="text" autocomplete="off" autocapitalize="off"
-       autocorrect="off" spellcheck="false" aria-label="Type here">
+       autocorrect="off" spellcheck="false" data-t-attr="aria-label:typeHere">
 
 <!-- ========== SCRIPTS (the order matters) ========== -->
+<script src="edugame-config.js"></script> <!-- made by the EduGame Kit: the words (lang/), settings and this lesson -->
+<script src="edugame.js"></script>        <!-- the kit's helper: saving, language, theme, the header and Options -->
 <script src="js/core.js"></script>        <!-- shared TT object -->
 <script src="config.js"></script>         <!-- settings and pass marks -->
-<script src="js/prefs.js"></script>       <!-- the learner's Options choices: theme, skin tone, language -->
+<script src="js/prefs.js"></script>       <!-- the hands' skin tone, an option in the Options panel -->
 <script src="js/engine.js"></script>      <!-- typing logic (no screen code) -->
 <script src="js/hand-art.js"></script>    <!-- hand outline shapes (SVG path data) -->
 <script src="js/hands.js"></script>       <!-- places and colours the two hand pictures -->
-<script src="js/progress.js"></script>    <!-- saving progress + reporting to Kolibri (SCORM 1.2) -->
-<script src="js/loader.js"></script>      <!-- loads the languages listed in config.js (lesson/, keyboards/ and ui/ files), then js/app.js -->
+<script src="js/progress.js"></script>    <!-- the best result, kept by the kit's helper -->
+<script src="js/loader.js"></script>      <!-- loads this lesson and keyboard in the learner's language, then js/app.js -->
 </body>
 </html>

@@ -1,23 +1,25 @@
 /*
   app.js - the pages and buttons. It connects the pieces:
-    keyboards/*.js, ui/*.js, lesson/*.js (joined into one "language" by core.js)
-                -> the keyboard and fingers, the wording, and the lesson itself
-    prefs.js    -> the learner's Options choices (theme, skin tone, language)
+    keyboards/<language>.json, lessons/NN/<language>.json (joined into one "language" by core.js and loader.js)
+                -> the keyboard and fingers, and the lesson itself
+    lang/<language>.json (EduGame.t) -> the wording on screen
+    prefs.js    -> the hands' skin tone (an option in the kit's Options panel)
     engine.js   -> counts right/wrong keys, speed and the timer
     hands.js    -> the two hand pictures
-    progress.js -> remembers the result
-  Pages:  1 touch typing  ->  2 new keys  ->  3 practice  ->  4 results
-  (Page 1 is skipped when showTouchTypingIntro is false in config.js.)
-  The Options page is a panel that opens over Page 1 or Page 2.
+    progress.js -> remembers the result (through the EduGame Kit's helper)
+  Pages:  1 what is touch typing?  ->  2 new keys  ->  3 practice  ->  4 results
+  (Page 1 is the lesson's "touchTyping" text; a lesson without it starts at Page 2.)
+  The Options button is in the kit's header at the top of the page; its panel lays over any page.
 */
 (function () {
   "use strict";
 
   var cfg = TT.config;
+  var t = EduGame.t;          // a word in the learner's language, from lang/<language>.json
 
   // The CURRENT language. Everything below that depends on the language is (re)computed by setLanguage(),
   // which is also what the Options page calls, so the language can change without reloading the page.
-  var lang, ui, lesson, langCode;
+  var lang, lesson, langCode;
   var specials, shiftMap, fingersOf, fingerOf, shiftedFingers, specialByChar, baseOfShifted;
   var altGrOn, altGrMap, altGrShiftMap, baseOfAltGr, baseOfAltGrShift;      // AltGr mode (keyboardOptions.altGr)
   var deadTable, composedFrom;                                              // dead keys (lang.deadKeys), see below
@@ -30,10 +32,9 @@
   var locked = false, lockStart = 0, lockTimer = null;
   var clockTimer = null;      // refreshes the on-screen timer
 
-  function setLanguage(code) {
-    langCode = code;
-    lang = TT.languages[code];
-    ui = lang.ui;
+  function setLanguage(joined) {
+    lang = joined;
+    langCode = lang.code;
     lesson = lang.lesson;
     TT.normalizeLesson(lang);   // key names in knownKeys / newKeys: any case, "space", "shift" ...
 
@@ -153,9 +154,6 @@
   }
   function clear(node) { while (node.firstChild) { node.removeChild(node.firstChild); } }
   function keyLabel(ch) { return lang.keyLabels[ch] || ch.toUpperCase(); }
-  function fill(text, values) {   // replaces {n}, {acc} ... in a text
-    return text.replace(/\{(\w+)\}/g, function (m, k) { return values[k] !== undefined ? values[k] : m; });
-  }
   function clock(ms) {            // 75000 -> "1:15"
     var s = Math.floor(ms / 1000), r = s % 60;
     return Math.floor(s / 60) + ":" + (r < 10 ? "0" : "") + r;
@@ -185,19 +183,14 @@
     window.scrollTo(0, 0);
   }
 
-  // Texts that are not rebuilt page by page: the header, the title, the buttons marked data-ui
+  // Words that are not rebuilt page by page. (The kit fills in the buttons marked data-t, and the title.)
   function applyStaticText() {
-    document.documentElement.lang = lang.htmlLang || lang.code;
-    document.title = ui.appTitle;
-    el("appTitle").textContent = ui.appTitle;
-    el("version").textContent = "v" + cfg.version;
-    el("version").hidden = !cfg.showVersion;
-    Array.prototype.forEach.call(document.querySelectorAll("[data-ui]"), function (node) {
-      node.textContent = ui[node.getAttribute("data-ui")];
-    });
-    el("timer").title = ui.timerLabel;
-    el("timer").setAttribute("aria-label", ui.timerLabel);
+    el("timer").title = t("timerLabel");
+    el("timer").setAttribute("aria-label", t("timerLabel"));
   }
+
+  // Page 1 belongs to the lesson: its "touchTyping" text, in each edition. A lesson without it starts at Page 2.
+  function hasTouchPage() { return !!(lesson.touchTyping && (lesson.touchTyping.paragraphs || []).length); }
 
   // ------------------------------------------------------------ on-screen keyboard
   // Is this key one of the taught keys? "new" (this lesson), "known" (earlier lessons) or "locked".
@@ -357,8 +350,8 @@
     // The picture comes FIRST so it floats to the right of the title as well as the paragraphs
     var pic = sideImage("intro", "intro");
     if (pic) { box.appendChild(pic); }
-    box.appendChild(make("h2", null, ui.whatIsTouchTyping));
-    lang.introTouchTyping.forEach(function (p) { box.appendChild(make("p", null, p)); });
+    box.appendChild(make("h2", null, lesson.touchTyping.title || ""));
+    lesson.touchTyping.paragraphs.forEach(function (p) { box.appendChild(make("p", null, p)); });
 
     // The hands picture starts below the text and the image. Keys are coloured by finger if
     // config.js says so, and the two Shift keys are added if showShiftKeysOnPage1 is true.
@@ -367,7 +360,7 @@
       opts.shift = { left: { label: specials.ShiftL.label, finger: specials.ShiftL.finger },
                      right: { label: specials.ShiftR.label, finger: specials.ShiftR.finger } };
     }
-    var fig = figure(TT.hands.restingOnKeyboard(lang.handsImageRows, ui.handsRestAlt, opts));
+    var fig = figure(TT.hands.restingOnKeyboard(lang.handsImageRows, t("handsRestAlt"), opts));
     box.appendChild(fig);
     if (opts.shift) {                                   // mouse over a Shift key: show capitals and shifted symbols
       var svg = fig.querySelector("svg");
@@ -388,12 +381,12 @@
     // If already completed, show the best completed attempt (best accuracy, and its speed)
     var best = TT.progress.get();
     if (best.done) {
-      box.appendChild(make("p", "note", fill(ui.alreadyCompleted, { acc: best.acc, wpm: best.wpm })));
+      box.appendChild(make("p", "note", t("alreadyCompleted", { acc: best.acc, wpm: best.wpm })));
     }
 
     // 1. The lesson's advice text
-    box.appendChild(make("h3", null, ui.newKeysHeading));
-    lesson.intro.forEach(function (p) { box.appendChild(make("p", null, p)); });
+    box.appendChild(make("h3", null, t("newKeysHeading")));
+    lesson.advice.forEach(function (p) { box.appendChild(make("p", null, p)); });
 
     // 2. The keyboard, straight under the text, with this lesson's keys highlighted
     var kb = make("div", "keyboard");
@@ -418,16 +411,16 @@
         var chip = make("span", "chip f-" + finger, special ? special.label : keyLabel(ch));
         chip.setAttribute("data-finger", finger);     // hovering it highlights this finger on the hands
         li.appendChild(chip);
-        li.appendChild(make("span", null, lang.fingerNames[finger]));
+        li.appendChild(make("span", null, t("finger." + finger)));
         lists[side].appendChild(li);
       });
     });
-    [["left", ui.leftHeading], ["right", ui.rightHeading]].forEach(function (side) {
+    [["left", t("leftHeading")], ["right", t("rightHeading")]].forEach(function (side) {
       if (!lists[side[0]].children.length) { return; }          // no new keys on this side: no heading, no list
       cols[side[0]].appendChild(make("h4", null, side[1]));
       cols[side[0]].appendChild(lists[side[0]]);
     });
-    var hands = figure(TT.hands.backOfHands(ui.handsBackAlt, hide));
+    var hands = figure(TT.hands.backOfHands(t("handsBackAlt"), hide));
     hands.classList.add("small");
     // one hand keeps the same size as a hand in the two-hand picture (350px for two)
     hands.style.width = Math.round(350 * TT.hands.openWidth(hide) / TT.hands.openWidth("")) + "px";
@@ -472,7 +465,7 @@
     };
 
     // "Back" only makes sense if Page 1 exists
-    el("keysBack").hidden = !cfg.showTouchTypingIntro;
+    el("keysBack").hidden = !hasTouchPage();
     showPage("keys");
   }
 
@@ -482,9 +475,9 @@
     var allowBack = lesson.allowBackspace !== undefined ? lesson.allowBackspace : cfg.allowBackspace;
     // "Fix every mistake" mode: Backspace is allowed AND the accuracy pass mark is 100
     var strict = !!allowBack && cfg.thresholds.accuracy >= 100;
-    el("strictNote").textContent = ui.strictNotice;
+    el("strictNote").textContent = t("strictNotice");
     el("strictNote").hidden = !strict;
-    el("capsWarning").textContent = ui.capsWarning;
+    el("capsWarning").textContent = t("capsWarning");
     el("capsWarning").hidden = true;
 
     // A new random selection every attempt: all picks from list 1, then list 2, and so on
@@ -499,11 +492,12 @@
     if (!attempt.sentences.length) {                    // every list is empty or has a count of 0
       session = null;
       el("progressText").textContent = ""; el("listName").hidden = true;
-      el("sentence").textContent = ui.noSentences;
+      el("sentence").textContent = t("noSentences");
       showPage("practice");
       return;
     }
     session = TT.createSession(attempt.sentences, { allowBackspace: allowBack, requireCorrect: strict });
+    TT.progress.start();                                // the helper times the attempt (for the scoreboards)
 
     clockTimer = setInterval(updateClock, 250);
     updateClock();
@@ -515,6 +509,7 @@
 
   // Leaving the practice page (or restarting): cancel any pause and stop the timer.
   function stopPractice() {
+    if (session && !session.finished) { TT.progress.abandon(); }   // left before the end: no result
     clearTimeout(lockTimer);
     clearInterval(clockTimer);
     locked = false;
@@ -549,7 +544,7 @@
       text.appendChild(make("span", cls, sentence.charAt(i) === " " ? "\u00a0" : sentence.charAt(i)));
     }
 
-    el("progressText").textContent = fill(ui.sentenceOf, { n: showing + 1, total: session.sentences.length });
+    el("progressText").textContent = t("sentenceOf", { n: showing + 1, total: session.sentences.length });
 
     // The name of the list this sentence came from, above the typing box (nothing if it has no name)
     var name = listNames[showing] || "";
@@ -567,8 +562,11 @@
   }
 
   // A plain character from the keyboard (not already combined by the system): dead keys are handled here.
+  // While the Options panel is open over the page, typing is for the panel, not the lesson.
+  function optionsOpen() { return !!document.querySelector(".eg-overlay"); }
+
   function receiveTyped(ch) {
-    if (!session || session.finished || locked) { return; }
+    if (!session || session.finished || locked || optionsOpen()) { return; }
     osDead = false;
     if (pending) {
       var dead = pending, out;
@@ -625,11 +623,11 @@
     clear(box);
     // Text on the left; the picture (a different one for success and failure) centred in the space to its right
     var layout = make("div", "result-layout"), text = make("div", "result-text");
-    text.appendChild(make("h2", passed ? "pass" : "notyet", passed ? ui.resultsPassed : ui.resultsNotYet));
+    text.appendChild(make("h2", passed ? "pass" : "notyet", passed ? t("resultsPassed") : t("resultsNotYet")));
     text.appendChild(make("p", st.accuracy >= need.accuracy ? "met" : "unmet",
-      fill(ui.accuracyLine, { acc: st.accuracy, needAcc: need.accuracy })));
+      t("accuracyLine", { acc: st.accuracy, needAcc: need.accuracy })));
     text.appendChild(make("p", st.wpm >= need.wpm ? "met" : "unmet",
-      fill(ui.wpmLine, { wpm: st.wpm, needWpm: need.wpm })));
+      t("wpmLine", { wpm: st.wpm, needWpm: need.wpm })));
     layout.appendChild(text);
     var pic = sideImage(passed ? "passed" : "failed", "result");
     if (pic) { var space = make("div", "result-pic"); space.appendChild(pic); layout.appendChild(space); }
@@ -705,103 +703,26 @@
     if (practiceVisible()) { el("focusHint").className = "show"; }
   });
   capture.addEventListener("focus", function () { el("focusHint").className = ""; });
-  document.addEventListener("click", function () { if (practiceVisible()) { capture.focus(); } });
+  document.addEventListener("click", function () { if (practiceVisible() && !optionsOpen()) { capture.focus(); } });
 
-  // ---------------------------------------------------------------- Options page
-  // A panel over Page 1 / Page 2. Dark/light and skin tone apply instantly (they only change CSS variables).
-  // The language also applies instantly: setLanguage() swaps the wording and lesson and the page is redrawn,
-  // so nothing ever needs to reload. Back closes the panel and changes nothing.
-  var optionsFrom = "touch";      // the page that opened the panel, so it can be redrawn afterwards
-  var optionsOpener = null;
-
-  function radioRow(name, choices, current) {
-    var row = make("div", "opt-row");
-    choices.forEach(function (c) {
-      var label = make("label");
-      var input = make("input");
-      input.type = "radio"; input.name = name; input.value = c[0]; input.checked = (c[0] === current);
-      label.appendChild(input);
-      label.appendChild(make("span", null, c[1]));
-      row.appendChild(label);
+  // ---------------------------------------------------------------- another language (Options)
+  // The Options button and panel are the EduGame Kit's (appearance, language, and the skin tone from prefs.js).
+  // A new language means another keyboard and another edition of the lesson: they are loaded, and the page the
+  // learner was on is drawn again in the new language (an attempt in progress is stopped: back to Page 2).
+  function currentPage() {
+    var shown = "keys";
+    ["touch", "keys", "practice", "results"].forEach(function (p) { if (!el("page-" + p).hidden) { shown = p; } });
+    return shown;
+  }
+  EduGame.on("languagechange", function (e) {
+    var page = currentPage();
+    TT.load(e.language, function (joined) {
+      if (!joined) { return; }
+      setLanguage(joined);
+      TT.progress.setLesson(lesson.id);              // each edition has its own scoreboard
+      if (page === "touch" && hasTouchPage()) { showTouchPage(); } else { showKeysPage(); }
     });
-    return row;
-  }
-
-  function buildOptions() {
-    var box = el("optionsBody");
-    clear(box);
-
-    var fs = make("fieldset");                                           // light / dark
-    fs.appendChild(make("legend", null, ui.themeLabel));
-    fs.appendChild(radioRow("theme", [["auto", ui.themeAuto], ["light", ui.themeLight], ["dark", ui.themeDark]], TT.prefs.theme()));
-    box.appendChild(fs);
-
-    fs = make("fieldset");                                               // hand skin tone
-    fs.appendChild(make("legend", null, ui.skinLabel));
-    var swatches = make("div", "swatches");
-    TT.prefs.tones().forEach(function (tone) {
-      var label = make("label", "swatch");
-      var input = make("input");
-      input.type = "radio"; input.name = "skin"; input.value = tone.id; input.checked = (tone.id === TT.prefs.skin());
-      var dot = make("span", "dot");
-      dot.style.background = tone.color;
-      label.appendChild(input); label.appendChild(dot);
-      label.appendChild(make("span", null, (ui.skinNames && ui.skinNames[tone.id]) || tone.id));
-      swatches.appendChild(label);
-    });
-    fs.appendChild(swatches);
-    box.appendChild(fs);
-
-    var codes = Object.keys(TT.languages);                               // language: every file loaded in index.html
-    if (codes.length > 1) {
-      fs = make("fieldset");
-      fs.appendChild(make("legend", null, ui.languageLabel));
-      var select = make("select"); select.id = "optLang";
-      codes.forEach(function (code) {
-        var option = make("option", null, TT.languages[code].name || code);
-        option.value = code; option.selected = (code === langCode);
-        select.appendChild(option);
-      });
-      fs.appendChild(select);
-      box.appendChild(fs);
-    }
-  }
-
-  function openOptions(from) {
-    optionsFrom = from;
-    optionsOpener = document.activeElement;
-    buildOptions();
-    el("page-options").hidden = false;
-    var first = el("optionsBody").querySelector("input:checked, select");
-    if (first) { first.focus(); }
-  }
-
-  function closeOptions() {
-    el("page-options").hidden = true;
-    if (optionsOpener && optionsOpener.focus) { optionsOpener.focus(); }
-  }
-
-  function applyOptions() {
-    var body = el("optionsBody");
-    function checked(name) { var n = body.querySelector("input[name=" + name + "]:checked"); return n ? n.value : undefined; }
-    var langSelect = el("optLang");
-    var choice = { theme: checked("theme"), skin: checked("skin"), lang: langSelect ? langSelect.value : langCode };
-    TT.prefs.set(choice);
-    TT.prefs.applyTheme();                                               // instant: CSS variables
-    TT.prefs.applySkin();
-    var changed = choice.lang !== langCode;
-    if (changed) {
-      setLanguage(choice.lang);                                          // instant: new wording and lesson
-      TT.progress.setLesson(lesson.id);
-    }
-    closeOptions();
-    if (changed) { if (optionsFrom === "keys" || !cfg.showTouchTypingIntro) { showKeysPage(); } else { showTouchPage(); } }
-  }
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !el("page-options").hidden) { closeOptions(); }
   });
-
   // ---------------------------------------------------------------- buttons and start up
   el("touchNext").addEventListener("click", showKeysPage);
   el("keysBack").addEventListener("click", showTouchPage);
@@ -809,12 +730,9 @@
   el("practiceBack").addEventListener("click", showKeysPage);   // back to Page 2
   el("retryBtn").addEventListener("click", startPractice);
   el("resultsBack").addEventListener("click", showKeysPage);
-  el("optionsBtn1").addEventListener("click", function () { openOptions("touch"); });
-  el("optionsBtn2").addEventListener("click", function () { openOptions("keys"); });
-  el("optionsApply").addEventListener("click", applyOptions);
-  el("optionsBack").addEventListener("click", closeOptions);
 
-  setLanguage(TT.prefs.lang());
-  TT.progress.init(lesson.id);
-  if (cfg.showTouchTypingIntro) { showTouchPage(); } else { showKeysPage(); }
+  setLanguage(TT.firstLanguage);
+  TT.progress.init(lesson.id).then(function () {
+    if (hasTouchPage()) { showTouchPage(); } else { showKeysPage(); }
+  });
 })();
