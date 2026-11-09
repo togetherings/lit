@@ -1,0 +1,65 @@
+{
+  "_notes": {
+    "about": "Leçon 1 en français (clavier AZERTY). Les touches de repos Q S D F ne forment pas de vrais mots : la leçon 1 utilise des mots inventés."
+  },
+  "id": "fr-01",
+  "title": "Leçon 1 : les touches de départ de la main gauche",
+  "touchTyping": {
+    "title": "Qu'est-ce que la dactylographie ?",
+    "paragraphs": [
+      "Taper à l'aveugle, c'est taper sans regarder le clavier. Chaque doigt a ses propres touches : vos doigts apprennent où se trouve chaque lettre.",
+      "Asseyez-vous bien droit, gardez les poignets détendus et posez les doigts sur la rangée de départ. Revenez toujours à cette rangée après chaque touche.",
+      "Allez doucement. La précision compte plus que la vitesse : la vitesse vient toute seule avec l'entraînement."
+    ]
+  },
+  "hideHand": "right",
+  "knownKeys": [],
+  "newKeys": [
+    "q",
+    "s",
+    "d",
+    "f",
+    "space"
+  ],
+  "advice": [
+    "Posez les doigts de votre main gauche sur les touches Q, S, D et F. L'auriculaire va sur Q, l'annulaire sur S, le majeur sur D et l'index sur F.",
+    "Posez doucement vos pouces sur la barre d'espace. Appuyez dessus avec l'un ou l'autre pouce après chaque mot.",
+    "Gardez la main droite détendue à côté du clavier. Vous apprendrez ses touches dans les leçons suivantes.",
+    "Ces touches ne forment aucun vrai mot français : les phrases d'entraînement sont faites de mots inventés."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "sqd fsq dfs qdf sfq",
+        "fsd qsf dqs sdq fqd",
+        "qds fdq sfd dsq qfs",
+        "dqf sqs fds qdd sff",
+        "qsd dsf fqs sfd dqs fsq",
+        "sdf qdq fss dfd qsq",
+        "dsq fdf sqf qqs dds ffq",
+        "fqs sdd qfd dfq sqq fsf",
+        "qdf sfs dqd fdq ssq dff",
+        "sfq dds qfs fdd sqs dqf",
+        "fds qfq sdq dsd ffs qsf",
+        "dqs fsd sfs qdd fqf sdq"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "keyboardRows": [
+    [
+      "`",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "0",
+      "-",
+      "=",
+      "",
+      "Backspace"
+    ],
+    [
+      "Tab",
+      "q",
+      "w",
+      "e",
+      "r",
+      "t",
+      "y",
+      "u",
+      "i",
+      "o",
+      "p",
+      "[",
+      "]"
+    ],
+    [
+      "Caps",
+      "a",
+      "s",
+      "d",
+      "f",
+      "g",
+      "h",
+      "j",
+      "k",
+      "l",
+      ";",
+      "'",
+      "\\",
+      "Enter"
+    ],
+    [
+      "ShiftL",
+      "",
+      "z",
+      "x",
+      "c",
+      "v",
+      "b",
+      "n",
+      "m",
+      ",",
+      ".",
+      "/",
+      "",
+      "ShiftR"
+    ],
+    [
+      " "
+    ]
+  ],
+  "keyboardOptions": {
+    "isoEnter": false,
+    "altGr": false
+  },
+  "keyboardIndent": [
+    0,
+    0,
+    0,
+    0,
+    3.75
+  ],
+  "keyBumps": [
+    "f",
+    "j"
+  ],
+  "specialKeys": {
+    "Tab": {
+      "label": "Tab",
+      "finger": "lp",
+      "width": 1.5,
+      "char": "⇥"
+    },
+    "Caps": {
+      "label": "CAPS",
+      "finger": "lp",
+      "width": 1.75,
+      "caps": true
+    },
+    "Enter": {
+      "label": "Enter",
+      "finger": "rp",
+      "width": 2.25,
+      "char": "↵"
+    },
+    "Backspace": {
+      "label": "←",
+      "finger": "rp",
+      "width": 2,
+      "shortWidth": 1
+    },
+    "ShiftL": {
+      "label": "Shift",
+      "finger": "lp",
+      "width": 2.25,
+      "shortWidth": 1.25,
+      "shift": true
+    },
+    "ShiftR": {
+      "label": "Shift",
+      "finger": "rp",
+      "width": 2.75,
+      "shortWidth": 1.75,
+      "shift": true
+    },
+    "Alt": {
+      "label": "Alt",
+      "finger": "lt",
+      "width": 1.25
+    },
+    "AltGr": {
+      "label": "AltGr",
+      "finger": "rt",
+      "width": 1.25,
+      "altgr": true
+    }
+  },
+  "keyWidths": {
+    " ": 6.25
+  },
+  "keyAliases": {
+    "space": " ",
+    "shift": [
+      "ShiftL",
+      "ShiftR"
+    ],
+    "capslock": "Caps",
+    "caps lock": "Caps",
+    "return": "Enter",
+    "lshift": "ShiftL",
+    "rshift": "ShiftR",
+    "leftshift": "ShiftL",
+    "rightshift": "ShiftR",
+    "alt gr": "AltGr",
+    "altgraph": "AltGr",
+    "alt graph": "AltGr"
+  },
+  "altGrMap": {},
+  "altGrShiftMap": {},
+  "shiftMap": {
+    "0": ")",
+    "1": "!",
+    "2": "@",
+    "3": "#",
+    "4": "$",
+    "5": "%",
+    "6": "^",
+    "7": "&",
+    "8": "*",
+    "9": "(",
+    "`": "~",
+    "-": "_",
+    "=": "+",
+    "[": "{",
+    "]": "}",
+    "\\": "|",
+    ";": ":",
+    "'": "\"",
+    ",": "<",
+    ".": ">",
+    "/": "?"
+  },
+  "keyLabels": {
+    " ": "Space bar"
+  },
+  "handsImageRows": [
+    "qwertyuiop",
+    "asdfghjkl;",
+    "zxcvbnm,./"
+  ],
+  "fingerKeys": {
+    "lp": "qaz1`",
+    "lr": "wsx2",
+    "lm": "edc3",
+    "li": "rfvtgb45",
+    "ri": "yhnujm67",
+    "rm": "ik,8",
+    "rr": "ol.9",
+    "rp": "p;/0-=[]\\'",
+    "lt": " ",
+    "rt": " "
+  },
+  "fingerHands": {
+    "lp": "left",
+    "lr": "left",
+    "lm": "left",
+    "li": "left",
+    "lt": "left",
+    "ri": "right",
+    "rm": "right",
+    "rr": "right",
+    "rp": "right",
+    "rt": "right"
+  }
+}

@@ -17,7 +17,7 @@
                                            single hand the same size as a hand in the two-hand picture)
 
   THE HAND SHAPES are SVG path data in js/hand-art.js. That file is made by tools/import_hands.py
-  from the two drawings in the images/ folder (left-hand-rest.svg and left-hand-open.svg, drawn in
+  from the two drawings in the art/ folder (left-hand-rest.svg and left-hand-open.svg, drawn in
   Inkscape). This file only places them on the page, flips the left hand into a right hand,
   and gives each shape a CLASS NAME.
 

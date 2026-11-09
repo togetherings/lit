@@ -1,18 +1,9 @@
 /*
   config.js - the DEFAULT settings for every lesson. Plain numbers / true-false, so it is safe to edit by hand.
-  A lesson overrides any of these in its own lessons/NN/config.js; build.py puts the two together (this file
-  first, then the lesson's overrides, then the version and language list) into the config.js inside each zip.
+  A lesson changes any of these in edugame.json: its package's "config": {"settings": {...}} (loader.js puts
+  them over these). The version, the languages and the appearance a learner starts with are in edugame.json too.
 */
 TT.config = {
-  // version, languages and language are written by build.py when it makes a zip (it adds them at the end of this
-  // file), so the values here only matter if you open shared/index.html directly while developing.
-  version: "dev",              // shown on the page (if showVersion is true); build.py uses the VERSION file
-  showVersion: true,           // false = hide the version number in the page header
-  // LANGUAGES: the codes of the files to load - each is a lesson/<code>.js file. The learner can pick between them on
-  // the Options page. "language" is the one used first (until the learner chooses another).
-  languages: [],
-  language: "en",
-
   // ---------- PASS MARKS (change these to make the lesson easier or harder) ----------
   thresholds: {
     accuracy: 90,              // percent of keystrokes that must be correct
@@ -20,8 +11,6 @@ TT.config = {
   },
 
   // ---------- LESSON SETTINGS ----------
-  showTouchTypingIntro: true,  // true = Page 1 "What is touch typing?" is shown first.
-                               // Set to false in later lessons to start at the new keys.
   sentenceDelaySeconds: 0.5,   // pause after each finished sentence before the next one appears.
                                // Typing is switched off during the pause. 0 = no pause.
   showTimer: true,             // small count-up timer in the corner of the practice page
@@ -33,12 +22,11 @@ TT.config = {
                                // (How many sentences are picked is set per list in the lesson file.)
 
   // ---------- APPEARANCE ----------
-  // theme: "auto" follows the device's light/dark setting, or force "light" or "dark".
-  // The learner can change this (and the skin tone and language) in the Options page; their choice is
-  // remembered in the browser and wins over these defaults.
-  theme: "auto",
+  // Light, dark or auto, and the language, are the EduGame Kit's Options (edugame.json "options" sets the
+  // appearance a learner starts with). The skin tone of the hands is LIT's own option in the same panel; the
+  // learner's choice is kept with their save and wins over this default.
   skinTone: "dark",            // which skin tone the hands start with: one of the ids below
-  skinTones: [                 // the choices in the Options page (names are in the language file: ui.skinNames)
+  skinTones: [                 // the choices in the Options panel (names are in lang/: skin.light, skin.tan ...)
     { id: "light",  color: "#f3d2b9" },
     { id: "tan",    color: "#dcaa7e" },
     { id: "medium", color: "#b97c4f" },

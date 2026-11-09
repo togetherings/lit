@@ -1,0 +1,64 @@
+{
+  "_notes": {
+    "about": "Lección 1 en español latinoamericano (teclado latinoamericano)."
+  },
+  "id": "es-01",
+  "title": "Lección 1: las teclas base de la mano izquierda",
+  "touchTyping": {
+    "title": "¿Qué es la mecanografía al tacto?",
+    "paragraphs": [
+      "Escribir al tacto es escribir sin mirar el teclado. Cada dedo tiene sus propias teclas, así que tus dedos aprenden dónde está cada letra.",
+      "Siéntate derecho, mantén las muñecas relajadas y apoya los dedos en la fila base. Después de cada tecla, vuelve siempre a la fila base.",
+      "Ve despacio. La precisión importa más que la velocidad: la velocidad llega sola con la práctica."
+    ]
+  },
+  "hideHand": "right",
+  "knownKeys": [],
+  "newKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "space"
+  ],
+  "advice": [
+    "Coloca los dedos de tu mano izquierda sobre las teclas A, S, D y F. El meñique va en la A, el anular en la S, el dedo medio en la D y el índice en la F.",
+    "Apoya suavemente los pulgares en la barra espaciadora. Presiónala con cualquiera de los dos pulgares después de cada palabra.",
+    "Deja la mano derecha relajada junto al teclado. Aprenderás sus teclas en las próximas lecciones."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "asa asada da asas",
+        "dada asada as asa",
+        "fa da as dadas asas",
+        "asadas dadas as fa",
+        "da fa as asa dada",
+        "das asas as asadas",
+        "asa fa dadas da as",
+        "as asadas das fa asa",
+        "dadas as da asada fas",
+        "fa das asas dada as",
+        "asada asa fa as dadas",
+        "das fas da asadas asa"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

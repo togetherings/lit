@@ -1,17 +1,21 @@
-# Checks every lesson and builds the Kolibri zips on every push and pull request.
-# When you push a tag such as v022 (it must match the VERSION file), the zips are also attached to a GitHub Release.
-# Every push to main also publishes the live site (GitHub Pages: https://togetherings.github.io/lit/).
-# One-time setting: Settings > Pages > Source = "GitHub Actions".
+# Checks every lesson and builds the zips with EduGame Kit on every push and pull request.
+# When a release is published on GitHub's Releases page (tag vX.Y.Z, matching "version" in edugame.json),
+# the zips are attached to it: one per lesson with every language, and one per lesson and language.
 name: Build lessons
 
 on:
   push:
     branches: ["**"]
-    tags: ["v*"]
   pull_request:
+  release:
+    types: [published]
+  workflow_dispatch:
 
 permissions:
-  contents: write      # needed only to create the release on a tag
+  contents: write      # needed only to attach the zips to a release
+
+env:
+  KIT_VERSION: main
 
 jobs:
   build:
@@ -21,43 +25,28 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - name: Check the lessons (a sentence using an untaught key, a key with no finger ... fails the build)
         run: node tests/check_lessons.js
+      - run: pip install "edugame-kit @ git+https://github.com/togetherings/edugame-kit@${KIT_VERSION}"
+      - name: Check the game (words, packages)
+        run: edugame check .
       - name: Build every zip
-        run: python3 build.py --all
-      - name: Build the Pages site (checked on every push; published only from main, below)
-        run: python3 build.py --site
+        run: |
+          edugame build . -o dist                     # each lesson, every language
+          edugame build . -o dist --each-language     # each lesson, one language
+          ls -l dist
       - uses: actions/upload-artifact@v4
         with:
           name: lit-zips
           path: dist/*.zip
-      - name: The tag must match the VERSION file
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: test "v$(cat VERSION)" = "$GITHUB_REF_NAME"
-      - name: Publish the release
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: The tag must match the version in edugame.json
+        if: github.event_name == 'release'
+        run: test "v$(python3 -c 'import json; print(json.load(open("edugame.json"))["version"])')" = "$GITHUB_REF_NAME"
+      - name: Attach the zips to the release
+        if: github.event_name == 'release'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "$GITHUB_REF_NAME" dist/*.zip --title "LIT $GITHUB_REF_NAME" --generate-notes
-
-  # Publishes the live site. Runs only for pushes to main, after the checks above have passed.
-  pages:
-    if: github.ref == 'refs/heads/main'
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
-      - run: python3 build.py --site
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-      - id: deploy
-        uses: actions/deploy-pages@v4
+        run: gh release upload "$GITHUB_REF_NAME" dist/*.zip --clobber

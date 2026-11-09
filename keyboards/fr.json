@@ -1,0 +1,265 @@
+{
+  "keyboardRows": [
+    [
+      "²",
+      "&",
+      "é",
+      "\"",
+      "'",
+      "(",
+      "-",
+      "è",
+      "_",
+      "ç",
+      "à",
+      ")",
+      "=",
+      "",
+      "Backspace"
+    ],
+    [
+      "Tab",
+      "a",
+      "z",
+      "e",
+      "r",
+      "t",
+      "y",
+      "u",
+      "i",
+      "o",
+      "p",
+      "^",
+      "$"
+    ],
+    [
+      "Caps",
+      "q",
+      "s",
+      "d",
+      "f",
+      "g",
+      "h",
+      "j",
+      "k",
+      "l",
+      "m",
+      "ù",
+      "*",
+      "Enter"
+    ],
+    [
+      "ShiftL",
+      "<",
+      "w",
+      "x",
+      "c",
+      "v",
+      "b",
+      "n",
+      ",",
+      ";",
+      ":",
+      "!",
+      "",
+      "ShiftR"
+    ],
+    [
+      " "
+    ]
+  ],
+  "keyboardOptions": {
+    "isoEnter": true,
+    "altGr": true
+  },
+  "keyboardIndent": [
+    0,
+    0,
+    0,
+    0,
+    3.75
+  ],
+  "keyBumps": [
+    "f",
+    "j"
+  ],
+  "specialKeys": {
+    "Tab": {
+      "label": "Tab",
+      "finger": "lp",
+      "width": 1.5,
+      "char": "⇥"
+    },
+    "Caps": {
+      "label": "Verr. maj",
+      "finger": "lp",
+      "width": 1.75,
+      "caps": true
+    },
+    "Enter": {
+      "label": "Entrée",
+      "finger": "rp",
+      "width": 2.25,
+      "char": "↵"
+    },
+    "Backspace": {
+      "label": "←",
+      "finger": "rp",
+      "width": 2,
+      "shortWidth": 1
+    },
+    "ShiftL": {
+      "label": "Maj",
+      "finger": "lp",
+      "width": 2.25,
+      "shortWidth": 1.25,
+      "shift": true
+    },
+    "ShiftR": {
+      "label": "Maj",
+      "finger": "rp",
+      "width": 2.75,
+      "shortWidth": 1.75,
+      "shift": true
+    },
+    "Alt": {
+      "label": "Alt",
+      "finger": "lt",
+      "width": 1.25
+    },
+    "AltGr": {
+      "label": "Alt Gr",
+      "finger": "rt",
+      "width": 1.25,
+      "altgr": true
+    }
+  },
+  "keyWidths": {
+    " ": 6.25
+  },
+  "keyAliases": {
+    "space": " ",
+    "espace": " ",
+    "shift": [
+      "ShiftL",
+      "ShiftR"
+    ],
+    "maj": [
+      "ShiftL",
+      "ShiftR"
+    ],
+    "capslock": "Caps",
+    "caps lock": "Caps",
+    "verr. maj": "Caps",
+    "verr maj": "Caps",
+    "return": "Enter",
+    "entrée": "Enter",
+    "lshift": "ShiftL",
+    "rshift": "ShiftR",
+    "leftshift": "ShiftL",
+    "rightshift": "ShiftR",
+    "alt gr": "AltGr",
+    "altgraph": "AltGr",
+    "alt graph": "AltGr"
+  },
+  "deadKeys": {
+    "^": {
+      "a": "â",
+      "e": "ê",
+      "i": "î",
+      "o": "ô",
+      "u": "û",
+      "A": "Â",
+      "E": "Ê",
+      "I": "Î",
+      "O": "Ô",
+      "U": "Û",
+      " ": "^",
+      "^": "^^"
+    },
+    "¨": {
+      "a": "ä",
+      "e": "ë",
+      "i": "ï",
+      "o": "ö",
+      "u": "ü",
+      "y": "ÿ",
+      "A": "Ä",
+      "E": "Ë",
+      "I": "Ï",
+      "O": "Ö",
+      "U": "Ü",
+      "Y": "Ÿ",
+      " ": "¨",
+      "¨": "¨¨"
+    }
+  },
+  "altGrMap": {
+    "\"": "#",
+    "'": "{",
+    "(": "[",
+    "-": "|",
+    "_": "\\",
+    "à": "@",
+    ")": "]",
+    "=": "}",
+    "e": "€",
+    "$": "¤"
+  },
+  "altGrShiftMap": {},
+  "shiftMap": {
+    "&": "1",
+    "é": "2",
+    "\"": "3",
+    "'": "4",
+    "(": "5",
+    "-": "6",
+    "è": "7",
+    "_": "8",
+    "ç": "9",
+    "à": "0",
+    ")": "°",
+    "=": "+",
+    "^": "¨",
+    "$": "£",
+    "ù": "%",
+    "*": "µ",
+    "<": ">",
+    ",": "?",
+    ";": ".",
+    ":": "/",
+    "!": "§"
+  },
+  "keyLabels": {
+    " ": "Barre d'espace"
+  },
+  "handsImageRows": [
+    "azertyuiop",
+    "qsdfghjklm",
+    "wxcvbn,;:!"
+  ],
+  "fingerKeys": {
+    "lp": "aqw&²<",
+    "lr": "zsxé",
+    "lm": "edc\"",
+    "li": "rfvtgb'(",
+    "ri": "yhnuj,-è",
+    "rm": "ik;_",
+    "rr": "ol:ç",
+    "rp": "pm!à)=^$ù*",
+    "lt": " ",
+    "rt": " "
+  },
+  "fingerHands": {
+    "lp": "left",
+    "lr": "left",
+    "lm": "left",
+    "li": "left",
+    "lt": "left",
+    "ri": "right",
+    "rm": "right",
+    "rr": "right",
+    "rp": "right",
+    "rt": "right"
+  }
+}

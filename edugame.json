@@ -1,0 +1,37 @@
+{
+  "format": 1,
+  "type": "scored",
+  "id": "org.togetherings.lit",
+  "version": "0.23.0",
+  "languages": ["en", "en-GB", "fr", "es-419"],
+  "color": "#1c3557",
+  "options": { "theme": "auto" },
+  "content": ["keyboards", "lessons"],
+  "exclude": ["art/*", "tools/*", "tests/*", "README.md", "CHANGELOG.md", "site/*"],
+  "scoring": {
+    "fields": [
+      { "key": "acc", "label": "score.accuracy", "unit": "%", "order": "desc", "min": 0, "max": 100, "total": "average" },
+      { "key": "wpm", "label": "score.speed", "unit": "score.wpm_unit", "order": "desc", "min": 0, "max": 300, "total": "average" },
+      { "key": "plays", "label": "score.plays", "source": "plays" }
+    ],
+    "rank_by": ["acc", "wpm"],
+    "counts": "best",
+    "boards": {
+      "label": "score.lesson",
+      "names": { "en-01": "board.en_01", "fr-01": "board.fr_01", "es-01": "board.es_01" },
+      "total": { "label": "score.all_lessons", "count_label": "score.lessons_passed" }
+    }
+  },
+  "package_files": ["lessons/*"],
+  "packages": [
+    {
+      "id": "lesson-01",
+      "title": "package.lesson_01",
+      "description": "package.lesson_01_about",
+      "files": ["lessons/01/*"],
+      "config": { "lesson": "01", "settings": {} }
+    }
+  ],
+  "authors": ["Togetherings"],
+  "license": "MIT"
+}

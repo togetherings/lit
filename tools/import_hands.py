@@ -5,7 +5,7 @@ import_hands.py - OPTIONAL maker tool (the lesson itself never runs it).
 Reads the two hand drawings you made in Inkscape:
     art/left-hand-rest.svg   Page 1: hand resting on the keyboard
     art/left-hand-open.svg   Page 2: hand with fingers spread, shown coloured
-and writes shared/js/hand-art.js, which the lesson loads.  Run it again whenever you change an SVG:
+and writes js/hand-art.js, which the lesson loads.  Run it again whenever you change an SVG:
 
     python3 tools/import_hands.py          (needs python3, numpy, scipy, opencv-python)
 
@@ -14,7 +14,7 @@ HOW TO DRAW THE FILES (Inkscape)
   - Any size or position on the page is fine. Do not leave transforms on the path or its layer
     (use Path > "Object to Path", and ungroup / apply transforms if Inkscape added any).
   - The path must have exactly five fingertips (four fingers and the thumb) pointing up.
-  - Colours are NOT taken from the SVG: they come from shared/css/style.css.
+  - Colours are NOT taken from the SVG: they come from css/style.css.
 
 WHAT THIS SCRIPT DOES
   rest: scales/moves the hand so the four fingertips land on the A S D F keys of the keyboard picture.
@@ -29,7 +29,7 @@ from scipy.ndimage import gaussian_filter1d
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
-OUT = os.path.join(ROOT, "shared", "js", "hand-art.js")
+OUT = os.path.join(ROOT, "js", "hand-art.js")
 
 # Keyboard picture geometry (must match js/hands.js): key centres of A S D F, and the height the
 # four fingertips should reach on the home row.

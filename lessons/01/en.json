@@ -1,0 +1,67 @@
+{
+  "_notes": {
+    "about": "Lesson 1 in English: every page of the lesson. The keyboard is in keyboards/<language>.json, the buttons and messages in lang/<language>.json. The id is the lesson's scoreboard: never change it.",
+    "touchTyping": "Page 1, \"what is touch typing?\". Leave it out and the lesson starts at the new keys.",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-01",
+  "title": "Lesson 1: Left-hand home keys",
+  "touchTyping": {
+    "title": "What is touch typing?",
+    "paragraphs": [
+      "Touch typing means typing without looking at the keyboard. Each finger has its own keys, so your fingers learn where everything is.",
+      "Sit up straight, keep your wrists relaxed, and let your fingers rest on the home row. Always return to the home row after each key.",
+      "Go slowly. Accuracy matters more than speed - speed comes by itself with practice."
+    ]
+  },
+  "hideHand": "right",
+  "knownKeys": [],
+  "newKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "space"
+  ],
+  "advice": [
+    "Rest the fingers of your left hand on the keys A, S, D and F. Your little finger goes on A, then ring finger on S, middle finger on D and index finger on F.",
+    "Rest your thumbs lightly on the space bar. Press it with either thumb after every word.",
+    "Keep your right hand relaxed beside the keyboard. You will learn its keys in the next lessons."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "a sad dad adds a fad",
+        "dads add fads as dad adds ads",
+        "sad dads add sass",
+        "a dad adds as a sad fad adds",
+        "fads add a sass as dads add",
+        "as a sad dad adds ads",
+        "dad adds ads as a sad fad adds sass",
+        "a fad adds sass as dads add ads",
+        "sad dads add fads as sad dads add",
+        "as dad adds a fad a sad dad adds ads",
+        "dads add a sass as a sad fad adds",
+        "a dad adds ads as sad dads add fads"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}
