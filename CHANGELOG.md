@@ -3,6 +3,14 @@
 LIT used three-digit version numbers up to 022. From 0.23.0 it uses `major.minor.patch`, like the other games made
 with EduGame Kit.
 
+## Unreleased
+
+- **Kit updates come as pull requests.** The Build and GitHub Pages workflows call EduGame Kit's own, at kit release
+  0.3.1, and Dependabot opens a pull request for each new kit release (and for the GitHub actions). The checks are
+  now called **Kit / Build** and **Zips per language**; **Checks passed** keeps its name.
+- `tests/kolibri_play.py`: play steps for the kit's real-Kolibri test (it passes lesson 1, then checks the best result
+  comes back). Off in the workflow until a kit release plays a game's first package.
+
 ## 0.23.0
 
 - **Made with EduGame Kit.** LIT is a Scored Game: the kit's helper saves each lesson's best result (accuracy, then

@@ -36,8 +36,10 @@ lessons/
     en.json  fr.json  es-419.json     the "what is touch typing?" page, keys taught, advice, practice sentences
 art/                       the hand drawings (Inkscape SVGs): the source for js/hand-art.js
 tools/import_hands.py      rebuilds js/hand-art.js from art/
-tests/                     check_lessons.js (no browser needed), e2e_browser.py (plays every lesson and language)
+tests/                     check_lessons.js (no browser needed), e2e_browser.py (plays every lesson and language),
+                           kolibri_play.py (play steps for the kit's real-Kolibri test)
 .github/workflows/         checks and builds on every push; attaches the zips to a release; publishes the site
+.github/dependabot.yml     a pull request here for each EduGame Kit release (and for the GitHub actions)
 ```
 
 A *language* is a code: `en` (English, US keyboard), `en-GB` (English, UK keyboard), `fr` (French, AZERTY) and `es-419`
@@ -78,6 +80,13 @@ edugame pages . -o site                    the GitHub Pages site: a front page a
 The `GitHub Pages` workflow publishes the site (`edugame pages`) every time `main` changes. **One-time setup:** in the
 repository, Settings → Pages → Source = **GitHub Actions**. (Free Pages need a public repository.) Each lesson is a
 package, with its own Play button on the front page.
+
+## Kit updates
+
+The workflows call EduGame Kit's own (`game.yml` and `game-pages.yml`, at a kit release like `@v0.3.1`). When the kit
+has a new release, Dependabot opens a pull request here moving them on, and the checks run on it with the new kit:
+merge it when **Checks passed** passes, after reading the release's **What games need to do**. See the kit's
+`docs/UPDATING.md`.
 
 ## Making a new lesson
 
@@ -128,6 +137,8 @@ shows scoreboards from it.
 ```
 node tests/check_lessons.js        lesson checks, no browser needed (this also runs in the workflow)
 python3 -m tests.e2e_browser       plays every lesson in every language in Chromium (needs EduGame Kit and Playwright)
+edugame kolibri-test .             plays lesson 1 in a throwaway real Kolibri (needs kolibri and Playwright, and a kit
+                                   that plays a game's first package: newer than 0.3.1)
 ```
 
 ## Notes
