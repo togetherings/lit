@@ -1,62 +1,63 @@
-# Checks every lesson and builds the zips with EduGame Kit on every push and pull request.
-# When a release is published on GitHub's Releases page (tag vX.Y.Z, matching "version" in edugame.json),
-# the zips are attached to it: one per lesson with every language, and one per lesson and language.
-name: Build lessons
+# Checks every lesson and builds the zips, every time something is pushed. The steps are EduGame Kit's
+# (its game.yml workflow), at the kit release named after "@": Dependabot (.github/dependabot.yml) opens a
+# pull request here when a new kit release comes out, and these checks run on it.
+#
+#   * Every push: the zips are in the run's "Artifacts" (Actions tab > the run > game-zips and
+#     zips-per-language), so you can try them without installing anything.
+#   * Publish a release (Releases > Draft a new release, with a tag like v0.24.0 that matches "version" in
+#     edugame.json): the zips are attached to it, one per lesson with every language, and one per lesson and
+#     language.
+name: Build
 
 on:
   push:
-    branches: ["**"]
   pull_request:
   release:
     types: [published]
   workflow_dispatch:
 
 permissions:
-  contents: write      # needed only to attach the zips to a release
-
-env:
-  KIT_VERSION: main
+  contents: write      # only used to attach the zips to a release
 
 jobs:
-  build:
+  kit:
+    name: Kit
+    uses: togetherings/edugame-kit/.github/workflows/game.yml@v0.3.1
+    with:
+      # LIT's own check: a sentence using an untaught key, a key with no finger ... fails the build
+      tests: node tests/check_lessons.js
+      # Kit 0.3.1 plays LIT in Kolibri without its lesson (it builds the game without a package). Turn this on
+      # (delete the line) with the kit release that plays a game's first package: tests/kolibri_play.py is ready.
+      kolibri: false
+
+  # One zip per lesson and language (edugame build --each-language), attached to releases with the others.
+  # To be replaced by "each-language: true" above with the kit release that has it.
+  each-language:
+    name: Zips per language
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
-          node-version: 20
-      - uses: actions/setup-python@v5
+          python-version: "3.11"
+      - run: pip install "edugame-kit @ git+https://github.com/togetherings/edugame-kit@v0.3.1"
+      - run: edugame build . -o dist --each-language && ls -l dist
+      - uses: actions/upload-artifact@v7
         with:
-          python-version: "3.12"
-      - name: Check the lessons (a sentence using an untaught key, a key with no finger ... fails the build)
-        run: node tests/check_lessons.js
-      - run: pip install "edugame-kit @ git+https://github.com/togetherings/edugame-kit@${KIT_VERSION}"
-      - name: Check the game (words, packages)
-        run: edugame check .
-      - name: Build every zip
-        run: |
-          edugame build . -o dist                     # each lesson, every language
-          edugame build . -o dist --each-language     # each lesson, one language
-          ls -l dist
-      - uses: actions/upload-artifact@v4
-        with:
-          name: lit-zips
+          name: zips-per-language
           path: dist/*.zip
-      - name: The tag must match the version in edugame.json
-        if: github.event_name == 'release'
-        run: test "v$(python3 -c 'import json; print(json.load(open("edugame.json"))["version"])')" = "$GITHUB_REF_NAME"
       - name: Attach the zips to the release
         if: github.event_name == 'release'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: gh release upload "$GITHUB_REF_NAME" dist/*.zip --clobber
 
-  # The one check the "Protect main" ruleset requires in every togetherings repository: it passes only when
-  # every job above passed, so tests can be added or renamed without changing the ruleset.
+  # The name the "Protect main" ruleset asks for (see docs/platforms/GITHUB_PAGES.md in the kit): it passes only
+  # when every job above passed. Add new jobs to "needs".
   checks-passed:
     name: Checks passed
     if: always()
-    needs: [build]
+    needs: [kit, each-language]
     runs-on: ubuntu-latest
     steps:
       - name: Every check passed
