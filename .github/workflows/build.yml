@@ -6,8 +6,8 @@
 #     them without installing anything. Kit / Browser plays every lesson and language on the kit's test page;
 #     Kit / Real Kolibri plays lesson 1 in a real Kolibri (tests/kolibri_play.py).
 #   * Publish a release (Releases > Draft a new release, with a tag like v0.24.0 that matches "version" in
-#     edugame.json): the zips are attached to it, one per lesson with every language, and one per lesson and
-#     language.
+#     edugame.json): a few bundles are attached to it (release-bundles), each a zip of the lesson zips:
+#     lit-all-languages-<version>.zip, and one for each language like lit-en-<version>.zip.
 name: Build
 
 on:
@@ -23,14 +23,17 @@ permissions:
 jobs:
   kit:
     name: Kit
-    uses: togetherings/edugame-kit/.github/workflows/game.yml@v0.3.2
+    uses: togetherings/edugame-kit/.github/workflows/game.yml@v0.3.4
     with:
       # LIT's own check: a sentence using an untaught key, a key with no finger ... fails the build
       tests: node tests/check_lessons.js
       # Every lesson and language played on the kit's test page (Playwright)
       browser-tests: python -m tests.e2e_browser --screenshots screenshots
-      # Releases also get one zip per lesson and language
+      # One zip per lesson and language too (in the run's Artifacts, game-zips)
       each-language: true
+      # A release gets a few bundles (zips of the lesson zips) instead of every zip: one with every language, and one
+      # for each language
+      release-bundles: true
       # Every lesson is the same game with other words, so playing the first in Kolibri is enough
       kolibri-packages: 1
 

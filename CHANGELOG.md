@@ -5,6 +5,8 @@ with EduGame Kit.
 
 ## Unreleased
 
+- **Releases are bundles** (kit 0.3.4, `release-bundles`): `lit-all-languages-<version>.zip` and one for each language
+  (`lit-en-<version>.zip` ...), each holding the lesson zips, instead of a zip for every lesson and language.
 - **Lessons 2 and 3, in English** (en and en-GB), from the lesson plan: lesson 2, the right-hand home keys and the
   semicolon; lesson 3, E and I, the first keys off the home row, with an introduction about leaving the home row.
   Each lists its languages in `edugame.json` (`"languages": ["en", "en-GB"]`), so only English zips are made for
