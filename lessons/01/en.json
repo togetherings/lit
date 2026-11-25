@@ -1,13 +1,13 @@
 {
   "_notes": {
     "about": "Lesson 1 in English: every page of the lesson. The keyboard is in keyboards/<language>.json, the buttons and messages in lang/<language>.json. The id is the lesson's scoreboard: never change it.",
-    "touchTyping": "Page 1, \"what is touch typing?\". Leave it out and the lesson starts at the new keys.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands resting on the home row), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows).",
     "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
     "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
   },
   "id": "en-01",
   "title": "Lesson 1: Left-hand home keys",
-  "touchTyping": {
+  "intro": {
     "title": "What is touch typing?",
     "paragraphs": [
       "Touch typing means typing without looking at the keyboard. Each finger has its own keys, so your fingers learn where everything is.",

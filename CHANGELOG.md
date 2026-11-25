@@ -5,6 +5,15 @@ with EduGame Kit.
 
 ## Unreleased
 
+- **Lessons 2 and 3, in English** (en and en-GB), from the lesson plan: lesson 2, the right-hand home keys and the
+  semicolon; lesson 3, E and I, the first keys off the home row, with an introduction about leaving the home row.
+  Each lists its languages in `edugame.json` (`"languages": ["en", "en-GB"]`), so only English zips are made for
+  it, and French and Spanish learners never get an English lesson.
+- **Page 1 is each lesson's own introduction** (`intro`, was `touchTyping`, which still works), for anything that
+  doesn't fit on the keys page. A lesson chooses its picture: `"hands"` (as before), `"none"`, or its own picture
+  file. Paragraphs on Page 1 and Page 2 can have `**bold**` and `[E]` (a key drawn as a key).
+- `tests/check_lessons.js` checks each lesson in its own languages, and fails if a language would get another
+  language's lesson. The browser test plays every lesson in its languages and checks the introduction's formatting.
 - **Kit updates come as pull requests.** The Build and GitHub Pages workflows call EduGame Kit's own, at a kit
   release (now 0.3.2), and Dependabot opens a pull request for each new kit release (and for the GitHub actions).
   The checks are now **Kit / Build**, **Kit / Browser** and **Kit / Real Kolibri**; **Checks passed** keeps its name.

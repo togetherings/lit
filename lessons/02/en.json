@@ -1,0 +1,71 @@
+{
+  "_notes": {
+    "about": "Lesson 2 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands resting on the home row), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows).",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-02",
+  "title": "Lesson 2: Right-hand home keys",
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "space"
+  ],
+  "newKeys": [
+    "j",
+    "k",
+    "l",
+    ";"
+  ],
+  "advice": [
+    "Rest your left hand on [A] [S] [D] [F], as in lesson 1, and now your right hand on [J] [K] [L] [;]: index finger on [J], middle finger on [K], ring finger on [L] and little finger on [;].",
+    "Feel for the small bumps on [F] and [J]. They let you find the home row without looking.",
+    "In this lesson [;] ends each sentence, as a full stop would."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "jada asks a lad as dad adds salads;",
+        "a lad falls as jada asks;",
+        "dad adds a salad as jada asks;",
+        "all lads ask jada alas;",
+        "alf adds a jaffa as a salad;",
+        "a flask falls as a lass asks;",
+        "alf asks jada all dallas falls;",
+        "sal falls as jada asks alf;",
+        "dad asks a lass as alf falls;",
+        "a sad lad asks dad all;",
+        "jada adds all jaffa salads;",
+        "alaska lads add a salad;",
+        "a lass falls as alf asks;",
+        "dad adds a flask as jada asks;",
+        "jaffa fads fall as dad asks;",
+        "alf asks dad a lass falls;",
+        "jada asks alf as a flask falls;",
+        "all dallas lads ask dad;",
+        "a lad asks jada a jaffa salad;",
+        "dad asks jada all alaska falls;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

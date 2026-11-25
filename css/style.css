@@ -211,6 +211,11 @@ button:focus-visible { outline: 4px solid var(--bad); outline-offset: 2px; }
 /* pictures floated beside the text; each place has its own size */
 .side-image { float: right; height: auto; margin: 0 0 .5rem 1rem; }
 .side-image.intro  { width: min(30%, 11rem); }
+.side-image.intro.own { width: min(40%, 16rem); }
+/* [E] in a lesson's own text: a key drawn as a key */
+kbd.keycap { display: inline-block; min-width: 1.6em; padding: 0 .35em; border: 1px solid var(--key-border);
+  border-bottom-width: 3px; border-radius: 5px; background: var(--field); font: inherit; font-weight: bold;
+  line-height: 1.4; text-align: center; }
 :root[data-theme="dark"] .side-image { background: #fff; border-radius: 12px; }   /* pictures with a white background stay tidy */
 /* results page: text on the left, the picture centred in the space to its right */
 .result-layout { display: flex; align-items: center; gap: 1rem; }

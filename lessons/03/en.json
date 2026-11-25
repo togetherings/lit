@@ -1,0 +1,87 @@
+{
+  "_notes": {
+    "about": "Lesson 3 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands resting on the home row), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows).",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-03",
+  "title": "Lesson 3: E and I",
+  "intro": {
+    "title": "Leaving the home row",
+    "paragraphs": [
+      "Until now every key has been on the home row, right under your fingers. From this lesson on, some keys are a reach away: a finger leaves the home row, presses the key, and comes straight back.",
+      "**Only the finger that needs the key moves.** The others stay resting on the home row, so your hands always know where they are.",
+      "Your middle fingers go first: the left one reaches up from [D] to [E], and the right one from [K] to [I].",
+      "If you lose your place, feel for the bumps on [F] and [J] and start again from the home row."
+    ]
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "space"
+  ],
+  "newKeys": [
+    "e",
+    "i"
+  ],
+  "advice": [
+    "[E] is just above [D]. Reach up with your left middle finger, press [E], and bring the finger straight back to [D].",
+    "[I] is just above [K]. Reach up with your right middle finger, press [I], and bring it straight back to [K].",
+    "Keep your other fingers resting on the home row while one finger reaches."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "jake asked a lad if jill failed;",
+        "jill filed a deed as jake sailed;",
+        "elsie asked a lad if dad failed;",
+        "jake liked silk sleds as jill did;",
+        "a lass killed a flea as eli slid;",
+        "jill said jake fed all ladies;",
+        "elsie sailed a skiff as jake slid;",
+        "jess asked dad if all kids sailed;",
+        "ella filled a desk as jake failed;",
+        "jake skied as jill sailed a lake;",
+        "a lad kissed a jade seal;",
+        "jill liked all ideas dad said;",
+        "jess sees a field as jake feeds;",
+        "eli asked jill if jake failed;",
+        "dad sailed as jill led a skiff;",
+        "jake feels ill as elsie fails;",
+        "a jailed elk slid as ladies led;",
+        "jill filed all deeds as jake said;",
+        "dad liked fields as jess skied;",
+        "elsie asked jake if all kids sailed;",
+        "kadie asked jill if jake sailed;",
+        "kadie fed a sad elk as jill sailed;",
+        "jake asked kadie if all ladies sailed;",
+        "elsie skied as kadie slid a sled;",
+        "kadie filled a jade flask;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}
