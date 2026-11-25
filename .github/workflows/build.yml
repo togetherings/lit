@@ -2,8 +2,9 @@
 # (its game.yml workflow), at the kit release named after "@": Dependabot (.github/dependabot.yml) opens a
 # pull request here when a new kit release comes out, and these checks run on it.
 #
-#   * Every push: the zips are in the run's "Artifacts" (Actions tab > the run > game-zips and
-#     zips-per-language), so you can try them without installing anything.
+#   * Every push: the zips are in the run's "Artifacts" (Actions tab > the run > game-zips), so you can try
+#     them without installing anything. Kit / Browser plays every lesson and language on the kit's test page;
+#     Kit / Real Kolibri plays lesson 1 in a real Kolibri (tests/kolibri_play.py).
 #   * Publish a release (Releases > Draft a new release, with a tag like v0.24.0 that matches "version" in
 #     edugame.json): the zips are attached to it, one per lesson with every language, and one per lesson and
 #     language.
@@ -22,42 +23,23 @@ permissions:
 jobs:
   kit:
     name: Kit
-    uses: togetherings/edugame-kit/.github/workflows/game.yml@v0.3.1
+    uses: togetherings/edugame-kit/.github/workflows/game.yml@v0.3.2
     with:
       # LIT's own check: a sentence using an untaught key, a key with no finger ... fails the build
       tests: node tests/check_lessons.js
-      # Kit 0.3.1 plays LIT in Kolibri without its lesson (it builds the game without a package). Turn this on
-      # (delete the line) with the kit release that plays a game's first package: tests/kolibri_play.py is ready.
-      kolibri: false
-
-  # One zip per lesson and language (edugame build --each-language), attached to releases with the others.
-  # To be replaced by "each-language: true" above with the kit release that has it.
-  each-language:
-    name: Zips per language
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.11"
-      - run: pip install "edugame-kit @ git+https://github.com/togetherings/edugame-kit@v0.3.1"
-      - run: edugame build . -o dist --each-language && ls -l dist
-      - uses: actions/upload-artifact@v7
-        with:
-          name: zips-per-language
-          path: dist/*.zip
-      - name: Attach the zips to the release
-        if: github.event_name == 'release'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release upload "$GITHUB_REF_NAME" dist/*.zip --clobber
+      # Every lesson and language played on the kit's test page (Playwright)
+      browser-tests: python -m tests.e2e_browser --screenshots screenshots
+      # Releases also get one zip per lesson and language
+      each-language: true
+      # Every lesson is the same game with other words, so playing the first in Kolibri is enough
+      kolibri-packages: 1
 
   # The name the "Protect main" ruleset asks for (see docs/platforms/GITHUB_PAGES.md in the kit): it passes only
   # when every job above passed. Add new jobs to "needs".
   checks-passed:
     name: Checks passed
     if: always()
-    needs: [kit, each-language]
+    needs: [kit]
     runs-on: ubuntu-latest
     steps:
       - name: Every check passed

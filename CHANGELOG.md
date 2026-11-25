@@ -5,11 +5,16 @@ with EduGame Kit.
 
 ## Unreleased
 
-- **Kit updates come as pull requests.** The Build and GitHub Pages workflows call EduGame Kit's own, at kit release
-  0.3.1, and Dependabot opens a pull request for each new kit release (and for the GitHub actions). The checks are
-  now called **Kit / Build** and **Zips per language**; **Checks passed** keeps its name.
+- **Kit updates come as pull requests.** The Build and GitHub Pages workflows call EduGame Kit's own, at a kit
+  release (now 0.3.2), and Dependabot opens a pull request for each new kit release (and for the GitHub actions).
+  The checks are now **Kit / Build**, **Kit / Browser** and **Kit / Real Kolibri**; **Checks passed** keeps its name.
 - `tests/kolibri_play.py`: play steps for the kit's real-Kolibri test (it passes lesson 1, then checks the best result
-  comes back). Off in the workflow until a kit release plays a game's first package.
+  comes back).
+- **Kit 0.3.2:** lesson 1 is played in a real Kolibri on every push (Kit / Real Kolibri, with `tests/kolibri_play.py`),
+  every lesson and language in a browser (Kit / Browser, `tests/e2e_browser.py`), and the zips per language are
+  built by the kit's workflow (`each-language`). The Zips per language job is gone.
+- `tests/e2e_browser.py` ignores Chromium's warning about the kit's test page frame ("can escape its sandboxing"):
+  the page sandboxes the game as Kolibri does. Every other warning still fails it.
 
 ## 0.23.0
 
