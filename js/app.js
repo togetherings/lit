@@ -7,8 +7,8 @@
     engine.js   -> counts right/wrong keys, speed and the timer
     hands.js    -> the two hand pictures
     progress.js -> remembers the result (through the EduGame Kit's helper)
-  Pages:  1 what is touch typing?  ->  2 new keys  ->  3 practice  ->  4 results
-  (Page 1 is the lesson's "touchTyping" text; a lesson without it starts at Page 2.)
+  Pages:  1 introduction  ->  2 new keys  ->  3 practice  ->  4 results
+  (Page 1 is the lesson's "intro": anything that doesn't fit on Page 2; a lesson without it starts at Page 2.)
   The Options button is in the kit's header at the top of the page; its panel lays over any page.
 */
 (function () {
@@ -189,8 +189,29 @@
     el("timer").setAttribute("aria-label", t("timerLabel"));
   }
 
-  // Page 1 belongs to the lesson: its "touchTyping" text, in each edition. A lesson without it starts at Page 2.
-  function hasTouchPage() { return !!(lesson.touchTyping && (lesson.touchTyping.paragraphs || []).length); }
+  // Page 1 belongs to the lesson: its "intro", in each edition (title, paragraphs and picture). A lesson without
+  // it starts at Page 2. Lessons written before it was called "intro" call it "touchTyping", which still works.
+  function intro() { return lesson.intro || lesson.touchTyping || null; }
+  function hasTouchPage() { var i = intro(); return !!(i && (i.paragraphs || []).length); }
+
+  // A paragraph of a lesson's own text, with two kinds of formatting: **bold**, and [E] for a key drawn as a key
+  // ([space], [;] ...). Built from text nodes, never as HTML, so a lesson's text can't break the page.
+  function keycap(name) {
+    if (name.toLowerCase() === "space") { return keyLabel(" "); }
+    if (specials[name] && specials[name].label) { return specials[name].label; }       // [Tab], [ShiftL] ...
+    return name.length === 1 ? keyLabel(name) : name;
+  }
+  function rich(tag, text) {
+    var box = make(tag), re = /\*\*([^*]+)\*\*|\[([^\[\]\s][^\[\]]{0,11})\]/g, last = 0, m;
+    while ((m = re.exec(text))) {
+      if (m.index > last) { box.appendChild(document.createTextNode(text.slice(last, m.index))); }
+      if (m[1] !== undefined) { box.appendChild(make("strong", null, m[1])); }
+      else { box.appendChild(make("kbd", "keycap", keycap(m[2]))); }
+      last = re.lastIndex;
+    }
+    if (last < text.length) { box.appendChild(document.createTextNode(text.slice(last))); }
+    return box;
+  }
 
   // ------------------------------------------------------------ on-screen keyboard
   // Is this key one of the taught keys? "new" (this lesson), "known" (earlier lessons) or "locked".
@@ -342,16 +363,26 @@
     });
   }
 
-  // ---------------------------------------------------------------- Page 1: touch typing
+  // ---------------------------------------------------------------- Page 1: the lesson's intro
+  // "picture": "hands" (the default: config.js's side picture, and the hands resting on the home row), "none" (just
+  // the text), or a picture file in the images folder (that picture beside the text, and no hands).
   function showTouchPage() {
     stopPractice();
-    var box = el("touchBody");
+    var box = el("touchBody"), page = intro(), picture = page.picture || "hands";
     clear(box);
     // The picture comes FIRST so it floats to the right of the title as well as the paragraphs
-    var pic = sideImage("intro", "intro");
+    var pic = null;
+    if (picture === "hands") { pic = sideImage("intro", "intro"); }
+    else if (picture !== "none") {
+      pic = make("img", "side-image intro own");
+      pic.src = (cfg.images && cfg.images.folder || "") + picture;
+      pic.alt = page.pictureAlt || "";
+      pic.onerror = function () { if (pic.parentNode) { pic.parentNode.removeChild(pic); } };   // missing file: no picture
+    }
     if (pic) { box.appendChild(pic); }
-    box.appendChild(make("h2", null, lesson.touchTyping.title || ""));
-    lesson.touchTyping.paragraphs.forEach(function (p) { box.appendChild(make("p", null, p)); });
+    box.appendChild(make("h2", null, page.title || ""));
+    page.paragraphs.forEach(function (p) { box.appendChild(rich("p", p)); });
+    if (picture !== "hands") { showPage("touch"); return; }
 
     // The hands picture starts below the text and the image. Keys are coloured by finger if
     // config.js says so, and the two Shift keys are added if showShiftKeysOnPage1 is true.
@@ -386,7 +417,7 @@
 
     // 1. The lesson's advice text
     box.appendChild(make("h3", null, t("newKeysHeading")));
-    lesson.advice.forEach(function (p) { box.appendChild(make("p", null, p)); });
+    lesson.advice.forEach(function (p) { box.appendChild(rich("p", p)); });
 
     // 2. The keyboard, straight under the text, with this lesson's keys highlighted
     var kb = make("div", "keyboard");

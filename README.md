@@ -7,7 +7,8 @@ you upload to a channel in Kolibri Studio as an HTML5 app. It is a Scored Game m
 plugin can show scoreboards for it. Plain HTML, CSS and JavaScript: no frameworks, no network access, so it loads
 quickly and works offline.
 
-Each lesson walks the learner through: **1.** what is touch typing (optional) → **2.** the new keys and which
+Each lesson walks the learner through: **1.** an introduction (optional: what is touch typing, leaving the home
+row ...) → **2.** the new keys and which
 finger types each → **3.** typing practice with sentences → **4.** results. The lesson is *passed* when the accuracy
 and speed targets in `config.js` are both reached. Every page's text belongs to the lesson, in each language.
 
@@ -33,7 +34,8 @@ lang/<language>.json       the wording on screen in one language, and the finger
 keyboards/<language>.json  one physical keyboard: rows, Shift/AltGr layers, dead keys, which finger types which key
 lessons/
   01/                      LESSON 1, one edition per language:
-    en.json  fr.json  es-419.json     the "what is touch typing?" page, keys taught, advice, practice sentences
+    en.json  fr.json  es-419.json     the introduction page, keys taught, advice, practice sentences
+  02/  03/  ...            the next lessons (English only so far: en.json, used by en and en-GB)
 art/                       the hand drawings (Inkscape SVGs): the source for js/hand-art.js
 tools/import_hands.py      rebuilds js/hand-art.js from art/
 tests/                     check_lessons.js (no browser needed), e2e_browser.py (plays every lesson and language),
@@ -47,8 +49,9 @@ A *language* is a code: `en` (English, US keyboard), `en-GB` (English, UK keyboa
 `en-GB` has its own keyboard, but no lesson file of its own, so it gets the English edition (`lessons/01/en.json`) and
 `lang/en.json`'s words (`lang/en-GB.json` only names the language). So each lesson is written once per language.
 
-**Every page of a lesson is the lesson's own**, in each edition: Page 1 (`touchTyping`: a title and paragraphs, the
-"what is touch typing?" introduction; leave it out and the lesson starts at the new keys), Page 2 (`title`, `advice`,
+**Every page of a lesson is the lesson's own**, in each edition: Page 1 (`intro`: a title, paragraphs and a picture, for
+anything that doesn't fit on Page 2, like lesson 1's "what is touch typing?" or lesson 3's "leaving the home row";
+leave it out and the lesson starts at the new keys), Page 2 (`title`, `advice`,
 the keys) and the sentences.
 
 The **Options** button is EduGame Kit's, in the header at the top of the page: Appearance (light, dark or auto),
@@ -92,8 +95,16 @@ merge it when **Checks passed** passes, after reading the release's **What games
 
 1. Copy `lessons/01` to `lessons/02`.
 2. In each edition change `id` (`en-02` ... the lesson's scoreboard and the learner's best result are kept under it:
-   never change it later), `title`, `touchTyping` (or leave it out to start at the new keys), `knownKeys` (keys taught
+   never change it later), `title`, `intro` (or leave it out to start at the new keys), `knownKeys` (keys taught
    in earlier lessons), `newKeys`, `advice` and the practice sentences.
+   - `intro`: `title`, `paragraphs`, and `picture`: `"hands"` (the default: config.js's side picture and the hands
+     resting on the home row), `"none"`, or a picture file in `images/` (with `pictureAlt`, saying what it shows).
+     Lessons written before it was called `intro` call it `touchTyping`, which still works.
+   - In `intro` and `advice` paragraphs, `**bold**` is bold and `[E]` draws a key as a key: `[;]`, `[space]`,
+     `[Tab]`, `[Enter]`, `[ShiftL]` ...
+   - A lesson written only in some languages lists them in its package: `"languages": ["en", "en-GB"]`. Only
+     those get its zips, and `tests/check_lessons.js` fails if a listed language has no edition of its own (French
+     would otherwise get the English lesson). en-GB uses `en.json` and its own UK keyboard.
 3. Add the lesson to `packages` in `edugame.json` (copy lesson 1's: `id`, `title`, `description`, `files`, and
    `config.lesson`), with its title and description in each `lang/<language>.json` (`package.lesson_02` ...), and
    its scoreboards to `scoring.boards.names` (`"en-02": "board.en_02"` ...). Settings that differ for this lesson go in

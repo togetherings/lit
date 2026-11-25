@@ -4,6 +4,9 @@
   the nearest keyboard (keyboards/<language>.json) and lesson edition (lessons/NN/<language>.json), as the game does,
   and runs TT.checkLesson. ANY warning (a sentence that uses an untaught key, a key with no finger, a missing
   file ...) is an error. It also checks that every edition's board id is unique, and that each lesson is a package.
+  A lesson is checked in its package's "languages" (all the game's languages if it doesn't list them), and each of
+  those must have an edition in its own language: fr-CA may use fr.json and en-GB en.json, but French getting the
+  English lesson (a missing fr.json) is an error. List only the languages a lesson is written in.
 */
 const fs = require("fs"), path = require("path"), vm = require("vm");
 const root = path.join(__dirname, "..");
@@ -29,14 +32,21 @@ fs.readdirSync(path.join(root, "lessons")).sort().forEach(function (lesson) {
   vm.createContext(sandbox);
   vm.runInContext(fs.readFileSync(path.join(root, "js/core.js"), "utf8"), sandbox);
   vm.runInContext("this.TT = TT", sandbox);
-  if (!(game.packages || []).some(p => p.config && p.config.lesson === lesson)) {
+  const pkg = (game.packages || []).find(p => p.config && p.config.lesson === lesson);
+  if (!pkg) {
     warnings.push("no package in edugame.json has config.lesson \"" + lesson + "\"");
   }
-  game.languages.forEach(function (code) {
+  const languages = (pkg && pkg.languages) || game.languages;
+  languages.forEach(function (code) {
     const kb = nearest("keyboards", code), les = nearest("lessons/" + lesson, code);
     if (!kb) { warnings.push(code + ": no keyboard"); return; }
     if (!les) { warnings.push(code + ": no lesson edition"); return; }
     const id = les.data.id, from = path.basename(les.file, ".json");
+    if (from.split("-")[0] !== code.split("-")[0]) {
+      warnings.push(code + ": no lessons/" + lesson + "/" + code + ".json, so it would get the " + from + " lesson. Write it, " +
+                    "or leave " + code + " out of the package's \"languages\" in edugame.json");
+      return;
+    }
     if (boards[id] && boards[id] !== lesson + "/" + from) { warnings.push(code + ": the board id \"" + id + "\" is also used by lessons/" + boards[id]); }
     boards[id] = lesson + "/" + from;
     sandbox.kb = kb.data; sandbox.les = les.data; sandbox.code = code;
@@ -45,6 +55,6 @@ fs.readdirSync(path.join(root, "lessons")).sort().forEach(function (lesson) {
     for (let i = before; i < warnings.length; i++) { warnings[i] = code + ": " + warnings[i]; }
   });
   if (warnings.length) { problems += warnings.length; console.error("Lesson " + lesson + ": " + warnings.length + " problem(s)"); warnings.forEach(w => console.error("  - " + w)); }
-  else { console.log("Lesson " + lesson + ": OK (" + game.languages.join(", ") + ")"); }
+  else { console.log("Lesson " + lesson + ": OK (" + ((pkg && pkg.languages) || game.languages).join(", ") + ")"); }
 });
 if (problems) { process.exit(1); }

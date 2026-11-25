@@ -4,7 +4,7 @@
   A lesson is played in one language, which is three things put together when the page starts
   (see loader.js):
     keyboards/<language>.json   the physical keyboard: rows, Shift/AltGr layers, dead keys, which finger types which key
-    lessons/NN/<language>.json  the lesson's edition in that language: the "what is touch typing?" page, the keys
+    lessons/NN/<language>.json  the lesson's edition in that language: the introduction page, the keys
                                 taught, the advice and the practice sentences
     lang/<language>.json        the wording on screen and the finger names (read with EduGame.t)
   The EduGame Kit's helper picks the language, and finds the nearest file of each: a UK English learner (en-GB)

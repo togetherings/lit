@@ -61,8 +61,18 @@ def play(page, game, lesson):
     game.locator("#resultsBody .pass").wait_for()
 
 
+def languages(package):
+    """The languages a lesson is written in: its package's "languages", or all the game's."""
+    pkg = next(p for p in GAME.packages() if p["id"] == package)
+    return pkg.get("languages") or GAME.languages
+
+
+def intro(ed):
+    return ed.get("intro") or ed.get("touchTyping")
+
+
 def check(browser, base, package, lesson, shots):
-    for code in GAME.languages:
+    for code in languages(package):
         ed = edition(lesson, code)
         page = browser.new_page()
         page.goto(base)
@@ -71,19 +81,27 @@ def check(browser, base, package, lesson, shots):
         page.select_option("#mode", "scorm")
         page.select_option("#lang", code)
         game = page.frame_locator("#game")
-        first = "#touchNext" if ed.get("touchTyping") else "#startBtn"
+        first = "#touchNext" if intro(ed) else "#startBtn"
         game.locator(first).wait_for()
         assert game.locator("html").get_attribute("lang") == code, code
-        if ed.get("touchTyping"):
-            # Page 1 is the lesson's own, in its edition's language
-            assert game.locator("#touchBody h2").inner_text() == ed["touchTyping"]["title"], code
+        if intro(ed):
+            # Page 1 is the lesson's own, in its edition's language, with **bold** and [E] keys drawn as keys
+            assert game.locator("#touchBody h2").inner_text() == intro(ed)["title"], code
+            text = " ".join(intro(ed)["paragraphs"])
+            assert game.locator("#touchBody kbd.keycap").count() == len(re.findall(r"\[[^\[\]\s][^\[\]]{0,11}\]", text)), code
+            assert game.locator("#touchBody strong").count() == len(re.findall(r"\*\*[^*]+\*\*", text)), code
+            assert "**" not in game.locator("#touchBody").inner_text(), code
+            if shots and code == languages(package)[0]:
+                page.screenshot(path=os.path.join(shots, "%s-intro.png" % package))
             game.locator("#touchNext").click()
+        if shots and code == languages(package)[0]:
+            page.screenshot(path=os.path.join(shots, "%s-keys.png" % package))
         assert game.locator("#keysBody h2").inner_text() == ed["title"], code
         play(page, game, lesson)
         store, record = saved(page)
         assert store["cmi.core.lesson_status"] == "passed" and "cmi.core.score.raw" not in store, store
         assert record[ed["id"]][0] == 100 and record[ed["id"]][2] == 1, record   # [accuracy, speed, plays]
-        if shots and code == GAME.languages[0]:
+        if shots and code == languages(package)[0]:
             page.screenshot(path=os.path.join(shots, "%s-results.png" % package))
         # Phone width
         page.set_viewport_size({"width": 390, "height": 800})
@@ -93,13 +111,15 @@ def check(browser, base, package, lesson, shots):
 
 
 def check_options(browser, base, lesson, shots):
-    """The kit's Options panel: the skin tone shows at once, the language brings the other edition and keyboard."""
+    """The kit's Options panel: the skin tone shows at once, the language brings the other edition and keyboard.
+    (For lessons written in French too.)"""
     page = browser.new_page()
     page.goto(base)
     page.locator("#reset").click()
     page.select_option("#lang", "en")
     game = page.frame_locator("#game")
-    game.locator("#touchNext").click()
+    if intro(edition(lesson, "en")):
+        game.locator("#touchNext").click()
     game.locator(".eg-options-button").click()
     card = game.locator(".eg-card")
     card.locator("input[name=eg-opt-skin][value=light]").check()
@@ -134,7 +154,8 @@ def main():
             base = "http://127.0.0.1:%d/" % server.server_address[1]
             try:
                 check(context, base, pkg["id"], pkg["config"]["lesson"], args.screenshots)
-                check_options(context, base, pkg["config"]["lesson"], args.screenshots)
+                if "fr" in languages(pkg["id"]):
+                    check_options(context, base, pkg["config"]["lesson"], args.screenshots)
                 print("%s: OK" % pkg["id"])
             finally:
                 server.shutdown()

@@ -40,7 +40,7 @@ TT.config = {
   // Put a file name in quotes, or "" for no picture. Each place is set on its own.
   images: {
     folder: "images/",                  // folder (inside the zip) that holds the picture files
-    intro:  "lion-placeholder.png",     // Page 1, floated to the right of the touch-typing text
+    intro:  "lion-placeholder.png",     // Page 1, floated to the right of the lesson's introduction ("picture": "hands")
     passed: "lion-placeholder.png",     // results page when the typing goal IS met
     failed: "lion-placeholder.png"      // results page when the typing goal is NOT met
   },

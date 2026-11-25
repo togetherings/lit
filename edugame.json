@@ -18,7 +18,8 @@
     "counts": "best",
     "boards": {
       "label": "score.lesson",
-      "names": { "en-01": "board.en_01", "fr-01": "board.fr_01", "es-01": "board.es_01" },
+      "names": { "en-01": "board.en_01", "fr-01": "board.fr_01", "es-01": "board.es_01",
+                 "en-02": "board.en_02", "en-03": "board.en_03" },
       "total": { "label": "score.all_lessons", "count_label": "score.lessons_passed" }
     }
   },
@@ -30,6 +31,22 @@
       "description": "package.lesson_01_about",
       "files": ["lessons/01/*"],
       "config": { "lesson": "01", "settings": {} }
+    },
+    {
+      "id": "lesson-02",
+      "title": "package.lesson_02",
+      "description": "package.lesson_02_about",
+      "languages": ["en", "en-GB"],
+      "files": ["lessons/02/*"],
+      "config": { "lesson": "02", "settings": {} }
+    },
+    {
+      "id": "lesson-03",
+      "title": "package.lesson_03",
+      "description": "package.lesson_03_about",
+      "languages": ["en", "en-GB"],
+      "files": ["lessons/03/*"],
+      "config": { "lesson": "03", "settings": {} }
     }
   ],
   "authors": ["Togetherings"],
