@@ -7,6 +7,9 @@ you upload to a channel in Kolibri Studio as an HTML5 app. It is a Scored Game m
 plugin can show scoreboards for it. Plain HTML, CSS and JavaScript: no frameworks, no network access, so it loads
 quickly and works offline.
 
+**[▶ Try LIT in your browser: togetherings.github.io/lit](https://togetherings.github.io/lit/)**: every lesson, in
+each of its languages and keyboards. Progress is kept in your browser only.
+
 Each lesson walks the learner through: **1.** an introduction (optional: what is touch typing, leaving the home
 row ...) → **2.** the new keys and which
 finger types each → **3.** typing practice with sentences → **4.** results. The lesson is *passed* when the accuracy
@@ -17,8 +20,8 @@ and speed targets in `config.js` are both reached. Every page's text belongs to 
 * **Releases** (right-hand side of the repository page): every version has one zip per lesson, in two forms:
   `lit-lesson-01-0.23.0.zip` (every language: the learner chooses in *Options*, and gets Kolibri's language until they
   do) and `lit-lesson-01-fr-0.23.0.zip` (a single language).
-* **Live site** (GitHub Pages): https://togetherings.github.io/lit/ - every lesson with all its languages, to try or share
-  a link. Nothing is reported to a coach there, and progress is kept in the browser only.
+* **Live site** (GitHub Pages): [togetherings.github.io/lit](https://togetherings.github.io/lit/) - every lesson with all
+  its languages, to try or share a link. Nothing is reported to a coach there, and progress is kept in the browser only.
 * Or build them yourself with [EduGame Kit](https://github.com/togetherings/edugame-kit) (see below).
 
 ## Repository layout
