@@ -83,7 +83,7 @@ package, with its own Play button on the front page.
 
 ## Kit updates
 
-The workflows call EduGame Kit's own (`game.yml` and `game-pages.yml`, at a kit release like `@v0.3.1`). When the kit
+The workflows call EduGame Kit's own (`game.yml` and `game-pages.yml`, at a kit release like `@v0.3.2`). When the kit
 has a new release, Dependabot opens a pull request here moving them on, and the checks run on it with the new kit:
 merge it when **Checks passed** passes, after reading the release's **What games need to do**. See the kit's
 `docs/UPDATING.md`.
@@ -137,8 +137,8 @@ shows scoreboards from it.
 ```
 node tests/check_lessons.js        lesson checks, no browser needed (this also runs in the workflow)
 python3 -m tests.e2e_browser       plays every lesson in every language in Chromium (needs EduGame Kit and Playwright)
-edugame kolibri-test .             plays lesson 1 in a throwaway real Kolibri (needs kolibri and Playwright, and a kit
-                                   that plays a game's first package: newer than 0.3.1)
+edugame kolibri-test .             plays every lesson in a throwaway real Kolibri (--packages 1: only lesson 1, as the
+                                   workflow does; needs kolibri and Playwright)
 ```
 
 ## Notes

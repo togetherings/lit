@@ -35,6 +35,15 @@ def edition(lesson, code):
                 return json.load(f)
 
 
+# The kit's test page sandboxes the game's frame as Kolibri does ("allow-scripts allow-same-origin"), and
+# Chromium warns about that pairing on every page. It's the page, not the game: every other warning still fails.
+SANDBOX_WARNING = "can escape its sandboxing"
+
+
+def problem(message):
+    return message.type == "error" or (message.type == "warning" and SANDBOX_WARNING not in message.text)
+
+
 def saved(page):
     store = page.evaluate("() => JSON.parse(localStorage.getItem('edugame-test-scorm:%s') || '{}')" % GAME.id)
     return store, json.loads(store.get("cmi.suspend_data") or "{}")
@@ -118,7 +127,7 @@ def main():
         browser = p.chromium.launch()
         context = browser.new_context(viewport={"width": 1100, "height": 900})
         context.on("page", lambda pg: (pg.on("pageerror", lambda e: errors.append(str(e))),
-                                       pg.on("console", lambda m: m.type in ("error", "warning") and errors.append(m.text))))
+                                       pg.on("console", lambda m: problem(m) and errors.append(m.text))))
         for pkg in GAME.packages():
             server = cli.make_preview_server(ROOT, 0, package=pkg["id"])
             threading.Thread(target=server.serve_forever, daemon=True).start()
