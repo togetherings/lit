@@ -17,9 +17,14 @@ and speed targets in `config.js` are both reached. Every page's text belongs to 
 
 ## Get the zips
 
-* **Releases** (right-hand side of the repository page): every version has one zip per lesson, in two forms:
-  `lit-lesson-01-0.23.0.zip` (every language: the learner chooses in *Options*, and gets Kolibri's language until they
-  do) and `lit-lesson-01-fr-0.23.0.zip` (a single language).
+* **Releases** (right-hand side of the repository page): every version has a few **bundles**, each a zip holding one
+  zip per lesson (unzip the bundle, then upload each lesson's zip to Kolibri Studio on its own):
+  * `lit-en-0.24.0.zip`, `lit-en-GB-0.24.0.zip`, `lit-fr-0.24.0.zip` ...: one language and keyboard, with every lesson
+    written in it (`lit-lesson-01-en-0.24.0.zip` ...);
+  * `lit-all-languages-0.24.0.zip`: each lesson with all its languages (`lit-lesson-01-0.24.0.zip` ...): the learner
+    chooses in *Options*, and gets Kolibri's language until they do.
+
+  Each bundle's `README.txt` lists its lessons. Every push's zips are also in the Build run's Artifacts (game-zips).
 * **Live site** (GitHub Pages): [togetherings.github.io/lit](https://togetherings.github.io/lit/) - every lesson with all
   its languages, to try or share a link. Nothing is reported to a coach there, and progress is kept in the browser only.
 * Or build them yourself with [EduGame Kit](https://github.com/togetherings/edugame-kit) (see below).
@@ -79,7 +84,7 @@ edugame pages . -o site                    the GitHub Pages site: a front page a
 
 1. Change `version` in `edugame.json` (for example `0.24.0`), add a line to `CHANGELOG.md`, and merge into `main`.
 2. Publish a release on GitHub's Releases page with the tag `v0.24.0` (it must equal `v` + the version). The workflow
-   builds every zip and attaches them to the release.
+   builds every zip and attaches the bundles to the release (one with every language, one for each language).
 
 ## GitHub Pages (the live site)
 
@@ -89,7 +94,7 @@ package, with its own Play button on the front page.
 
 ## Kit updates
 
-The workflows call EduGame Kit's own (`game.yml` and `game-pages.yml`, at a kit release like `@v0.3.2`). When the kit
+The workflows call EduGame Kit's own (`game.yml` and `game-pages.yml`, at a kit release like `@v0.3.3`). When the kit
 has a new release, Dependabot opens a pull request here moving them on, and the checks run on it with the new kit:
 merge it when **Checks passed** passes, after reading the release's **What games need to do**. See the kit's
 `docs/UPDATING.md`.
