@@ -23,7 +23,7 @@ permissions:
 jobs:
   kit:
     name: Kit
-    uses: togetherings/edugame-kit/.github/workflows/game.yml@v0.3.3
+    uses: togetherings/edugame-kit/.github/workflows/game.yml@v0.3.4
     with:
       # LIT's own check: a sentence using an untaught key, a key with no finger ... fails the build
       tests: node tests/check_lessons.js

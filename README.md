@@ -94,7 +94,7 @@ package, with its own Play button on the front page.
 
 ## Kit updates
 
-The workflows call EduGame Kit's own (`game.yml` and `game-pages.yml`, at a kit release like `@v0.3.3`). When the kit
+The workflows call EduGame Kit's own (`game.yml` and `game-pages.yml`, at a kit release like `@v0.3.4`). When the kit
 has a new release, Dependabot opens a pull request here moving them on, and the checks run on it with the new kit:
 merge it when **Checks passed** passes, after reading the release's **What games need to do**. See the kit's
 `docs/UPDATING.md`.
