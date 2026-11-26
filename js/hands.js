@@ -67,6 +67,7 @@ TT.hands = (function () {
   //   - SHIFT: the little finger presses it near its inner end, and the palm turns a little (SHIFT_TURN)
   //     and slides part of the way (FOLLOW) towards it; the other fingers stay on their home keys.
   //   - THE NUMBER ROW: the palm lifts (LIFT rows); the other fingers stay on their home keys.
+  //   - BACKSPACE: the palm also slides part of the way (FOLLOW) towards it, like Shift (without turning).
   //   - The right hand rests a little turned (RIGHT_POSE: wrist out, fingers pointing in), as real hands do,
   //     so its fingers curl towards the thumb on the bottom row, like the left hand's.
   // No outline: the pieces would show their joins. The hands are see-through as one shape (.hands-over).
@@ -76,6 +77,7 @@ TT.hands = (function () {
   //   home         finger id -> its home key's token: {lp: "a", lr: "s", ... rp: ";"}
   //   reach        finger id -> the token it reaches for: {lm: "e", rm: "i"} (others stay home)
   //   alt          text for screen readers
+  //   keep         true: leave the hands already drawn in the holder (each of a lesson's "reaches" is its own picture)
   // Each finger's <g> carries data-finger, data-key (the key it is on) and data-tip ("x,y" in the holder's pixels),
   // for the tests.
   var SHIFT_TURN = 12, FOLLOW = 0.4, LIFT = 0.6, RIGHT_POSE = { deg: 8, dx: -15 };
@@ -84,7 +86,7 @@ TT.hands = (function () {
   function onKeyboard(holder, opts) {
     var art = TT.handArt.rest, W = art.size[0], id = "th" + (++made);
     var old = holder.querySelector("svg.hands-real");
-    if (old) { old.parentNode.removeChild(old); }
+    if (old && !opts.keep) { old.parentNode.removeChild(old); }      // keep: another picture beside it (a lesson's reaches)
     var hb = holder.getBoundingClientRect();
     function centre(token, pressAt) {
       var el = opts.key(token);
@@ -124,20 +126,21 @@ TT.hands = (function () {
       ["p", "r", "m", "i"].forEach(function (f) {
         var fid = side + f, token = (opts.reach || {})[fid];
         if (!token) { return; }
-        var shift = /^Shift/.test(token);
+        var shift = /^Shift/.test(token), far = shift || token === "Backspace";   // the palm follows towards these
         var from = centre(opts.home[fid]), to = centre(token, shift ? (side === "l" ? "right" : "left") : null);
         if (!from || !to) { return; }
         var dx = (to[0] - from[0]) / scale, dy = (to[1] - from[1]) / scale;
         if (mirror) { dx = -dx; }
         reach[fid] = [dx, dy];
-        if (shift) { wantsShift = [dx, dy]; }
+        if (far) { wantsShift = [dx, dy, shift]; }
         if (dy < -75) { lift = true; }                    // more than a row and a half up: the number row
       });
       if (lift) { P[1] -= LIFT * 50; }
       if (wantsShift) {
         var d = Math.hypot(wantsShift[0], wantsShift[1]), past = Math.max(0, d - 60) * FOLLOW;
-        P[0] += wantsShift[0] / d * past; P[1] += wantsShift[1] / d * past;
-        turn = (wantsShift[0] < 0 ? -1 : 1) * SHIFT_TURN * Math.PI / 180;
+        P[0] += wantsShift[0] / d * past;
+        if (wantsShift[2]) { P[1] += wantsShift[1] / d * past; }       // Backspace: sideways only (the palm lifts too)
+        if (wantsShift[2]) { turn = (wantsShift[0] < 0 ? -1 : 1) * SHIFT_TURN * Math.PI / 180; }
       }
       if (side === "r") { turn += -RIGHT_POSE.deg * Math.PI / 180; P[0] -= RIGHT_POSE.dx; }
       var wrist = [art.fingers[1].pivot[0] + 25, art.fingers[1].pivot[1] + 210];   // below the middle of the palm

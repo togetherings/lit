@@ -21,7 +21,8 @@
       "names": { "en-01": "board.en_01", "fr-01": "board.fr_01", "es-01": "board.es_01",
                  "en-02": "board.en_02", "en-03": "board.en_03", "en-04": "board.en_04", "en-05": "board.en_05",
                  "en-06": "board.en_06", "en-07": "board.en_07", "en-08": "board.en_08",
-                 "en-09": "board.en_09", "en-10": "board.en_10", "en-11": "board.en_11", "en-12": "board.en_12" },
+                 "en-09": "board.en_09", "en-10": "board.en_10", "en-11": "board.en_11", "en-12": "board.en_12",
+                 "en-13": "board.en_13", "en-14": "board.en_14" },
       "total": { "label": "score.all_lessons", "count_label": "score.lessons_passed" }
     }
   },
@@ -73,7 +74,7 @@
       "description": "package.lesson_06_about",
       "languages": ["en", "en-GB"],
       "files": ["lessons/06/*"],
-      "config": { "lesson": "06", "settings": {} }
+      "config": { "lesson": "06", "settings": { "thresholds": { "accuracy": 90, "wpm": 10 } } }
     },
     {
       "id": "lesson-07",
@@ -81,7 +82,7 @@
       "description": "package.lesson_07_about",
       "languages": ["en", "en-GB"],
       "files": ["lessons/07/*"],
-      "config": { "lesson": "07", "settings": {} }
+      "config": { "lesson": "07", "settings": { "thresholds": { "accuracy": 90, "wpm": 10 } } }
     },
     {
       "id": "lesson-08",
@@ -89,7 +90,7 @@
       "description": "package.lesson_08_about",
       "languages": ["en", "en-GB"],
       "files": ["lessons/08/*"],
-      "config": { "lesson": "08", "settings": {} }
+      "config": { "lesson": "08", "settings": { "thresholds": { "accuracy": 90, "wpm": 10 } } }
     },
     {
       "id": "lesson-09",
@@ -97,7 +98,7 @@
       "description": "package.lesson_09_about",
       "languages": ["en", "en-GB"],
       "files": ["lessons/09/*"],
-      "config": { "lesson": "09", "settings": {} }
+      "config": { "lesson": "09", "settings": { "thresholds": { "accuracy": 90, "wpm": 12 } } }
     },
     {
       "id": "lesson-10",
@@ -105,7 +106,7 @@
       "description": "package.lesson_10_about",
       "languages": ["en", "en-GB"],
       "files": ["lessons/10/*"],
-      "config": { "lesson": "10", "settings": {} }
+      "config": { "lesson": "10", "settings": { "thresholds": { "accuracy": 90, "wpm": 12 } } }
     },
     {
       "id": "lesson-11",
@@ -113,7 +114,7 @@
       "description": "package.lesson_11_about",
       "languages": ["en", "en-GB"],
       "files": ["lessons/11/*"],
-      "config": { "lesson": "11", "settings": {} }
+      "config": { "lesson": "11", "settings": { "thresholds": { "accuracy": 90, "wpm": 12 } } }
     },
     {
       "id": "lesson-12",
@@ -121,7 +122,23 @@
       "description": "package.lesson_12_about",
       "languages": ["en", "en-GB"],
       "files": ["lessons/12/*"],
-      "config": { "lesson": "12", "settings": {} }
+      "config": { "lesson": "12", "settings": { "thresholds": { "accuracy": 90, "wpm": 12 } } }
+    },
+    {
+      "id": "lesson-13",
+      "title": "package.lesson_13",
+      "description": "package.lesson_13_about",
+      "languages": ["en", "en-GB"],
+      "files": ["lessons/13/*"],
+      "config": { "lesson": "13", "settings": { "thresholds": { "accuracy": 90, "wpm": 10 } } }
+    },
+    {
+      "id": "lesson-14",
+      "title": "package.lesson_14",
+      "description": "package.lesson_14_about",
+      "languages": ["en", "en-GB"],
+      "files": ["lessons/14/*"],
+      "config": { "lesson": "14", "settings": { "thresholds": { "accuracy": 100, "wpm": 8 } } }
     }
   ],
   "authors": ["Togetherings"],

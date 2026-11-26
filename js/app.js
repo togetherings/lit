@@ -26,10 +26,11 @@
 
   var session = null;         // the current typing attempt (from engine.js)
   var listNames = [];         // the name of the sentence list each sentence of the attempt came from
+  var listOf = [];            // ... and the list itself
   var keyMap = {};            // key name (a character, or Tab / Enter / ShiftL ...) -> its element on the keyboard
 
   // Pause between sentences: while "locked" the learner's typing is ignored.
-  var locked = false, lockStart = 0, lockTimer = null;
+  var locked = false, lockTimer = null;
   var clockTimer = null;      // refreshes the on-screen timer
 
   function setLanguage(joined) {
@@ -179,6 +180,7 @@
 
   var PAGES = ["touch", "keys", "practice", "results"];
   function showPage(name) {
+    if (name !== "touch") { stopFrames(); }
     PAGES.forEach(function (p) { el("page-" + p).hidden = (p !== name); });
     window.scrollTo(0, 0);
   }
@@ -387,8 +389,10 @@
     // The hands picture starts below the text and the image: the lesson's own keyboard (so every layout, ANSI or
     // ISO, comes out right), keys coloured by finger (config.js colorKeysOnPage1), with the hands over it.
     box.appendChild(introKeyboard(page));
+    if (introFrames) { box.appendChild(frameButtons()); }
     showPage("touch");
     drawIntroHands();
+    startFrames();
   }
 
   // The keyboard for Page 1. intro.keys says which keys show (the others keep their place, empty):
@@ -423,8 +427,47 @@
       if (group > level) { k.classList.add("off"); }
     });
     introHolder = holder; introKeys = keys; introReach = page.reach || null;
+    introFrames = Array.isArray(page.reaches) && page.reaches.length ? page.reaches : null;
+    frameShown = 0;
     return holder;
   }
+
+  // "reaches" (instead of "reach"): several pictures that take turns, each with its caption, e.g. the left Shift
+  // with a right-hand letter, then the right Shift with a left-hand letter. They fade from one to the next every few
+  // seconds; the captions under the keyboard are buttons that show one picture and stop the turns. With
+  // "reduce motion" set on the device, they only change when a caption is pressed. A picture with a Shift key in it
+  // shows the keyboard's letters as capitals.
+  var introFrames = null, frameShown = 0, frameTimer = null;
+  function frameButtons() {
+    var bar = make("div", "reach-frames");
+    introFrames.forEach(function (f, i) {
+      var b = rich("button", f.caption || "");
+      b.type = "button";
+      b.setAttribute("data-frame", i);
+      b.addEventListener("click", function () { stopFrames(); showFrame(i); });
+      bar.appendChild(b);
+    });
+    return bar;
+  }
+  function showFrame(i) {
+    frameShown = i;
+    if (!introHolder) { return; }
+    introHolder.querySelectorAll("svg.hands-real").forEach(function (svg, n) { svg.classList.toggle("shown", n === i); });
+    var reach = (introFrames[i] || {}).reach || {};
+    var shifted = Object.keys(reach).some(function (f) { return /^Shift/.test(reach[f]); });
+    var kb = introHolder.querySelector(".keyboard");
+    if (kb) { kb.classList.toggle("letters-up", shifted); }
+    document.querySelectorAll(".reach-frames button").forEach(function (b, n) {
+      b.setAttribute("aria-pressed", n === i ? "true" : "false");
+    });
+  }
+  function startFrames() {
+    stopFrames();
+    if (!introFrames || introFrames.length < 2) { return; }
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { return; }
+    frameTimer = setInterval(function () { showFrame((frameShown + 1) % introFrames.length); }, 3500);
+  }
+  function stopFrames() { clearInterval(frameTimer); frameTimer = null; }
 
   // Each finger's home key: the key in the home row (the row with the F and J bumps) that it presses, nearest
   // the index finger (so the left little finger's is A, not Caps Lock).
@@ -445,10 +488,17 @@
   function drawIntroHands() {
     if (!introHolder || !introHolder.isConnected || el("page-touch").hidden) { return; }
     introHolder.style.height = "";
-    TT.hands.onKeyboard(introHolder, {
-      key: function (token) { return introKeys[token]; },
-      home: homeKeys(), reach: introReach, alt: t("handsRestAlt")
-    });
+    var home = homeKeys(), key = function (token) { return introKeys[token]; };
+    if (introFrames) {
+      introHolder.querySelectorAll("svg.hands-real").forEach(function (svg) { svg.parentNode.removeChild(svg); });
+      introFrames.forEach(function (f) {
+        var svg = TT.hands.onKeyboard(introHolder, { key: key, home: home, reach: f.reach || null, alt: t("handsRestAlt"), keep: true });
+        if (svg) { svg.classList.add("reach-frame"); }
+      });
+      showFrame(frameShown);
+      return;
+    }
+    TT.hands.onKeyboard(introHolder, { key: key, home: home, reach: introReach, alt: t("handsRestAlt") });
   }
   window.addEventListener("resize", function () { clearTimeout(drawIntroHands.t); drawIntroHands.t = setTimeout(drawIntroHands, 100); });
   if (document.fonts && document.fonts.ready) { document.fonts.ready.then(function () { drawIntroHands(); }); }
@@ -565,7 +615,14 @@
 
     // A new random selection every attempt: all picks from list 1, then list 2, and so on
     var attempt = TT.buildAttempt(lesson.sentenceLists);
-    listNames = attempt.listNames;
+    listOf = attempt.lists;
+    // Several named lists: "Part 1 of 4: Left Shift ..." (the parts in the order they come)
+    var parts = [];
+    listOf.forEach(function (l) { if (parts.indexOf(l) < 0) { parts.push(l); } });
+    var named = parts.filter(function (l) { return l.name; }).length > 1;
+    listNames = listOf.map(function (l) {
+      return named && l.name ? t("listPart", { n: parts.indexOf(l) + 1, total: parts.length, name: l.name }) : (l.name || "");
+    });
     var kb = el("practiceKeyboard");
     kb.hidden = !cfg.showKeyboard;
     keyMap = buildKeyboard(kb);
@@ -600,11 +657,11 @@
     resetDead();
   }
 
-  // The timer counts typing time only. It starts at the first key, freezes during the
-  // pause between sentences, and stops after the last key (the same time WPM uses).
+  // The timer counts typing time only. It starts at the first key, stops when a sentence ends and starts again
+  // at the next sentence's first key, and stops after the last key (the same time WPM uses: engine.js).
   function updateClock() {
     if (!session) { return; }
-    el("timer").textContent = clock(session.elapsedMs(locked ? lockStart : Date.now()));
+    el("timer").textContent = clock(session.elapsedMs(Date.now()));
   }
 
   // Redraws a sentence: green = correct, red = wrong, yellow = next.
@@ -614,7 +671,8 @@
     var isCurrent = (showing === session.sentenceIndex && !session.finished);
     var text = el("sentence");
     clear(text);
-    var sentence = session.sentences[showing];
+    // With planned changes (the Backspace lesson) only the sentence up to the next word to change shows
+    var sentence = session.target(showing);
     // What was typed, lined up with the sentence (align.js). Each kind of mistake has its own look, not colour
     // alone: wrong = red, with a badge showing the key typed; missed = a dashed, crossed-out box; swapped = orange,
     // with a two-way arrow; extra = a small red tab between two letters, showing the key typed.
@@ -624,10 +682,23 @@
       (al.extras[i] || []).forEach(function (c) {
         var x = make("span", "extra", keyShown(c));
         x.title = t("extraKeyTitle");
-        text.appendChild(x);
+        holder.appendChild(x);
       });
     }
+    var note = isCurrent ? noteFor(al) : null, holder = text, wrap = null;
+    var deleting = isCurrent && session.currentStage().kind === "delete";    // the letters already deleted don't show
+    text.className = note ? "with-note" : "";
     for (var i = 0; i < sentence.length; i++) {
+      if (deleting && i >= al.at) { break; }
+      if (note && i === note.from) {
+        wrap = make("span", "tn-wrap");
+        var bubble = rich("span", note.text);
+        bubble.className = "type-note";
+        wrap.appendChild(bubble);
+        text.appendChild(wrap);
+        holder = wrap;
+      }
+      if (note && i === note.to) { holder = text; }
       extras(i);
       var cls = "ch", mark = i < al.at ? al.marks[i] : null, typedKey = null;
       if (mark && mark.ok) { cls += " ok"; }
@@ -637,11 +708,16 @@
       else if (isCurrent && i === al.at) { cls += " cur"; }
       if (sentence.charAt(i) === " ") { cls += " sp"; }
       if (specialByChar[sentence.charAt(i)]) { cls += " sym"; }         // the Tab / Enter symbols
+      if (note && note.change && i >= note.change[0] && i < note.change[1]) { cls += " change"; }   // letters to delete
       var span = make("span", cls, sentence.charAt(i) === " " ? "\u00a0" : sentence.charAt(i));
       if (typedKey !== null) { span.appendChild(make("span", "typed", typedKey)); }
-      text.appendChild(span);
+      holder.appendChild(span);
     }
+    holder = text;
     extras(sentence.length);
+    if (isCurrent && session.wantsBackspace() && (deleting || al.at >= sentence.length)) { holder.appendChild(make("span", "ch cur", "\u00a0")); }
+    // For the tests: the key expected next (a character, or "Backspace")
+    text.setAttribute("data-next", !isCurrent ? "" : (session.wantsBackspace() ? "Backspace" : session.expectedChar()));
 
     el("progressText").textContent = t("sentenceOf", { n: showing + 1, total: session.sentences.length });
 
@@ -650,14 +726,48 @@
     el("listName").textContent = name;
     el("listName").hidden = !name;
 
+    // Caps Lock on: a warning, or (in a list of words in capitals) a reminder to turn it off after the word
+    var list = listOf[showing] || {};
+    el("capsWarning").textContent = t(list.caps ? "capsWordsHint" : "capsWarning");
+
     // Highlight the next key(s) on the on-screen keyboard (not during the pause)
     Object.keys(keyMap).forEach(function (t) { keyMap[t].className = keyMap[t].className.replace(" next", ""); });
     if (cfg.showNextKeyHint && isCurrent) {
-      var waiting = session.pos >= sentence.length;                       // "fix every mistake" mode: Backspace is next
+      var waiting = session.wantsBackspace();                             // a planned change, or a mistake to fix
       (waiting ? ["Backspace"] : hintKeys(session.expectedChar())).forEach(function (t) {
         if (keyMap[t]) { keyMap[t].className += " next"; }
       });
     }
+  }
+
+  // The note above the typing: what to do next with a planned change (the Backspace lesson), or how to fix a mistake
+  // in "fix every mistake" mode. {from, to}: the letters it stands over; change: [from, to] of the letters to delete;
+  // text: the words (with **bold** and [Backspace] drawn as a key).
+  function noteFor(al) {
+    var k = session.sentenceIndex, typed = session.typed[k], target = session.target(k), st = session.currentStage();
+    var plan = session.plans[k], stages = plan.stages, at = session.stage[k];
+    if (session.requireCorrect && al.mistakes > 0 && st.kind === "type") {
+      var bad = 0;
+      while (bad < al.at && al.marks[bad] && al.marks[bad].ok) { bad++; }
+      bad = Math.min(bad, target.length - 1);
+      return { from: bad, to: bad + 1, text: t("noteFix") };
+    }
+    if (!plan.changes.length) { return null; }
+    if (st.kind === "delete") {
+      var c = st.change, left = typed.length - st.target.length;
+      return { from: c.at, to: c.at + c.from.length, change: [c.at + c.keep, c.at + c.from.length],
+               text: t(typed === st.shown ? "notePress" : "noteMore", { n: left }) };
+    }
+    var done = at > 0 ? stages[at - 1].change : null;      // the change just made: type the rest of the new word
+    if (done && session.pos < done.at + done.to.length) {
+      var rest = target.slice(Math.max(session.pos, done.at + done.keep), done.at + done.to.length);
+      if (rest) { return { from: done.at, to: done.at + done.to.length, text: t("noteType", { word: rest }) }; }
+    }
+    if (st.change) {
+      var w = st.change;
+      return { from: w.at, to: w.at + w.from.length, text: t("noteChange", { from: w.from, to: w.to }) };
+    }
+    return null;
   }
 
   // A plain character from the keyboard (not already combined by the system): dead keys are handled here.
@@ -697,13 +807,10 @@
     var ms = Math.max(0, (+cfg.sentenceDelaySeconds || 0) * 1000);
     if (ms === 0) { continueAfterPause(); return; }
     locked = true;
-    lockStart = Date.now();
     render(finishedIndex);
     lockTimer = setTimeout(function () {
       locked = false;
-      // pauses between sentences do not count as typing time (the final one is already outside the timing)
-      if (!session.finished) { session.addPause(Date.now() - lockStart); }
-      continueAfterPause();
+      continueAfterPause();               // (the clock is stopped until the next sentence's first key: engine.js)
     }, ms);
   }
 

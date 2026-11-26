@@ -110,6 +110,18 @@ button:focus-visible { outline: 4px solid var(--bad); outline-offset: 2px; }
          color: #fff; background: var(--bad); border-radius: 3px; text-align: center; padding: .1em 0; }
 #resultsBody .mistakes, #resultsBody .practise { margin-top: .4em; }
 .ch.cur { background: var(--sun); color: var(--on-color); border-bottom-color: var(--ink); }
+/* The note above the typing: a planned change to make (the Backspace lesson), or how to fix a mistake */
+#sentence.with-note { padding-top: 1.6em; }
+.tn-wrap { position: relative; display: inline; white-space: nowrap; }
+.type-note { position: absolute; bottom: 85%; left: 0; z-index: 2; white-space: nowrap; font-family: "Trebuchet MS", Verdana, sans-serif;
+        font-size: .5em; line-height: 1.35; color: var(--ink); background: var(--notice-bg); border: 2px solid #8a5200;
+        border-radius: 8px; padding: .15em .5em; }
+.type-note::after { content: ""; position: absolute; top: 100%; left: .8em; border: .45em solid transparent; border-top-color: #8a5200; }
+.type-note .keycap { font-size: .95em; padding: 0 .3em; }
+.ch.change { outline: 2px dashed #8a5200; outline-offset: -3px; }          /* letters to delete */
+:root[data-theme="dark"] .type-note, :root[data-theme="dark"] .type-note::after { border-color: #e0a85a; }
+:root[data-theme="dark"] .type-note::after { border-color: transparent; border-top-color: #e0a85a; }
+:root[data-theme="dark"] .ch.change { outline-color: #e0a85a; }
 /* Always occupies its line; only its visibility changes, so buttons below never jump. */
 #focusHint { color: var(--bad); font-weight: bold; margin: .4rem 0; min-height: 1.5em; visibility: hidden; }
 #focusHint.show { visibility: visible; }
@@ -188,6 +200,13 @@ button:focus-visible { outline: 4px solid var(--bad); outline-offset: 2px; }
 .intro-keyboard .key.off { visibility: hidden; }
 .hands-real { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
 .hands-real path, .hands-real circle { fill: var(--skin); stroke: none; }
+/* A lesson's "reaches": pictures that take turns (fading), with their captions as buttons under the keyboard */
+.hands-real.reach-frame { opacity: 0; transition: opacity .6s; }
+.hands-real.reach-frame.shown { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .hands-real.reach-frame { transition: none; } }
+.reach-frames { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: .6rem 0 0; }
+.reach-frames button { font-weight: normal; padding: .35rem .8rem; }
+.reach-frames button[aria-pressed="true"] { background: var(--sun); color: var(--on-color); }
 .hands-over { opacity: var(--hand-opacity); pointer-events: none; filter: var(--hand-glow); }   /* the mouse "sees" the keys under the hands */
 .hands-open { filter: var(--hand-glow); }
 .bump { fill: var(--svg-key-stroke); }

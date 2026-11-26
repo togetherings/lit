@@ -44,6 +44,10 @@
   "package.lesson_11_about": "The left hand's bottom row: every letter of the alphabet.",
   "package.lesson_12": "LIT 12: Comma and period",
   "package.lesson_12_about": "Right middle and ring fingers down to the comma and the period.",
+  "package.lesson_13": "LIT 13: Shift and Caps Lock",
+  "package.lesson_13_about": "Capital letters: the Shift key on the other side from the letter, and Caps Lock for whole words.",
+  "package.lesson_14": "LIT 14: Backspace",
+  "package.lesson_14_about": "Fixing mistakes: change a letter, change a word, and fix every mistake.",
   "board.en_01": "Lesson 1 (English)",
   "board.en_02": "Lesson 2 (English)",
   "board.en_03": "Lesson 3 (English)",
@@ -56,6 +60,8 @@
   "board.en_10": "Lesson 10 (English)",
   "board.en_11": "Lesson 11 (English)",
   "board.en_12": "Lesson 12 (English)",
+  "board.en_13": "Lesson 13 (English)",
+  "board.en_14": "Lesson 14 (English)",
   "board.fr_01": "Lesson 1 (French)",
   "board.es_01": "Lesson 1 (Spanish)",
   "next": "Next",
@@ -112,5 +118,18 @@
   "menuNext": "Next",
   "menuMore": "More lessons are ready in: {names}. Choose a language in Options.",
   "nextLesson": "Next lesson",
-  "menuDownload": "Download LIT to use offline or in Kolibri, Moodle or RACHEL"
+  "menuDownload": "Download LIT to use offline or in Kolibri, Moodle or RACHEL",
+  "listPart": "Part {n} of {total}: {name}",
+  "noteChange": "Type **{from}**, then change it to **{to}**",
+  "notePress": {
+    "one": "Press [Backspace] once",
+    "other": "Press [Backspace] {n} times"
+  },
+  "noteMore": {
+    "one": "[Backspace] 1 more",
+    "other": "[Backspace] {n} more"
+  },
+  "noteType": "Now type **{word}**",
+  "noteFix": "Press [Backspace] to fix it",
+  "capsWordsHint": "Caps Lock is on: turn it off after the word"
 }

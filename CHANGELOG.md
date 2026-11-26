@@ -25,6 +25,20 @@ with EduGame Kit.
 - **Lessons 9-12 in English** (en and en-GB), from the lesson plan, with an intro picture of each reach down to the
   bottom row: V and M, B and N, C X and Z (the whole alphabet), and the comma and period (a full stop in the UK
   lesson's title). Sentences use names common in Sierra Leone from lesson 9 on, and end with a period in lesson 12.
+- **Lesson 13: Shift and Caps Lock** (en and en-GB), in four parts of 2 sentences each, named above the typing ("Part 1
+  of 4: ..."): Left Shift (capitals on the right side), Right Shift (capitals on the left side), both Shift keys, and
+  Caps Lock (words in capitals, typed with Caps Lock or Shift). Page 1 shows two pictures that take turns: the left
+  Shift with a capital I, then the right Shift with a capital E (an intro's new `reaches`); their captions are buttons.
+- **Lesson 14: Backspace** (en and en-GB), with 100% accuracy needed: fix a letter (a real word typed first, then one
+  letter changed at the end of a word and one at the start or in the middle), change a whole word, and fix your own
+  mistakes. Sentences mark planned changes as `{typed>fixed}`; the typing box shows the sentence only up to the next
+  change, with a note above it saying what to do ("Type sad, then change it to sat", "Press Backspace once", "Now type
+  t"). In "fix every mistake" mode, a mistake's note says to press Backspace. The hands reach for Backspace.
+- **The timer stops between sentences**: from a sentence's last key until the next sentence's first key (it used to
+  stop only for the half-second pause). Speed is measured the same way. This is for every lesson.
+- **Speed to pass rises through the lessons**: 8 words a minute for lessons 1-5, 10 for 6-8, 12 for 9-12, 10 for
+  lesson 13 (a new kind of reach), and 8 for lesson 14 (with 100% accuracy). Accuracy stays at 90% (edugame.json, each
+  package's settings).
 - EduGame Kit 0.3.5.
 
 ## 0.24.0

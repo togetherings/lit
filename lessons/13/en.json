@@ -1,0 +1,187 @@
+{
+  "_notes": {
+    "about": "Lesson 13 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter.",
+    "reaches": "Instead of \"reach\": several pictures that take turns (fading every few seconds), each {\"reach\": {...}, \"caption\": \"...\"} (captions show under the keyboard as buttons). A picture with a Shift key in it shows the letters as capitals.",
+    "caps": "In a sentence list, \"caps\": true: words in capitals, typed with Caps Lock or Shift (the Caps Lock notice then reminds the learner to turn it off after the word)."
+  },
+  "id": "en-13",
+  "title": "Lesson 13: Shift and Caps Lock",
+  "intro": {
+    "title": "Capital letters: Shift and Caps Lock",
+    "paragraphs": [
+      "To type a capital letter, hold a **Shift** key with one little finger and press the letter with the other hand. Then let go of both.",
+      "Use the Shift key on the other side from the letter: for a letter typed by your right hand, like [I], hold the left Shift; for a letter typed by your left hand, like [E], hold the right Shift.",
+      "**Caps Lock** ([Caps]) makes every letter a capital until you press it again. It's handy for a whole word in capitals, but remember to turn it off afterwards."
+    ],
+    "keys": "shift",
+    "reaches": [
+      {
+        "reach": {
+          "lp": "ShiftL",
+          "rm": "i"
+        },
+        "caption": "Capital **I**: left Shift and your right middle finger"
+      },
+      {
+        "reach": {
+          "rp": "ShiftR",
+          "lm": "e"
+        },
+        "caption": "Capital **E**: right Shift and your left middle finger"
+      }
+    ]
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "w",
+    "o",
+    "t",
+    "y",
+    "q",
+    "p",
+    "v",
+    "m",
+    "b",
+    "n",
+    "c",
+    "x",
+    "z",
+    ",",
+    ".",
+    "space"
+  ],
+  "newKeys": [
+    "ShiftL",
+    "ShiftR",
+    "Caps"
+  ],
+  "advice": [
+    "Hold the left [ShiftL] with your left little finger, press a letter on the right side with your right hand, then let go of both.",
+    "Hold the right [ShiftR] with your right little finger for a letter on the left side of the keyboard.",
+    "Press [Caps] once with your left little finger to type a whole word in capitals, and press it again to turn it off. (Shift works for these words too.)",
+    "Keep your other fingers on the home row while a little finger holds Shift."
+  ],
+  "sentenceLists": [
+    {
+      "name": "Left Shift (capitals on the right side)",
+      "count": 2,
+      "sentences": [
+        "Mohamed and Hawa rode to Makeni.",
+        "Kadiatu and Ibrahim visited Kenema.",
+        "Mariama met Isatu in Kabala.",
+        "Hassan hiked to Koidu with Musa.",
+        "Lansana and Jeneba live in Lungi.",
+        "Umaru sold fish in Monrovia.",
+        "Nenneh and Yabom went to Kono.",
+        "Ishmael drove a truck to Lagos.",
+        "Memunatu and Idrissa left Moyamba.",
+        "Haja Kamara lives near Pujehun.",
+        "Yusuf and Mamie sailed to Mali.",
+        "Koroma and Hawa work in Kailahun.",
+        "Mabinty hopes to visit Nigeria.",
+        "Isha and Jeneba shop in Magburaka.",
+        "Hawa and Kadiatu hiked to Niger.",
+        "Mohamed is a pilot in Hastings.",
+        "Ibrahim and Mamie hiked to Njala.",
+        "Musa and Idrissa lost a goat in Lunsar.",
+        "Mariama and Umaru ride to Yele.",
+        "Jeneba and Ishmael drove to Koinadugu."
+      ]
+    },
+    {
+      "name": "Right Shift (capitals on the left side)",
+      "count": 2,
+      "sentences": [
+        "Sia sailed to Freetown at dawn.",
+        "Foday and Bintu rode to Bo.",
+        "Fatmata sent Zainab a tasty bread.",
+        "Dauda gave Sahr a bag in Tombo.",
+        "Abdul drove to Bumbuna with Brima.",
+        "Tejan and Zainab sat in Zimmi.",
+        "Saidu fed Bashiru at the Bo farm.",
+        "Rugiatu saw a zebra in Bafata.",
+        "Aminata and Alimamy went to Dakar.",
+        "Fatima was born near Gbarnga.",
+        "Fatu bought bread at the Bo market.",
+        "Sorie and Dauda crossed to Banjul.",
+        "Cecilia rested at the Cape Coast.",
+        "Edward traded gold in Takoradi.",
+        "Binta and Saffa left Waterloo at dusk.",
+        "Alusine and Sia ate rice in Segbwema.",
+        "Brima fixed a boat at Bonthe.",
+        "Ansu and Rebecca visited Bissau.",
+        "Gibril drove from Ghana to Togo.",
+        "Bangura read a book in Freetown."
+      ]
+    },
+    {
+      "name": "Both Shift keys",
+      "count": 2,
+      "sentences": [
+        "Sia, Mohamed, and Foday ate in Bo.",
+        "Fatmata and Hawa went to Freetown.",
+        "Brima, Kadiatu, and Zainab sat in Kono.",
+        "Sorie met Isatu in Makeni, then Bo.",
+        "Abdul and Mariama drove to Bonthe.",
+        "Dauda, Hassan, and Sia live in Lungi.",
+        "Tejan flew from Lagos to Accra.",
+        "Rugiatu and Umaru sold rice in Kabala.",
+        "Ibrahim and Gibril went to Kenema.",
+        "Fatu, Yabom, and Binta sailed to Dakar.",
+        "Alimamy rode from Bo to Pujehun.",
+        "Zainab and Nenneh ate in Moyamba.",
+        "Sahr, Yusuf, and Foday fished in Kono.",
+        "Kadiatu, Binta, and Hawa shop in Bo.",
+        "Gibril and Mohamed live near Waterloo.",
+        "Cecilia visited Ghana, Togo, and Mali.",
+        "Aminata, Brima, and Umaru left Segbwema.",
+        "Isha and Saffa met Ernest in Banjul.",
+        "Musa, Rebecca, and Ansu drove to Yele.",
+        "Jeneba, Dauda, and Fatima hiked to Bo."
+      ]
+    },
+    {
+      "name": "Caps Lock (words in capitals)",
+      "count": 2,
+      "sentences": [
+        "Mariama passed her BECE and WASSCE exams.",
+        "The sign on the gate says STOP and WAIT.",
+        "Musa watched the news on TV and listened to the BBC.",
+        "Please do NOT touch the WET paint.",
+        "Hawa works for an NGO in Freetown; it helps the UN.",
+        "Sierra Leone is a member of ECOWAS and the AU.",
+        "Foday was VERY, VERY happy with his marks.",
+        "Kadiatu got cash from the ATM with her ID card.",
+        "The doctor said to rest NOW, not LATER.",
+        "Ibrahim sent an SMS to say he was SAFE.",
+        "Our school radio is on FM; it plays music ALL day.",
+        "Jeneba saved the PDF on her USB stick.",
+        "The WHO says to wash your hands OFTEN.",
+        "Sahr shouted HELP when the goat ran LOOSE.",
+        "NEVER EVER leave a cooking fire alone.",
+        "Isatu flew from the USA to the UK.",
+        "The big sale is TODAY ONLY at the market.",
+        "Brima read the RULES, then signed the FORM.",
+        "Mohamed asked the IT team to fix the PC.",
+        "This water is CLEAN and SAFE to drink."
+      ],
+      "caps": true
+    }
+  ]
+}
