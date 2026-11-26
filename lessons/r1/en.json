@@ -1,0 +1,120 @@
+{
+  "_notes": {
+    "about": "Review 1, after lesson 4: no new keys. It mixes what lessons 1 to 4 taught, with the keyboard hidden while typing (edugame.json, the package's settings).",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter.",
+    "review": "true: no new keys are taught. newKeys lists the keys reviewed (Page 2's heading says so), and practise names the lesson that teaches each key (the results page sends learners there)."
+  },
+  "id": "en-r1",
+  "title": "Review 1: Home row and first reaches",
+  "review": true,
+  "intro": {
+    "title": "Review 1: Home row and first reaches",
+    "paragraphs": [
+      "This review mixes everything from lessons 1 to 4: the home row, and the reaches up to [E], [I], [R] and [U].",
+      "**The keyboard isn't shown while you type**, so keep your eyes on the screen and let your fingers find the keys. Go back to a lesson whenever you need to."
+    ],
+    "picture": "none"
+  },
+  "knownKeys": [
+    "space"
+  ],
+  "newKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u"
+  ],
+  "advice": [
+    "These are the keys from lessons 1 to 4. Rest your fingers on the home row, with your index fingers on the bumps on [F] and [J].",
+    "Reach up for [E], [I], [R] and [U], then come straight back to the home row.",
+    "If a key keeps going wrong, the results page says which lesson to practise again."
+  ],
+  "practise": {
+    "a": "01",
+    "s": "01",
+    "d": "01",
+    "f": "01",
+    "j": "02",
+    "k": "02",
+    "l": "02",
+    ";": "02",
+    "e": "03",
+    "i": "03",
+    "r": "04",
+    "u": "04"
+  },
+  "sentenceLists": [
+    {
+      "name": "Home row",
+      "count": 3,
+      "sentences": [
+        "a sad lad asks dad;",
+        "dad adds a salad;",
+        "all lads ask dad;",
+        "a lass falls; alas;",
+        "jada asks a lad;",
+        "alf adds salads;",
+        "a fall; a flask; a salad;",
+        "dad asks all lads;",
+        "lads add salads as dad asks;",
+        "a lass asks alf;",
+        "jada falls as alf asks;",
+        "all salads fall;",
+        "a lad adds a flask;",
+        "sad dads ask a lass;",
+        "alf asks a sad lass;",
+        "jada adds a flask;",
+        "a lad falls as dad asks;",
+        "alas; all flasks fall;",
+        "lads ask jada; jada asks alf;",
+        "a dad asks a lad as a lass adds salads;"
+      ]
+    },
+    {
+      "name": "E, I, R and U",
+      "count": 5,
+      "sentences": [
+        "a kid rides a red sled;",
+        "dad reads as kids sail;",
+        "jade likes red jars;",
+        "a seller sells red jars;",
+        "kids slide as dad reads;",
+        "a seal slides as kids ride;",
+        "file all ideas;",
+        "a rural lake is dark;",
+        "fuel is sure a risk;",
+        "jade fills a jar as dad reads;",
+        "i like a fair deal;",
+        "sure; kids are as skilled as dad;",
+        "a ruler is useful;",
+        "sail as far as sea is free;",
+        "fake rules fail;",
+        "a deer feeds as kids rise;",
+        "users seek a safe file;",
+        "kids like rides;",
+        "dear sir; i read all files;",
+        "rida likes a full jar;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

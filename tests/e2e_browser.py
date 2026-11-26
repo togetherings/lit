@@ -236,6 +236,11 @@ def check(browser, base, package, lesson, shots):
         store, record = saved(page)
         assert store["cmi.core.lesson_status"] == "passed" and "cmi.core.score.raw" not in store, store
         slipped = code == languages(package)[0] and not stepwise   # two slips in the first sentence: 2 mistakes in all
+        if ed.get("review"):
+            # a review hides the keyboard while typing, and names the lesson to practise each key that went wrong
+            assert game.locator("#practiceKeyboard").is_hidden()
+            if slipped:
+                assert "(lesson " in game.locator("#resultsBody .practise").inner_text(), package
         assert record[ed["id"]][2] == 1, record                                   # [accuracy, speed, plays]
         assert (90 <= record[ed["id"]][0] < 100) if slipped else record[ed["id"]][0] == 100, record
         if shots and code == languages(package)[0]:

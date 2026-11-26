@@ -21,7 +21,7 @@ and everything typed after it still counts. Accuracy is (letters - mistakes) / l
 right (5 to a word) per minute of typing: the clock stops from the end of a sentence until the next sentence's first
 key. The lesson is *passed* when the accuracy and speed targets are both reached: 90% and 8 words a minute in
 `config.js`, with faster targets in later lessons (each package's settings in `edugame.json`: 10 for lessons 6-8, 12
-for 9-12, 10 for 13; lesson 14 needs 100% accuracy). Every page's text belongs to the lesson, in each language.
+for 9-12, 10 for 13; lesson 14 needs 100% accuracy; reviews 1-3: 10, 12, 15). Every page's text belongs to the lesson, in each language.
 
 ## Get the zips
 
@@ -148,6 +148,11 @@ merge it when **Checks passed** passes, after reading the release's **What games
      `[Tab]`, `[Enter]`, `[ShiftL]`, `[Backspace]` ...
    - Sentence lists can have a `name` (shown above the typing; with several named lists, as "Part 1 of 4: ...") and
      `"caps": true` for words in capitals (the Caps Lock notice then says to turn it off after the word).
+   - A **review** (`lessons/r1` ..., package `review-1` with `config.review`) teaches no new keys: `"review": true` in
+     the edition, `newKeys` lists the keys it reviews (Page 2 says "Keys in this review"), and `practise` names the
+     lesson that teaches each key, so the results page can say "D (lesson 1)", linked to it on the website. Its
+     package's settings hide the keyboard (`"showKeyboard": false`) and set a faster pass mark. On the menu, a
+     review takes a whole row under the lessons it covers.
    - `{typed>fixed}` in a sentence is a planned change, for the Backspace lesson (14): the learner types the first
      word, deletes back to what the two words share, and types the rest. Only the sentence up to the next change
      shows, with a note above it saying what to do. With `"allowBackspace": true` in the lesson and an accuracy pass

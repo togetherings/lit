@@ -251,6 +251,8 @@ kbd.keycap { display: inline-block; min-width: 1.6em; padding: 0 .35em; border: 
 .lessons { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: .6rem; }
 @media (min-width: 46rem) { .lessons { grid-template-columns: 1fr 1fr; } }   /* two columns on wide screens */
 .lessons li { margin: 0; }
+.lessons li.review { grid-column: 1 / -1; }   /* a review: the whole row, under the lessons it covers */
+.lesson.review:not(.next) { border-style: dashed; }
 button.lesson { width: 100%; height: 100%; display: flex; align-items: center; gap: .8rem; text-align: left; border-radius: 999px;
                 padding: .5rem 1.3rem .5rem .5rem; font-weight: normal; min-height: 4.2rem; }
 .lesson .num { flex: none; width: 2.9rem; height: 2.9rem; border-radius: 50%; border: 3px solid var(--ink); display: flex;

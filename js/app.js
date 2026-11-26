@@ -518,7 +518,7 @@
     }
 
     // 1. The lesson's advice text
-    box.appendChild(make("h3", null, t("newKeysHeading")));
+    box.appendChild(make("h3", null, t(lesson.review ? "reviewKeysHeading" : "newKeysHeading")));
     lesson.advice.forEach(function (p) { box.appendChild(rich("p", p)); });
 
     // 2. The keyboard, straight under the text, with this lesson's keys highlighted
@@ -829,7 +829,10 @@
     clear(box);
     // Text on the left; the picture (a different one for success and failure) centred in the space to its right
     var layout = make("div", "result-layout"), text = make("div", "result-text");
-    text.appendChild(make("h2", passed ? "pass" : "notyet", passed ? t("resultsPassed") : t("resultsNotYet")));
+    text.appendChild(make("h2", passed ? "pass" : "notyet", passed ? t(lesson.review ? "reviewPassed" : "resultsPassed") : t("resultsNotYet")));
+    var back = lesson.review ? "reviewKeysAgain" : "reviewKeys";      // a review has no new keys
+    el("resultsBack").setAttribute("data-t", back);
+    el("resultsBack").textContent = t(back);
     text.appendChild(make("p", st.accuracy >= need.accuracy ? "met" : "unmet",
       t("accuracyLine", { acc: st.accuracy, needAcc: need.accuracy })));
     text.appendChild(make("p", st.wpm >= need.wpm ? "met" : "unmet",
@@ -842,9 +845,20 @@
     var practise = Object.keys(st.wrongKeys).sort(function (x, y) { return st.wrongKeys[y] - st.wrongKeys[x]; }).slice(0, 3);
     if (practise.length) {
       var line = make("p", "practise", t("keysToPractise") + " ");
+      // In a review, each key with the lesson that teaches it (lesson.practise), linked to it on the website
+      var site = EduGame.site && EduGame.site(), teaches = lesson.practise || {};
       practise.forEach(function (k, n) {
         if (n) { line.appendChild(document.createTextNode(" ")); }
         line.appendChild(make("kbd", "keycap", keyLabel(k)));
+        var from = teaches[k] || teaches[k.toLowerCase()];
+        if (!from) { return; }
+        var label = t("practiseLesson", { n: parseInt(from, 10) });
+        var to = site && site.packages.filter(function (p) { return p.config && p.config.lesson === from; })[0];
+        var link = to ? make("a", null, label) : make("span", null, label);
+        if (to) { link.href = to.url; link.addEventListener("click", function (e) { e.preventDefault(); EduGame.goTo(to.url); }); }
+        line.appendChild(document.createTextNode(" ("));
+        line.appendChild(link);
+        line.appendChild(document.createTextNode(")"));
       });
       text.appendChild(line);
     }
