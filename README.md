@@ -105,9 +105,15 @@ merge it when **Checks passed** passes, after reading the release's **What games
 2. In each edition change `id` (`en-02` ... the lesson's scoreboard and the learner's best result are kept under it:
    never change it later), `title`, `intro` (or leave it out to start at the new keys), `knownKeys` (keys taught
    in earlier lessons), `newKeys`, `advice` and the practice sentences.
-   - `intro`: `title`, `paragraphs`, and `picture`: `"hands"` (the default: config.js's side picture and the hands
-     resting on the home row), `"none"`, or a picture file in `images/` (with `pictureAlt`, saying what it shows).
-     Lessons written before it was called `intro` call it `touchTyping`, which still works.
+   - `intro`: `title`, `paragraphs`, and `picture`: `"hands"` (the default: config.js's side picture, and the hands
+     over the lesson's own keyboard), `"none"`, or a picture file in `images/` (with `pictureAlt`, saying what it
+     shows). Lessons written before it was called `intro` call it `touchTyping`, which still works.
+   - With `"hands"`: `reach` sends fingers to the keys the lesson teaches, like `{"lm": "e", "rm": "i"}` (finger ids:
+     `lp lr lm li` left little, ring, middle, index; `rp rr rm ri` right). Other fingers rest on their home keys.
+     Keys are named as on the keyboard: `"e"`, `";"`, `"ShiftL"`, `"ShiftR"`. The picture works out the rest: a
+     finger stretches up, curls down to the bottom row, the palm lifts for the number row, and turns towards a Shift
+     key. `keys` says which keys show: `"letters"` (with `;` `,` `.` and the space bar; the default), `"shift"` (and
+     Shift, Caps Lock, and the key beside a short Shift), `"symbols"` (and numbers and punctuation), or `"all"`.
    - In `intro` and `advice` paragraphs, `**bold**` is bold and `[E]` draws a key as a key: `[;]`, `[space]`,
      `[Tab]`, `[Enter]`, `[ShiftL]` ...
    - A lesson written only in some languages lists them in its package: `"languages": ["en", "en-GB"]`. Only
@@ -164,6 +170,10 @@ edugame kolibri-test .             plays every lesson in a throwaway real Kolibr
 
 * Hands: `art/left-hand-rest.svg` (Page 1) and `art/left-hand-open.svg` (Page 2) are the source drawings. After
   changing them run `python3 tools/import_hands.py` (needs numpy, scipy, opencv-python) to rebuild `js/hand-art.js`.
+  It also cuts the resting hand into a palm and four fingers, each turning at a knuckle just above the dips between
+  the fingers, so Page 1's fingers can reach for keys (`js/hands.js`, `onKeyboard`: no outline, so the joins
+  never show; the right hand rests turned 8 degrees, as real hands do, so its fingers curl the same way as the
+  left hand's).
 * The picture beside the text (`images/lion-placeholder.png`) is a placeholder; the file names are set in `config.js` (`images`).
 * The AltGr layers of the UK and Latin American keyboards are not yet checked against the manufacturers' charts.
 

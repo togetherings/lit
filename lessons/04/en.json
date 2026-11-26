@@ -1,0 +1,91 @@
+{
+  "_notes": {
+    "about": "Lesson 4 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-04",
+  "title": "Lesson 4: R and U",
+  "intro": {
+    "title": "Index fingers up to R and U",
+    "paragraphs": [
+      "Your index fingers reach up now: the left one from [F] to [R], and the right one from [J] to [U].",
+      "Like [E] and [I], each is one row up and a little to the left. Reach, press, and come straight back to the bumps on [F] and [J]."
+    ],
+    "reach": {
+      "li": "r",
+      "ri": "u"
+    }
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "space"
+  ],
+  "newKeys": [
+    "r",
+    "u"
+  ],
+  "advice": [
+    "[R] is just above [F]. Reach up with your left index finger, press [R], and bring it straight back to [F].",
+    "[U] is just above [J]. Reach up with your right index finger, press [U], and bring it straight back to [J].",
+    "Your other fingers stay resting on the home row."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "julie liked a red ruler;",
+        "a rude lad ruled a sled rider;",
+        "kadie surfed as julie sailed;",
+        "kadie fueled a surf sled;",
+        "julie asked jake if a rule is sure;",
+        "a user risked a fall;",
+        "jake ruled all rules as julie said;",
+        "kadie read a rule as jake slid;",
+        "a leader sulked as julie slurred;",
+        "dad fired a laser as jake ruled;",
+        "julie sulked as sir jake rued all;",
+        "kids ride surf sleds as ladies fuss;",
+        "a fair lad fed a rare lark;",
+        "julie rules a sail as kadie surfs;",
+        "kadie ruffled a lad as jake sulked;",
+        "a user asked dad if a rule failed;",
+        "dusk fell as ladies sailed;",
+        "a fur dealer sued julie;",
+        "jake dueled a rude kid;",
+        "jill ruled sir jake a liar;",
+        "kadie rued a jaded relief;",
+        "elsie freed a lark as julie rued;",
+        "dad dried a jar as julie fussed;",
+        "ursula asked jake if all rules fail;",
+        "ursula ruled as kadie filed deeds;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

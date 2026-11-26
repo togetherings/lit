@@ -1,0 +1,95 @@
+{
+  "_notes": {
+    "about": "Lesson 6 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-06",
+  "title": "Lesson 6: W and O",
+  "intro": {
+    "title": "Ring fingers up to W and O",
+    "paragraphs": [
+      "Your ring fingers reach up now: the left one from [S] to [W], and the right one from [L] to [O].",
+      "Ring fingers are weaker than middle fingers, so keep the reach small and light, and come straight back to the home row."
+    ],
+    "reach": {
+      "lr": "w",
+      "rr": "o"
+    }
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "space"
+  ],
+  "newKeys": [
+    "w",
+    "o"
+  ],
+  "advice": [
+    "[W] is just above [S]. Reach up with your left ring finger, press [W], and bring it straight back to [S].",
+    "[O] is just above [L]. Reach up with your right ring finger, press [O], and bring it straight back to [L].",
+    "Keep your index fingers on the bumps of [F] and [J] while your ring fingers reach."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "wood fell as joe looked;",
+        "who would follow a loud woof;",
+        "julia looked for a good rose;",
+        "howard worked as julie slowed;",
+        "a slow owl flew low as hugh looked;",
+        "sue showed joe a wool hood;",
+        "kadie soaked a rug as joel rolled;",
+        "who rode a sled as julie howled;",
+        "joe would load a wood sled;",
+        "a wild owl flew as joe walked;",
+        "sheila heard a loud roar as howard fled;",
+        "hugh wore a good wool dress;",
+        "jose rowed a skiff as sue worked;",
+        "she should show joe a good floor;",
+        "howard asked who owed a dollar;",
+        "a loud word fell as joel slowed;",
+        "who sold wool for a sword;",
+        "joe wished for a whole sled;",
+        "hugh grew a few flowers as joe worked;",
+        "a doe looked as sue rode a horse;",
+        "sheila saw joe fold a wool rug;",
+        "jake roared as howard fell low;",
+        "who drew a sword for louisa;",
+        "kadie followed a large wolf;",
+        "wes should wear a wool hood;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

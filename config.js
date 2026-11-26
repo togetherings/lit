@@ -46,10 +46,9 @@ TT.config = {
   },
 
   // ---------- ON-SCREEN KEYBOARD ----------
-  colorKeysOnPage1: true,      // colour the keys in Page 1's picture to match their fingers (the hands do not change)
-  showShiftKeysOnPage1: false, // true = Page 1's picture also shows both Shift keys (coloured for the little fingers
-                               // when colorKeysOnPage1 is on), shows lowercase keys, and shows capitals / shifted
-                               // symbols while the mouse is over a Shift key. false = capital letters, no Shift keys.
+  colorKeysOnPage1: true,      // colour the keys in Page 1's picture (the lesson's keyboard) to match their fingers
+  showShiftKeysOnPage1: false, // true = Page 1's picture also shows the Shift keys, Caps Lock and the key beside a
+                               // short Shift, for lessons whose intro doesn't say ("keys" in the lesson's intro)
   showKeyboard: true,          // draw the keyboard during practice
   showNextKeyHint: true        // outline the next key to press on that keyboard
 };

@@ -330,7 +330,7 @@
         layerKeys.push({ el: k, finger: fingers.join(" "),
           states: { base: state, shift: letter ? state : stateOf(shiftMap[token] || ""), ag: layerState(agChar), ags: layerState(agsChar) } });
       }
-      if (token) { map[token] = k; }
+      if (token) { map[token] = k; k.setAttribute("data-key", token); }
       return k;
     }
 
@@ -384,22 +384,74 @@
     page.paragraphs.forEach(function (p) { box.appendChild(rich("p", p)); });
     if (picture !== "hands") { showPage("touch"); return; }
 
-    // The hands picture starts below the text and the image. Keys are coloured by finger if
-    // config.js says so, and the two Shift keys are added if showShiftKeysOnPage1 is true.
-    var opts = { keyFingers: cfg.colorKeysOnPage1 ? fingerOf : null, shiftOf: shifted };
-    if (cfg.showShiftKeysOnPage1 && specials.ShiftL && specials.ShiftR) {
-      opts.shift = { left: { label: specials.ShiftL.label, finger: specials.ShiftL.finger },
-                     right: { label: specials.ShiftR.label, finger: specials.ShiftR.finger } };
-    }
-    var fig = figure(TT.hands.restingOnKeyboard(lang.handsImageRows, t("handsRestAlt"), opts));
-    box.appendChild(fig);
-    if (opts.shift) {                                   // mouse over a Shift key: show capitals and shifted symbols
-      var svg = fig.querySelector("svg");
-      svg.addEventListener("mouseover", function (e) { svg.classList.toggle("shifted", !!(e.target.closest && e.target.closest(".hk-shift"))); });
-      svg.addEventListener("mouseout", function (e) { if (!e.relatedTarget || !svg.contains(e.relatedTarget)) { svg.classList.remove("shifted"); } });
-    }
+    // The hands picture starts below the text and the image: the lesson's own keyboard (so every layout, ANSI or
+    // ISO, comes out right), keys coloured by finger (config.js colorKeysOnPage1), with the hands over it.
+    box.appendChild(introKeyboard(page));
     showPage("touch");
+    drawIntroHands();
   }
+
+  // The keyboard for Page 1. intro.keys says which keys show (the others keep their place, empty):
+  //   "letters"  the letters, ; , . and the space bar (the default)
+  //   "shift"    ... and both Shift keys, Caps Lock, and the key beside a short left Shift (ISO keyboards)
+  //   "symbols"  ... and the numbers and other punctuation
+  //   "all"      every key
+  // (config.js showShiftKeysOnPage1: true makes "shift" the default.)
+  var introHolder = null, introKeys = null, introReach = null;
+  function introKeyboard(page) {
+    var holder = make("div", "intro-keyboard");
+    var kb = make("div", "keyboard intro-kb");
+    var keys = buildKeyboard(kb);
+    holder.appendChild(kb);
+    var show = page.keys || (cfg.showShiftKeysOnPage1 ? "shift" : "letters");
+    var order = ["letters", "shift", "symbols", "all"], level = Math.max(0, order.indexOf(show));
+    var besideShift = null;
+    if (keys.ShiftL && specials.ShiftL && (specials.ShiftL.width || 1) < 2) {      // ISO: a key between Shift and Z
+      var next = keys.ShiftL.nextElementSibling;
+      while (next && !next.classList.contains("key")) { next = next.nextElementSibling; }
+      besideShift = next;
+    }
+    Object.keys(keys).forEach(function (token) {
+      var k = keys[token], group;
+      k.className = k.className.replace(/\b(new|known|locked)\b/g, "");             // Page 1 colours keys by finger only
+      k.removeAttribute("data-finger");
+      if (!cfg.colorKeysOnPage1) { k.style.setProperty("--fc", "var(--field)"); }
+      if (token === " " || (k.classList.contains("ltr") && !specials[token]) || token === ";" || token === "," || token === ".") { group = 0; }
+      else if ((specials[token] && (specials[token].shift || specials[token].caps)) || k === besideShift) { group = 1; }
+      else if (k.classList.contains("sym")) { group = 2; }
+      else { group = 3; }
+      if (group > level) { k.classList.add("off"); }
+    });
+    introHolder = holder; introKeys = keys; introReach = page.reach || null;
+    return holder;
+  }
+
+  // Each finger's home key: the key in the home row (the row with the F and J bumps) that it presses, nearest
+  // the index finger (so the left little finger's is A, not Caps Lock).
+  function homeKeys() {
+    var rows = keyboardLayout(), bumps = lang.keyBumps || [], home = {};
+    var row = rows.filter(function (r) { return r.some(function (d) { return bumps.indexOf(d.token) >= 0; }); })[0] || [];
+    row.forEach(function (d) {
+      if (!d.token || specials[d.token]) { return; }
+      var f = fingersForKey(d.token)[0];
+      if (!f || f.charAt(1) === "t") { return; }
+      if (f.charAt(0) === "l" || !home[f]) { home[f] = d.token; }    // left hand: the last one; right hand: the first
+    });
+    bumps.forEach(function (b) { var f = fingersForKey(b)[0]; if (f) { home[f] = b; } });
+    return home;
+  }
+
+  // Draw (or draw again: the page was resized, the fonts loaded) the hands over Page 1's keyboard.
+  function drawIntroHands() {
+    if (!introHolder || !introHolder.isConnected || el("page-touch").hidden) { return; }
+    introHolder.style.height = "";
+    TT.hands.onKeyboard(introHolder, {
+      key: function (token) { return introKeys[token]; },
+      home: homeKeys(), reach: introReach, alt: t("handsRestAlt")
+    });
+  }
+  window.addEventListener("resize", function () { clearTimeout(drawIntroHands.t); drawIntroHands.t = setTimeout(drawIntroHands, 100); });
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(function () { drawIntroHands(); }); }
 
   // ---------------------------------------------------------------- Page 2: new keys
   function showKeysPage() {

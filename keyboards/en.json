@@ -182,11 +182,6 @@
   "keyLabels": {
     " ": "Space bar"
   },
-  "handsImageRows": [
-    "qwertyuiop",
-    "asdfghjkl;",
-    "zxcvbnm,./"
-  ],
   "fingerKeys": {
     "lp": "qaz1`",
     "lr": "wsx2",

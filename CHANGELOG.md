@@ -5,6 +5,16 @@ with EduGame Kit.
 
 ## Unreleased
 
+- **Page 1's picture is the lesson's own keyboard with the hands over it**, so every layout comes out right (the UK
+  keyboard's short Shift and extra key, AZERTY ...). Keys are coloured by finger, and a lesson's intro chooses which
+  keys show (`keys`: letters, shift, symbols or all). **Fingers reach for the keys a lesson teaches** (`reach`): a
+  finger stretches up or curls down to the bottom row, the palm lifts for the number row and turns towards a Shift
+  key, and the other fingers stay on their home keys. No outline on the hands, and the right hand rests turned 8
+  degrees as real hands do. `tools/import_hands.py` now also cuts the resting hand into a palm and fingers.
+- **Lessons 4-8 in English** (en and en-GB), from the lesson plan, with an intro picture of each reach: R and U, G and
+  H, W and O, T and Y, Q and P (the whole top row of letters). Lesson 2 now has lesson 1's introduction.
+- The browser test checks every fingertip lands on its key, in every lesson and language, and draws Shift,
+  number-row and bottom-row reaches on each keyboard too.
 - **Releases are bundles** (kit 0.3.4, `release-bundles`): `lit-all-languages-<version>.zip` and one for each language
   (`lit-en-<version>.zip` ...), each holding the lesson zips, instead of a zip for every lesson and language.
 - **Lessons 2 and 3, in English** (en and en-GB), from the lesson plan: lesson 2, the right-hand home keys and the

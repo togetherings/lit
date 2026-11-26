@@ -1,0 +1,99 @@
+{
+  "_notes": {
+    "about": "Lesson 8 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-08",
+  "title": "Lesson 8: Q and P",
+  "intro": {
+    "title": "Little fingers up to Q and P",
+    "paragraphs": [
+      "Your little fingers reach up now: the left one from [A] to [Q], and the right one from [;] to [P].",
+      "This finishes the top row of letters. Little fingers are the weakest, so reach slowly at first: speed will come."
+    ],
+    "reach": {
+      "lp": "q",
+      "rp": "p"
+    }
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "w",
+    "o",
+    "t",
+    "y",
+    "space"
+  ],
+  "newKeys": [
+    "q",
+    "p"
+  ],
+  "advice": [
+    "[Q] is just above [A]. Reach up with your left little finger, press [Q], and bring it straight back to [A].",
+    "[P] is just above [;]. Reach up with your right little finger, press [P], and bring it straight back to [;].",
+    "[Q] is almost always followed by [U]: practise \"qu\" until it feels like one movement."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "quiet julie quit the party;",
+        "kadie quietly kept a quilt;",
+        "paul asked kadie to equip a sled;",
+        "the squad leader quit the post;",
+        "a quail sat at a pale pool;",
+        "peter kept a purple pet pig;",
+        "polly hurried to pay for supper;",
+        "jake quoted a poet as paula slept;",
+        "the square pool is quite deep;",
+        "hugh stopped to pull a purple sled;",
+        "pippa kept a pretty pearl;",
+        "sheila hoped the squid would flee;",
+        "paul quarreled as julie quieted a pup;",
+        "tyler equaled the top speed;",
+        "joel quipped as the pilot slept;",
+        "the pupil quietly ate apple pie;",
+        "kadie required a sharp spade;",
+        "the poor puppy yelped at paul;",
+        "ruth wrapped a quilt for the pilot;",
+        "the liquid spilled as pete tripped;",
+        "sue quit the sport after the fall;",
+        "a purple parrot quietly stepped up;",
+        "pete played a quiet duet for julie;",
+        "paula asked her to keep the pepper;",
+        "the sleepy squirrel stopped at a pool;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

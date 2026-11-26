@@ -44,6 +44,67 @@ def problem(message):
     return message.type == "error" or (message.type == "warning" and SANDBOX_WARNING not in message.text)
 
 
+def check_hands(game, page, code):
+    """Page 1's hands: every fingertip on its key (the key the lesson's intro says it reaches, or its home key),
+    measured on the lesson's own keyboard."""
+    game.locator(".intro-keyboard svg.hands-real").wait_for()
+    misses = game.locator(".intro-keyboard").evaluate("""holder => {
+      const hb = holder.getBoundingClientRect(), out = [];
+      holder.querySelectorAll("svg.hands-real [data-finger]").forEach(g => {
+        const key = holder.querySelector('.key[data-key="' + CSS.escape(g.dataset.key) + '"]');
+        const [x, y] = g.dataset.tip.split(",").map(Number);
+        if (!key) { out.push(g.dataset.finger + ": no key " + g.dataset.key); return; }
+        const r = key.getBoundingClientRect();
+        if (x < r.left - hb.left || x > r.right - hb.left || y < r.top - hb.top || y > r.bottom - hb.top) {
+          out.push(g.dataset.finger + " misses " + g.dataset.key + " (" + x + "," + y + ")");
+        }
+      });
+      return out;
+    }""")
+    assert not misses, (code, misses)
+    reach = page.get("reach") or {}
+    fingers = game.locator(".intro-keyboard svg.hands-real [data-finger]").evaluate_all("a => a.map(g => [g.dataset.finger, g.dataset.key])")
+    assert len(fingers) == 8, (code, fingers)
+    for finger, key in fingers:
+        if finger in reach:
+            assert key == reach[finger], (code, finger, key)
+
+
+# Reaches no lesson uses yet, drawn on lesson 1's keyboard in each of its languages: every fingertip must
+# still land on its key (Shift: the palm turns and slides; the number row: the palm lifts; the bottom row:
+# fingers slide back under their knuckles).
+REACHES = [
+    {"lp": "ShiftL", "rp": "ShiftR"},
+    {"lm": "3", "rr": "9"},
+    {"lp": "z", "lr": "x", "lm": "c", "li": "v", "ri": "m", "rm": ",", "rr": ".", "rp": "/"},
+    {"li": "b", "ri": "n"},
+]
+
+
+def check_more_reaches(game, code, shots, page):
+    # each finger's home key, from lesson 1's own picture (where no finger reaches)
+    home = dict(game.locator(".intro-keyboard svg.hands-real [data-finger]").evaluate_all("a => a.map(g => [g.dataset.finger, g.dataset.key])"))
+    for n, reach in enumerate(REACHES):
+        misses = game.locator(".intro-keyboard").evaluate("""(holder, [reach, home]) => {
+          holder.querySelectorAll(".key.off").forEach(k => k.classList.remove("off"));
+          const key = t => holder.querySelector('.key[data-key="' + CSS.escape(t) + '"]');
+          const want = {};
+          Object.keys(reach).forEach(f => { if (key(reach[f])) { want[f] = reach[f]; } });   // keys this layout has
+          TT.hands.onKeyboard(holder, { key, home, reach: want, alt: "" });
+          const hb = holder.getBoundingClientRect(), out = [];
+          holder.querySelectorAll("svg.hands-real [data-finger]").forEach(g => {
+            const r = key(g.dataset.key).getBoundingClientRect(), [x, y] = g.dataset.tip.split(",").map(Number);
+            if (x < r.left - hb.left || x > r.right - hb.left || y < r.top - hb.top || y > r.bottom - hb.top) {
+              out.push(g.dataset.finger + " misses " + g.dataset.key);
+            }
+          });
+          return out;
+        }""", [reach, home])
+        assert not misses, (code, reach, misses)
+        if shots:
+            game.locator(".intro-keyboard").screenshot(path=os.path.join(shots, "reach-%s-%d.png" % (code, n)))
+
+
 def saved(page):
     store = page.evaluate("() => JSON.parse(localStorage.getItem('edugame-test-scorm:%s') || '{}')" % GAME.id)
     return store, json.loads(store.get("cmi.suspend_data") or "{}")
@@ -83,6 +144,16 @@ def check(browser, base, package, lesson, shots):
         game = page.frame_locator("#game")
         first = "#touchNext" if intro(ed) else "#startBtn"
         game.locator(first).wait_for()
+        if intro(ed) and intro(ed).get("picture", "hands") == "hands":
+            check_hands(game, intro(ed), code)
+            if lesson == "01":
+                check_more_reaches(game, code, shots, page)
+                page.goto(base)                                   # start again: the lesson's own picture
+                page.locator("#game").wait_for()
+                page.locator("#reset").click()
+                page.select_option("#mode", "scorm")
+                page.select_option("#lang", code)
+                game.locator(first).wait_for()
         assert game.locator("html").get_attribute("lang") == code, code
         if intro(ed):
             # Page 1 is the lesson's own, in its edition's language, with **bold** and [E] keys drawn as keys
@@ -130,7 +201,7 @@ def check_options(browser, base, lesson, shots):
     card.locator(".eg-primary").click()
     fr = edition(lesson, "fr")
     game.locator("#keysBody h2:has-text('%s')" % fr["title"]).wait_for()
-    assert game.locator(".key.caps").first.inner_text().strip() == "Verr. maj"       # the AZERTY keyboard
+    assert game.locator("#page-keys .key.caps").first.inner_text().strip() == "Verr. maj"       # the AZERTY keyboard
     page.locator("#reload").click()
     page.frame_locator("#game").locator("html[lang=fr]").wait_for()                   # kept with the learner
     page.close()
