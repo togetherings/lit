@@ -3,6 +3,15 @@
 LIT used three-digit version numbers up to 022. From 0.23.0 it uses `major.minor.patch`, like the other games made
 with EduGame Kit.
 
+## 0.26.0
+
+- **Reviews after lessons 4, 8 and 12**, in English (en and en-GB): no new keys, the keyboard hidden while typing, and
+  a faster pass mark (10, 12 and 15 words a minute; 90% accuracy). Each has 8 sentences in two named parts: review 1
+  the home row (3) and E I R U (5); reviews 2 and 3 the latest group's keys (5) and everything so far (3), 20 to pick
+  from in each part. Page 2 lists the keys in the review. The results page names the lesson that teaches each key to
+  practise, linked to it on the website ("D (lesson 1)").
+- **The menu**: each review has a star for its number and takes a whole row, under the four lessons it covers.
+
 ## 0.25.0
 
 - **A menu of every lesson, and an address for each lesson in each language** on the website

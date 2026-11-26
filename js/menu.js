@@ -4,6 +4,7 @@
   EduGame.site() (the EduGame Kit) lists the lessons in this page's language, each with its title, description,
   address and config (config.lesson: "03"). Each lesson is one button: the whole oval opens it. A passed lesson shows a
   tick and its best result; the first lesson not passed yet is highlighted as the next one. Every lesson stays open.
+  A review (config.review) has a star for its number, and takes a whole row, under the lessons it covers.
 
   Results come from the helper (EduGame.ready().results): one board per lesson edition, named "<language>-<NN>" after
   the lesson file's language ("en-03" for en and en-GB, "es-01" for es-la). tests/check_lessons.js checks that rule.
@@ -34,13 +35,14 @@
     while (list.firstChild) { list.removeChild(list.firstChild); }
     var passed = 0, nextShown = false;
     site.packages.forEach(function (pkg) {
-      var n = parseInt(pkg.config.lesson, 10);
+      var review = !!pkg.config.review;            // a review: across both columns, under the lessons it covers
+      var n = review ? null : parseInt(pkg.config.lesson, 10);
       var best = results[board(pkg)];
-      var b = make("button", "lesson");
+      var b = make("button", "lesson" + (review ? " review" : ""));
       b.type = "button";
       b.setAttribute("data-lesson", pkg.id);
       var text = make("span", "text");
-      var name = make("span", "name", (best ? n + ". " : "") + shortTitle(pkg.title));
+      var name = make("span", "name", review ? pkg.title.replace(/^LIT\s+/, "") : (best ? n + ". " : "") + shortTitle(pkg.title));
       text.appendChild(name);
       if (best) {
         passed++;
@@ -55,12 +57,12 @@
           name.appendChild(make("span", "tag", t("menuNext")));
         }
       }
-      var num = make("span", "num", best ? "✓" : String(n));
+      var num = make("span", "num", best ? "✓" : (review ? "★" : String(n)));
       num.setAttribute("aria-hidden", "true");
       b.appendChild(num);
       b.appendChild(text);
       b.addEventListener("click", function () { EduGame.goTo(pkg.url); });
-      var li = make("li");
+      var li = make("li", review ? "review" : null);
       li.appendChild(b);
       list.appendChild(li);
     });

@@ -1,0 +1,154 @@
+{
+  "_notes": {
+    "about": "Review 3, after lesson 12: no new keys. It mixes what lessons 1 to 12 taught, with the keyboard hidden while typing (edugame.json, the package's settings).",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter.",
+    "review": "true: no new keys are taught. newKeys lists the keys reviewed (Page 2's heading says so), and practise names the lesson that teaches each key (the results page sends learners there)."
+  },
+  "id": "en-r3",
+  "title": "Review 3: The whole alphabet",
+  "review": true,
+  "intro": {
+    "title": "Review 3: The whole alphabet",
+    "paragraphs": [
+      "This review mixes everything from lessons 1 to 12: every letter of the alphabet, the comma and the period.",
+      "**The keyboard isn't shown while you type**, so keep your eyes on the screen. Part 1 is about the bottom row, and part 2 mixes everything so far."
+    ],
+    "picture": "none"
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "w",
+    "o",
+    "t",
+    "y",
+    "q",
+    "p",
+    "space"
+  ],
+  "newKeys": [
+    "v",
+    "m",
+    "b",
+    "n",
+    "c",
+    "x",
+    "z",
+    ",",
+    "."
+  ],
+  "advice": [
+    "Lessons 9 to 12 added the bottom row: [V] [M] and [B] [N] (index fingers), [C] [X] [Z] (left hand), and [,] [.] (right hand).",
+    "Curl a finger down for the bottom row and come straight back; the rest of the hand stays where it is.",
+    "If a key keeps going wrong, the results page says which lesson to practise again."
+  ],
+  "practise": {
+    "a": "01",
+    "s": "01",
+    "d": "01",
+    "f": "01",
+    "j": "02",
+    "k": "02",
+    "l": "02",
+    ";": "02",
+    "e": "03",
+    "i": "03",
+    "r": "04",
+    "u": "04",
+    "g": "05",
+    "h": "05",
+    "w": "06",
+    "o": "06",
+    "t": "07",
+    "y": "07",
+    "q": "08",
+    "p": "08",
+    "v": "09",
+    "m": "09",
+    "b": "10",
+    "n": "10",
+    "c": "11",
+    "x": "11",
+    "z": "11",
+    ",": "12",
+    ".": "12"
+  },
+  "sentenceLists": [
+    {
+      "name": "The bottom row",
+      "count": 5,
+      "sentences": [
+        "the brave boxer won the match.",
+        "mariama mixed a big bowl of rice, beans, and onions.",
+        "zainab came back from bo in a van.",
+        "my cousin can fix the broken clock.",
+        "seven zebras crossed the river.",
+        "a cozy cabin sat by the calm lake.",
+        "musa, ibrahim, and kemoh came home.",
+        "the vendor sold maize, mangoes, and coconuts.",
+        "we went to the beach in november.",
+        "the baby cannot sleep in the noise.",
+        "a box of matches is on the bench.",
+        "the bus moves slowly in the town center.",
+        "binta cooked cassava and fish.",
+        "never climb a tree in a storm.",
+        "the vet examined a calm brown cow.",
+        "zinc roofs make noise in heavy rain.",
+        "come back soon, and bring the map.",
+        "the music, the dancing, and the food were amazing.",
+        "a cobra moved between the boxes.",
+        "kadiatu bought ten cucumbers and a melon."
+      ]
+    },
+    {
+      "name": "Everything so far",
+      "count": 3,
+      "sentences": [
+        "the quick fox jumped over a sleeping dog.",
+        "foday plays football with his friends after school.",
+        "the teacher wrote a long word on the board.",
+        "we walked to the market early in the morning.",
+        "hawa sells palm oil, pepper, and rice.",
+        "a strong wind blew the papers away.",
+        "please wash your hands before you eat.",
+        "the children sang a happy song together.",
+        "isatu reads a story to her little brother.",
+        "the rain stopped, so we went outside.",
+        "jeneba joined the quiz team this year.",
+        "the shopkeeper counted the coins twice.",
+        "freetown is by the sea.",
+        "brima fixed the radio with a small knife.",
+        "the old mango tree gives cool shade.",
+        "we packed water, bread, and fruit for the trip.",
+        "a yellow bird sang on the window.",
+        "sheku jogs every morning before work.",
+        "the kettle boiled, and mother made tea.",
+        "learning to type takes time and practice."
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

@@ -85,5 +85,9 @@
   },
   "noteType": "Ahora escribe **{word}**",
   "noteFix": "Presiona [Backspace] para corregir",
-  "capsWordsHint": "Bloq Mayús está activado: desactívalo después de la palabra"
+  "capsWordsHint": "Bloq Mayús está activado: desactívalo después de la palabra",
+  "reviewKeysHeading": "Teclas de este repaso",
+  "practiseLesson": "lección {n}",
+  "reviewPassed": "¡Repaso completo! Bien hecho.",
+  "reviewKeysAgain": "Ver las teclas otra vez"
 }

@@ -1,0 +1,136 @@
+{
+  "_notes": {
+    "about": "Review 2, after lesson 8: no new keys. It mixes what lessons 1 to 8 taught, with the keyboard hidden while typing (edugame.json, the package's settings).",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter.",
+    "review": "true: no new keys are taught. newKeys lists the keys reviewed (Page 2's heading says so), and practise names the lesson that teaches each key (the results page sends learners there)."
+  },
+  "id": "en-r2",
+  "title": "Review 2: The top row",
+  "review": true,
+  "intro": {
+    "title": "Review 2: The top row",
+    "paragraphs": [
+      "This review mixes everything from lessons 1 to 8: the home row and the whole top row, from [Q] to [P].",
+      "**The keyboard isn't shown while you type**, so keep your eyes on the screen. Part 1 is about the keys from lessons 5 to 8, and part 2 mixes everything so far."
+    ],
+    "picture": "none"
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "space"
+  ],
+  "newKeys": [
+    "g",
+    "h",
+    "w",
+    "o",
+    "t",
+    "y",
+    "q",
+    "p"
+  ],
+  "advice": [
+    "Lessons 5 to 8 added [G] and [H] (index fingers in), [W] and [O] (ring fingers up), [T] and [Y] (index fingers up and in), and [Q] and [P] (little fingers up).",
+    "Each reach starts and ends on the home row: keep your fingers resting there between keys.",
+    "If a key keeps going wrong, the results page says which lesson to practise again."
+  ],
+  "practise": {
+    "a": "01",
+    "s": "01",
+    "d": "01",
+    "f": "01",
+    "j": "02",
+    "k": "02",
+    "l": "02",
+    ";": "02",
+    "e": "03",
+    "i": "03",
+    "r": "04",
+    "u": "04",
+    "g": "05",
+    "h": "05",
+    "w": "06",
+    "o": "06",
+    "t": "07",
+    "y": "07",
+    "q": "08",
+    "p": "08"
+  },
+  "sentenceLists": [
+    {
+      "name": "G, H, W, O, T, Y, Q and P",
+      "count": 5,
+      "sentences": [
+        "the goat ate it all;",
+        "he took a photo of the goat;",
+        "we sat quietly at the party;",
+        "the white horse ate oats;",
+        "she hopes to play polo with her sister;",
+        "a tall tree grows at the roadside;",
+        "pour the hot water slowly;",
+        "the queue was quite slow;",
+        "put the toys away;",
+        "a rooster woke us at eight;",
+        "they played happily together;",
+        "she wore a yellow sweater;",
+        "the kite flew high;",
+        "please pass the pepper;",
+        "today we go to the shop;",
+        "the dog dug a deep hole;",
+        "yesterday the sky was grey;",
+        "who left this paper here;",
+        "the egg is too hot to hold;",
+        "wash your feet with soap;"
+      ]
+    },
+    {
+      "name": "Everything so far",
+      "count": 3,
+      "sentences": [
+        "a fresh salad is good to eat;",
+        "kids should write quietly;",
+        "jake asked us for help;",
+        "keep the gate shut;",
+        "all of the eggs fell;",
+        "dad repaired the roof;",
+        "the light is too dark to read;",
+        "she likes sweet potatoes;",
+        "we walked as far as the hill;",
+        "throw the old paper away;",
+        "they sold tea at the fair;",
+        "the pupils read aloud;",
+        "a kettle whistled loudly;",
+        "the old fisher sold four fish;",
+        "it is quiet as the house sleeps;",
+        "the hot tea is ready;",
+        "post the letter today;",
+        "read your poetry aloud;",
+        "the youths played all day;",
+        "these jars are full of sugar;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

@@ -85,5 +85,9 @@
   },
   "noteType": "Tapez maintenant **{word}**",
   "noteFix": "Appuyez sur [Backspace] pour corriger",
-  "capsWordsHint": "Verr. maj est activé : désactivez-le après le mot"
+  "capsWordsHint": "Verr. maj est activé : désactivez-le après le mot",
+  "reviewKeysHeading": "Touches de cette révision",
+  "practiseLesson": "leçon {n}",
+  "reviewPassed": "Révision terminée ! Bravo.",
+  "reviewKeysAgain": "Revoir les touches"
 }
