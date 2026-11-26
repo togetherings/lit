@@ -71,5 +71,6 @@
   "menuBest": "Meilleur : {acc} % · {wpm} mots par minute",
   "menuNext": "Suivante",
   "menuMore": "D'autres leçons existent en : {names}. Choisissez une langue dans Options.",
-  "nextLesson": "Leçon suivante"
+  "nextLesson": "Leçon suivante",
+  "menuDownload": "Télécharger LIT pour l'utiliser hors ligne ou dans Kolibri, Moodle ou RACHEL"
 }

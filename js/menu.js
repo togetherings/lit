@@ -72,6 +72,8 @@
     el("moreNote").textContent = t("menuMore", { names: more.map(function (l) { return l.name; }).join(", ") });
   }
 
+  el("downloadLink").href = TT.config.downloadUrl;
+
   if (!site) {   // opened from a lesson's zip, where there is no menu
     el("lessonList").appendChild(make("li", null, "This page is only for the website."));
     return;

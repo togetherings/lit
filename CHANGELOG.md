@@ -10,7 +10,8 @@ with EduGame Kit.
   the UK keyboard, `/fr/`, `/es-la/`. The bare address opens the menu in the visitor's language, and the old
   `/play/lesson-NN/` addresses go to the new ones. Each lesson on the menu is one oval button: a passed lesson shows a
   tick and its best result, and the first lesson not passed yet is highlighted. Only the lessons written in the chosen
-  language are listed, with a note when another language has more. Made with EduGame Kit 0.3.5 (`menu.html`,
+  language are listed, with a note when another language has more, and a link to download LIT from the latest
+  release (`downloadUrl` in `config.js`). Made with EduGame Kit 0.3.5 (`menu.html`,
   `js/menu.js`, `"pages": {"menu": ...}`); never in a lesson's zip.
 - **Lessons** in each lesson's header goes back to the menu, **Next lesson** on a passed lesson's results page goes
   on, and **Options** changes language by going to the same lesson in that language (or its menu).

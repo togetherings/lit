@@ -245,4 +245,6 @@ button.lesson { width: 100%; height: 100%; display: flex; align-items: center; g
 .lesson.next .about { color: var(--on-color); }
 .lesson.next .num { background: var(--paper); color: var(--ink); }
 .lesson .tag { display: inline-block; padding: 0 .5rem; border-radius: 999px; font-size: .75rem; background: var(--ink); color: var(--paper); vertical-align: middle; }
+#download { margin: 1rem 0 0; font-size: .95rem; }
+#download a { color: var(--ink); font-weight: bold; }
 #moreNote { margin: .9rem 0 0; padding: .4rem .7rem; background: var(--notice-bg); border-left: 4px solid var(--sun); border-radius: 6px; font-size: .95rem; }

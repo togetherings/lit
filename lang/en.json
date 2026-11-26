@@ -99,5 +99,6 @@
   "menuBest": "Best: {acc}% · {wpm} words per minute",
   "menuNext": "Next",
   "menuMore": "More lessons are ready in: {names}. Choose a language in Options.",
-  "nextLesson": "Next lesson"
+  "nextLesson": "Next lesson",
+  "menuDownload": "Download LIT to use offline or in Kolibri, Moodle or RACHEL"
 }

@@ -71,5 +71,6 @@
   "menuBest": "Mejor: {acc} % · {wpm} palabras por minuto",
   "menuNext": "Siguiente",
   "menuMore": "Hay más lecciones en: {names}. Elige un idioma en Opciones.",
-  "nextLesson": "Siguiente lección"
+  "nextLesson": "Siguiente lección",
+  "menuDownload": "Descarga LIT para usarlo sin conexión o en Kolibri, Moodle o RACHEL"
 }
