@@ -66,7 +66,8 @@ TT.parseChanges = function (raw) {
 // options.allowBackspace    Backspace takes back the last key. Accuracy is judged on what is left, so a
 //                           mistake that has been fixed does not count.
 // options.requireCorrect    a sentence does not end until it is typed exactly right (the learner must Backspace
-//                           and fix mistakes). Needs allowBackspace.
+//                           and fix mistakes). Needs allowBackspace. true or false for every sentence, or a list
+//                           with one for each sentence (a lesson's list with "fixAll": true).
 TT.createSession = function (sentences, options) {
   options = options || {};
   var plans = sentences.map(TT.parseChanges);           // planned changes (the Backspace lesson), if any
@@ -87,8 +88,14 @@ TT.createSession = function (sentences, options) {
     endTime: null,
     finished: false,
     allowBackspace: !!options.allowBackspace,
-    requireCorrect: !!options.requireCorrect && !!options.allowBackspace
+    requireCorrect: !Array.isArray(options.requireCorrect) && !!options.requireCorrect && !!options.allowBackspace,
+    strictFor: Array.isArray(options.requireCorrect) ?
+      options.requireCorrect.map(function (x) { return !!x && !!options.allowBackspace; }) : null
   };
+
+  // "Fix every mistake" for this sentence (the whole lesson, or its list)
+  function strict(k) { return session.strictFor ? !!session.strictFor[k] : session.requireCorrect; }
+  session.isStrict = function (k) { return strict(k === undefined ? session.sentenceIndex : k); };
 
   // What the typing is lined up with now: the sentence, or (with planned changes) the step's target
   function currentStage(k) { return session.plans[k].stages[session.stage[k]]; }
@@ -127,7 +134,7 @@ TT.createSession = function (sentences, options) {
     var stage = currentStage(k);
     // "Fix every mistake" mode, end of the sentence (or of a step) reached with mistakes left in it: only
     // Backspace helps now. While a planned change waits for Backspace, any other key is a mistake to fix.
-    if (session.requireCorrect && stage.kind === "type" && session.pos >= target.length) { return false; }
+    if (strict(k) && stage.kind === "type" && session.pos >= target.length) { return false; }
     if (session.startTime === null) { session.startTime = now; }
     if (session.idleSince !== null) {               // the first key after a sentence: the clock starts again
       session.pausedMs += Math.max(0, now - session.idleSince);
@@ -142,7 +149,7 @@ TT.createSession = function (sentences, options) {
     if (session.target(k) !== sentence) { return ch === expected; }   // a planned change is still to come
 
     // The sentence ends when the typing reaches its last letter (no Enter key needed).
-    if (a.at >= sentence.length && !(session.requireCorrect && a.mistakes > 0)) {
+    if (a.at >= sentence.length && !(strict(k) && a.mistakes > 0)) {
       a.marks.forEach(function (mark, i) {
         if (!mark.ok) { var c = sentence.charAt(i); session.wrongKeys[c] = (session.wrongKeys[c] || 0) + 1; }
       });
@@ -175,7 +182,7 @@ TT.createSession = function (sentences, options) {
   session.wantsBackspace = function () {
     if (session.finished) { return false; }
     var k = session.sentenceIndex, st = currentStage(k);
-    return st.kind === "delete" || (session.requireCorrect && !!session.aligned[k] && session.aligned[k].mistakes > 0);
+    return st.kind === "delete" || (strict(k) && !!session.aligned[k] && session.aligned[k].mistakes > 0);
   };
 
   // The character the learner should type next ("" when finished, or when Backspace is next).
