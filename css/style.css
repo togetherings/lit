@@ -14,7 +14,7 @@
   --notice-bg: #fff4d6;
   --new-border: var(--ink);            /* the thick border on keys taught in THIS lesson */
   --key-border: #999; --locked-bg: #ececec; --locked-fg: #aaa; --locked-border: #ccc;
-  --svg-key: #ffffff; --svg-key-stroke: #9aa5b1; --svg-label: #5b6b7f;   /* the Page 1 keyboard picture */
+  --svg-key-stroke: #9aa5b1;
   /* one colour per finger (also used for the keyboards and the hands) */
   --f-lp: #f7b2ad; --f-lr: #f9d29c; --f-lm: #f6e58d; --f-li: #b8e0a2;
   --f-ri: #9fd8e6; --f-rm: #a9bfef; --f-rr: #cdb4ee; --f-rp: #efb3d8; --f-lt: #d9d9d9; --f-rt: #d9d9d9;
@@ -31,7 +31,7 @@
   --ok: #2e6a47; --on-ok: #f2fff6; --good: #7fe0a6; --warn: #ffa98a; --notice-bg: #4a3d12;
   --new-border: #ffffff;
   --key-border: #6e7f9c; --locked-bg: #26354f; --locked-fg: #7c8ead; --locked-border: #34455f;
-  --svg-key: #26354f; --svg-key-stroke: #566a8a; --svg-label: #b7c4d8;
+  --svg-key-stroke: #566a8a;
   --hand-glow: drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 4px rgba(255, 255, 255, .8));
 }
 * { box-sizing: border-box; }
@@ -168,31 +168,15 @@ button:focus-visible { outline: 4px solid var(--bad); outline-offset: 2px; }
 .figure { margin: 1rem auto; max-width: 34rem; }
 .hands-svg { display: block; width: 100%; height: auto; }
 .skin { fill: var(--skin); stroke: var(--skin-outline); stroke-width: 3; stroke-linejoin: round; }
+/* Page 1: the lesson's keyboard with the hands over it (hands.js onKeyboard). The holder crops the arms. */
+.intro-keyboard { position: relative; width: max-content; max-width: 100%; margin: 1rem auto 0;
+                  overflow: hidden; clear: both; }
+.intro-keyboard .keyboard { margin: 0; }
+.intro-keyboard .key.off { visibility: hidden; }
+.hands-real { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.hands-real path, .hands-real circle { fill: var(--skin); stroke: none; }
 .hands-over { opacity: var(--hand-opacity); pointer-events: none; filter: var(--hand-glow); }   /* the mouse "sees" the keys under the hands */
 .hands-open { filter: var(--hand-glow); }
-/* keys drawn behind the hands on Page 1 */
-.hk   { fill: var(--svg-key); stroke: var(--svg-key-stroke); stroke-width: 2; }
-/* Page 1 keys coloured by finger (config.js: colorKeysOnPage1) - same colours as the keyboard on Page 2 */
-.hk-lp { fill: var(--f-lp); } .hk-lr { fill: var(--f-lr); } .hk-lm { fill: var(--f-lm); } .hk-li { fill: var(--f-li); }
-.hk-ri { fill: var(--f-ri); } .hk-rm { fill: var(--f-rm); } .hk-rr { fill: var(--f-rr); } .hk-rp { fill: var(--f-rp); }
-.hk-lt { fill: var(--f-lt); } .hk-rt { fill: var(--f-rt); }
-.hl   { font: bold 17px "Trebuchet MS", Verdana, sans-serif; fill: var(--svg-label); }
-/* labels on a coloured (pastel) key are always dark, in dark mode too */
-.hk-lp + .hl, .hk-lp + .hl + .hl,
-.hk-lr + .hl, .hk-lr + .hl + .hl,
-.hk-lm + .hl, .hk-lm + .hl + .hl,
-.hk-li + .hl, .hk-li + .hl + .hl,
-.hk-ri + .hl, .hk-ri + .hl + .hl,
-.hk-rm + .hl, .hk-rm + .hl + .hl,
-.hk-rr + .hl, .hk-rr + .hl + .hl,
-.hk-rp + .hl, .hk-rp + .hl + .hl,
-.hk-lt + .hl, .hk-lt + .hl + .hl,
-.hk-rt + .hl, .hk-rt + .hl + .hl { fill: var(--on-color); }
-.hl.sm { font-size: 14px; }
-.hl { pointer-events: none; }      /* key labels never block the mouse, so hovering a key's label hovers the key */
-.hands-svg .up { display: none; }
-.hands-svg.shifted .lo { display: none; }
-.hands-svg.shifted .up { display: inline; }
 .bump { fill: var(--svg-key-stroke); }
 /* finger colours on Page 2: one rule per finger, using the same colours as the keyboard */
 .fo { stroke: var(--skin-outline); stroke-width: 2; opacity: .9; }

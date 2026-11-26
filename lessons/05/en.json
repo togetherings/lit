@@ -1,0 +1,93 @@
+{
+  "_notes": {
+    "about": "Lesson 5 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-05",
+  "title": "Lesson 5: G and H",
+  "intro": {
+    "title": "Index fingers in to G and H",
+    "paragraphs": [
+      "[G] and [H] are on the home row, between your hands. No finger rests on them: your index fingers reach in for them.",
+      "The left index finger moves right from [F] to [G], and the right index finger moves left from [J] to [H]. Then each goes straight back to its bump."
+    ],
+    "reach": {
+      "li": "g",
+      "ri": "h"
+    }
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "space"
+  ],
+  "newKeys": [
+    "g",
+    "h"
+  ],
+  "advice": [
+    "[G] is just right of [F]. Reach in with your left index finger, press [G], and bring it back to [F].",
+    "[H] is just left of [J]. Reach in with your right index finger, press [H], and bring it back to [J].",
+    "Only the index finger moves; your hand stays where it is."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "julie laughed as jake sighed;",
+        "hugh had a high shelf;",
+        "she shared a huge salad;",
+        "kadie shrugged as jake laughed;",
+        "a girl heard a high sigh;",
+        "hugh grilled a fish as jake sulked;",
+        "a glad girl hugged jake;",
+        "julie hired a huge sled;",
+        "ash fell as hugh sighed;",
+        "she asked hugh if he rushed;",
+        "sheila guided a lad as he sighed;",
+        "a large dish sailed as julie laughed;",
+        "hugh dug a ridge as sheila rushed;",
+        "she hugged a girl as he sulked;",
+        "jake flushed as hugh laughed;",
+        "a harsh lad fed a gull;",
+        "sheila guards a hill as jake rushes;",
+        "gus hid a jug as hugh asked;",
+        "she sighed as a leash fell;",
+        "judge hugh asked all girls;",
+        "jake hurled a rug as sheila fled;",
+        "he guessed as hugh sighed;",
+        "sheila grudged a slush field;",
+        "hugh laughed as sheila fished;",
+        "she kissed a girl as hugh laughed;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

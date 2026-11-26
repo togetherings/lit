@@ -1,0 +1,98 @@
+{
+  "_notes": {
+    "about": "Lesson 7 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-07",
+  "title": "Lesson 7: T and Y",
+  "intro": {
+    "title": "Index fingers up and in to T and Y",
+    "paragraphs": [
+      "[T] and [Y] are the longest reaches so far: one row up, and in towards the middle of the keyboard.",
+      "The left index finger reaches from [F] up and to the right to [T]. The right index finger reaches from [J] up and to the left to [Y].",
+      "Each index finger now looks after two columns: [R] [F] [V] and [T] [G] [B] on the left, [U] [J] [M] and [Y] [H] [N] on the right."
+    ],
+    "reach": {
+      "li": "t",
+      "ri": "y"
+    }
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "w",
+    "o",
+    "space"
+  ],
+  "newKeys": [
+    "t",
+    "y"
+  ],
+  "advice": [
+    "[T] is up and to the right of [F]. Reach with your left index finger, press [T], and come back to [F].",
+    "[Y] is up and to the left of [J]. Reach with your right index finger, press [Y], and come back to [J].",
+    "Keep your other fingers on the home row while the index finger reaches."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "the lady told jake a story;",
+        "tyler tried to study today;",
+        "they thought julie was ready;",
+        "kadie taught jake to tie a tie;",
+        "the tall lady stood at the street;",
+        "yes they stayed all day;",
+        "hugh tried a sweet yellow tart;",
+        "today the girls took a sled;",
+        "they fought as julie laughed today;",
+        "tyler wrote a story as sue read;",
+        "it is eighty yards to the hotel;",
+        "ty dried a wet tray;",
+        "the jolly turkey fled the yard;",
+        "they say a tired lady stays late;",
+        "sheila should try to light a fire;",
+        "yesterday she tossed a tough tray;",
+        "thirty girls stood tall today;",
+        "tyler rode a sturdy sled to the lake;",
+        "the youth stuffed a dirty jar;",
+        "kaye tied a leash to the toy dog;",
+        "tired kids stayed at the hotel;",
+        "the daily tests are due today;",
+        "yuri taught a tall lady to sew;",
+        "ty feels hot as the day dries;",
+        "the truth is that julie stayed true;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

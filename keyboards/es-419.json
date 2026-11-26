@@ -227,11 +227,6 @@
   "keyLabels": {
     " ": "Barra espaciadora"
   },
-  "handsImageRows": [
-    "qwertyuiop",
-    "asdfghjklñ",
-    "zxcvbnm,.-"
-  ],
   "fingerKeys": {
     "lp": "qaz1|<",
     "lr": "wsx2",

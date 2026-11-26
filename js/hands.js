@@ -1,14 +1,9 @@
 /*
   hands.js - builds the two hand pictures as inline SVG.
 
-    TT.hands.restingOnKeyboard(rows, alt, opts)
-                                           Page 1: hands resting on the keys, slightly see-through
-                                           so the keys show underneath. opts (all optional):
-                                             keyFingers  character -> finger id: colour the keys by finger
-                                             shift       { left: {label, finger}, right: {label, finger} }
-                                                         also draw both Shift keys, show lowercase keys,
-                                                         and carry capital labels for the SVG class "shifted"
-                                             shiftOf     function(character) -> its shifted label
+    TT.hands.onKeyboard(holder, opts)      Page 1: the hands over the lesson's real keyboard (the one in "holder"),
+                                           each fingertip on its home key or reaching for the key the lesson
+                                           teaches. See "PAGE 1" below for opts.
     TT.hands.backOfHands(alt, hide)        Page 2: the backs of both hands, each finger covered
                                            by a coloured shape. hide = "left" or "right" draws only
                                            the other hand (nothing of the hidden hand is drawn, so its
@@ -61,48 +56,143 @@ TT.hands = (function () {
     });
   }
 
-  // =============================================================== PAGE 1: HANDS ON THE KEYS
-  // Keyboard behind the hands: three letter rows plus the space bar.
-  // opts.keyFingers: when given, each key also gets a class hk-xx so the CSS can colour it like the
-  // keyboard on Page 2. opts.shift: draw the two Shift keys, and write two labels on every key
-  // (class "lo" = normal, class "up" = shifted); the CSS shows one or the other.
-  function keysBehind(rows, opts) {
-    var xs = [25, 37.5, 62.5], ys = [40, 90, 140], s = "";
-    function cls(ch) { return (opts.keyFingers && opts.keyFingers[ch]) ? "hk hk-" + opts.keyFingers[ch] : "hk"; }
-    function label(ch, x, y) {
-      var at = ' x="' + (x + 22) + '" y="' + (y + 29) + '" text-anchor="middle">';
-      if (!opts.shift) { return '<text class="hl"' + at + esc(ch.toUpperCase()) + '</text>'; }
-      return '<text class="hl lo"' + at + esc(ch) + '</text><text class="hl up"' + at + esc(opts.shiftOf(ch)) + '</text>';
+  // ======================================================== PAGE 1: HANDS ON THE REAL KEYBOARD
+  // The hands lie over the keyboard the lesson draws itself (built from keyboards/*.json, so ANSI, ISO and
+  // AZERTY all come out right). Each fingertip is aimed at the measured centre of its key.
+  //
+  // The resting hand is cut into a palm and four fingers (tools/import_hands.py: js/hand-art.js "rest").
+  // A finger turns about the middle of its knuckle; a round knuckle as wide as the finger covers the join.
+  //   - Reaching UP a finger stretches; reaching DOWN (curling) it keeps its shape and slides back under
+  //     its knuckle, so its tip stays round.
+  //   - SHIFT: the little finger presses it near its inner end, and the palm turns a little (SHIFT_TURN)
+  //     and slides part of the way (FOLLOW) towards it; the other fingers stay on their home keys.
+  //   - THE NUMBER ROW: the palm lifts (LIFT rows); the other fingers stay on their home keys.
+  //   - The right hand rests a little turned (RIGHT_POSE: wrist out, fingers pointing in), as real hands do,
+  //     so its fingers curl towards the thumb on the bottom row, like the left hand's.
+  // No outline: the pieces would show their joins. The hands are see-through as one shape (.hands-over).
+  //
+  // opts:
+  //   key(token)   the key element for a token ("a", ";", "ShiftL", " " ...), from the lesson's keyboard
+  //   home         finger id -> its home key's token: {lp: "a", lr: "s", ... rp: ";"}
+  //   reach        finger id -> the token it reaches for: {lm: "e", rm: "i"} (others stay home)
+  //   alt          text for screen readers
+  // Each finger's <g> carries data-finger, data-key (the key it is on) and data-tip ("x,y" in the holder's pixels),
+  // for the tests.
+  var SHIFT_TURN = 12, FOLLOW = 0.4, LIFT = 0.6, RIGHT_POSE = { deg: 8, dx: -15 };
+  var FINGER_INDEX = { p: 0, r: 1, m: 2, i: 3 }, made = 0;
+
+  function onKeyboard(holder, opts) {
+    var art = TT.handArt.rest, W = art.size[0], id = "th" + (++made);
+    var old = holder.querySelector("svg.hands-real");
+    if (old) { old.parentNode.removeChild(old); }
+    var hb = holder.getBoundingClientRect();
+    function centre(token, pressAt) {
+      var el = opts.key(token);
+      if (!el) { return null; }
+      var r = el.getBoundingClientRect(), x = r.left - hb.left + r.width / 2;
+      if (pressAt) {                       // Shift: near its inner end (pressAt = "left" or "right")
+        var one = opts.key(opts.home.lr).getBoundingClientRect().width;
+        x = pressAt === "right" ? r.right - hb.left - one * 0.6 : r.left - hb.left + one * 0.6;
+      }
+      return [x, r.top - hb.top + r.height / 2];
     }
-    rows.forEach(function (row, r) {
-      row.split("").forEach(function (ch, i) {
-        var x = xs[r] + i * 50;
-        s += '<rect class="' + cls(ch) + '" x="' + x + '" y="' + ys[r] + '" width="44" height="44" rx="7"/>' + label(ch, x, ys[r]);
-        if (r === 1 && (i === 3 || i === 6)) {      // the little raised bars on F and J
-          s += '<rect class="bump" x="' + (x + 14) + '" y="' + (ys[r] + 36) + '" width="16" height="3" rx="1.5"/>';
+    var a = centre(opts.home.lp), s2 = centre(opts.home.lr);
+    if (!a || !s2) { return null; }
+    var scale = (s2[0] - a[0]) / 50;      // the drawing's home keys are 50 units apart
+    var defs = clip(id + "-palm", art.palm) + art.fingers.map(function (f) { return clip(id + "-" + f.name, f.body); }).join("");
+    var body = handGroup("l", a, [59.5, 112], false) + handGroup("r", centre(opts.home.rp), [W - 59.5, 112], true);
+    var height = Math.max(holder.scrollHeight, a[1] + 238 * scale);    // crop the arms as the old picture did
+    holder.style.height = Math.round(height) + "px";
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "hands-svg hands-real");
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", opts.alt || "");
+    svg.setAttribute("viewBox", "0 0 " + r1(hb.width) + " " + Math.round(height));
+    svg.innerHTML = "<defs>" + defs + "</defs>" + body;
+    holder.appendChild(svg);
+    return svg;
+
+    function clip(cid, pts) {
+      return '<clipPath id="' + cid + '" clipPathUnits="userSpaceOnUse"><polygon points="' +
+        pts.map(function (p) { return p[0] + "," + p[1]; }).join(" ") + '"/></clipPath>';
+    }
+
+    // One hand, in the drawing's units (a left hand; the right one is drawn mirrored), placed so its little
+    // finger's home key lands on the real key.
+    function handGroup(side, anchorPx, anchorArt, mirror) {
+      var reach = {}, P = [0, 0], turn = 0, wantsShift = null, lift = false;
+      ["p", "r", "m", "i"].forEach(function (f) {
+        var fid = side + f, token = (opts.reach || {})[fid];
+        if (!token) { return; }
+        var shift = /^Shift/.test(token);
+        var from = centre(opts.home[fid]), to = centre(token, shift ? (side === "l" ? "right" : "left") : null);
+        if (!from || !to) { return; }
+        var dx = (to[0] - from[0]) / scale, dy = (to[1] - from[1]) / scale;
+        if (mirror) { dx = -dx; }
+        reach[fid] = [dx, dy];
+        if (shift) { wantsShift = [dx, dy]; }
+        if (dy < -75) { lift = true; }                    // more than a row and a half up: the number row
+      });
+      if (lift) { P[1] -= LIFT * 50; }
+      if (wantsShift) {
+        var d = Math.hypot(wantsShift[0], wantsShift[1]), past = Math.max(0, d - 60) * FOLLOW;
+        P[0] += wantsShift[0] / d * past; P[1] += wantsShift[1] / d * past;
+        turn = (wantsShift[0] < 0 ? -1 : 1) * SHIFT_TURN * Math.PI / 180;
+      }
+      if (side === "r") { turn += -RIGHT_POSE.deg * Math.PI / 180; P[0] -= RIGHT_POSE.dx; }
+      var wrist = [art.fingers[1].pivot[0] + 25, art.fingers[1].pivot[1] + 210];   // below the middle of the palm
+      var c = Math.cos(turn), sn = Math.sin(turn);
+      function palmPoint(p) {
+        var x = p[0] - wrist[0], y = p[1] - wrist[1];
+        return [wrist[0] + c * x - sn * y + P[0], wrist[1] + sn * x + c * y + P[1]];
+      }
+      function toScreen(p) {
+        var x = mirror ? W - p[0] : p[0];
+        return [r1(anchorPx[0] + (x - anchorArt[0]) * scale), r1(anchorPx[1] + (p[1] - anchorArt[1]) * scale)];
+      }
+      var fingers = "";
+      ["p", "r", "m", "i"].forEach(function (f) {
+        var fid = side + f, part = art.fingers[FINGER_INDEX[f]], move = reach[fid] || [0, 0];
+        var goal = [part.tip[0] + move[0], part.tip[1] + move[1]];
+        var m = fingerMatrix(part.pivot, part.tip, palmPoint(part.pivot), goal);
+        var piece = '<g transform="' + m.matrix + '"><path clip-path="url(#' + id + "-" + part.name + ')" d="' + art.outline + '"/></g>';
+        if (m.slid) {        // nothing of a curled finger shows below its knuckle line
+          var A = palmPoint(part.L), B = palmPoint(part.R), pv = palmPoint(part.pivot), tp = palmPoint(part.tip);
+          var lx = B[0] - A[0], ly = B[1] - A[1], ll = Math.hypot(lx, ly), nx = tp[0] - pv[0], ny = tp[1] - pv[1], nl = Math.hypot(nx, ny);
+          lx /= ll; ly /= ll; nx /= nl; ny /= nl;
+          var a1 = [A[0] - lx * 300, A[1] - ly * 300], b1 = [B[0] + lx * 300, B[1] + ly * 300];
+          piece = clip(id + "-up-" + fid, [a1, b1, [b1[0] + nx * 500, b1[1] + ny * 500], [a1[0] + nx * 500, a1[1] + ny * 500]]) +
+                  '<g clip-path="url(#' + id + "-up-" + fid + ')">' + piece + "</g>";
         }
+        var on = (opts.reach || {})[fid] || opts.home[fid];
+        fingers += '<g data-finger="' + fid + '" data-key="' + esc(on) + '" data-tip="' + toScreen(goal).join(",") + '">' + piece + "</g>";
       });
-    });
-    s += '<rect class="' + cls(" ") + '" x="149.5" y="190" width="270" height="44" rx="7"/>';
-    if (opts.shift) {      // the two Shift keys, either side of the bottom letter row (hovering one shows capitals)
-      [["left", -18.5], ["right", 562.5]].forEach(function (side) {
-        var d = opts.shift[side[0]], c = (opts.keyFingers && d.finger) ? " hk-" + d.finger : "";
-        s += '<rect class="hk hk-shift' + c + '" x="' + side[1] + '" y="140" width="75" height="44" rx="7"/>' +
-             '<text class="hl sm" x="' + (side[1] + 37.5) + '" y="168" text-anchor="middle">' + esc(d.label) + '</text>';
-      });
+      var palm = '<g transform="translate(' + r1(P[0]) + " " + r1(P[1]) + ") rotate(" + r1(turn * 180 / Math.PI) + " " +
+                 wrist[0] + " " + wrist[1] + ')"><path clip-path="url(#' + id + '-palm)" d="' + art.outline + '"/>' +
+                 art.fingers.map(function (f) { return '<circle cx="' + f.pivot[0] + '" cy="' + f.pivot[1] + '" r="' + f.r + '"/>'; }).join("") +
+                 "</g>";
+      var place = "translate(" + r1(anchorPx[0]) + " " + r1(anchorPx[1]) + ") scale(" + scale + ") translate(" + (-anchorArt[0]) + " " + (-anchorArt[1]) + ")";
+      if (mirror) { place += " translate(" + W + " 0) scale(-1 1)"; }
+      return '<g class="hands-over hand-' + side + '" transform="' + place + '">' + fingers + palm + "</g>";
     }
-    return s;
   }
 
-  function restingOnKeyboard(rows, alt, opts) {
-    opts = opts || {};
-    var art = TT.handArt.rest, w = art.size[0];
-    // With Shift keys drawn the picture is wider (still centred on the hands)
-    var view = opts.shift ? "-72.5 30 714 320" : "0 30 " + w + " 320";
-    return '<svg class="hands-svg" viewBox="' + view + '" role="img" aria-label="' + esc(alt) + '" xmlns="http://www.w3.org/2000/svg">' +
-      keysBehind(rows, opts) +
-      '<g class="hands-over">' + hand(art) +
-      '<g transform="translate(' + w + ' 0) scale(-1 1)">' + hand(art) + '</g></g></svg>';
+  // A finger's base moves from B to B2 (with the palm) and its tip from T to G. Reaching further than its
+  // resting length it turns and stretches along its length; reaching less (curling) it turns and slides back.
+  function fingerMatrix(B, T, B2, G) {
+    var tx = T[0] - B[0], ty = T[1] - B[1], gx = G[0] - B2[0], gy = G[1] - B2[1];
+    var lt = Math.hypot(tx, ty), k = Math.hypot(gx, gy) / lt, ux = tx / lt, uy = ty / lt;
+    var th = Math.atan2(gy, gx) - Math.atan2(ty, tx), c = Math.cos(th), s = Math.sin(th);
+    var m11, m12, m21, m22, e, f, slid = k < 1;
+    if (slid) {
+      m11 = c; m12 = -s; m21 = s; m22 = c;
+      e = G[0] - (m11 * T[0] + m12 * T[1]); f = G[1] - (m21 * T[0] + m22 * T[1]);
+    } else {
+      var s11 = 1 + (k - 1) * ux * ux, s12 = (k - 1) * ux * uy, s22 = 1 + (k - 1) * uy * uy;
+      m11 = c * s11 - s * s12; m12 = c * s12 - s * s22; m21 = s * s11 + c * s12; m22 = s * s12 + c * s22;
+      e = B2[0] - (m11 * B[0] + m12 * B[1]); f = B2[1] - (m21 * B[0] + m22 * B[1]);
+    }
+    return { slid: slid && k < 0.999, matrix: "matrix(" + [m11, m21, m12, m22, e, f].map(function (n) { return Math.round(n * 1e4) / 1e4; }).join(" ") + ")" };
   }
 
   // ====================================================== PAGE 2: BACKS OF THE HANDS, COLOURED
@@ -127,5 +217,5 @@ TT.hands = (function () {
       '</svg>';
   }
 
-  return { restingOnKeyboard: restingOnKeyboard, backOfHands: backOfHands, openWidth: openWidth, highlightFinger: highlightFinger };
+  return { onKeyboard: onKeyboard, backOfHands: backOfHands, openWidth: openWidth, highlightFinger: highlightFinger };
 })();
