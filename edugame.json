@@ -20,7 +20,8 @@
       "label": "score.lesson",
       "names": { "en-01": "board.en_01", "fr-01": "board.fr_01", "es-01": "board.es_01",
                  "en-02": "board.en_02", "en-03": "board.en_03", "en-04": "board.en_04", "en-05": "board.en_05",
-                 "en-06": "board.en_06", "en-07": "board.en_07", "en-08": "board.en_08" },
+                 "en-06": "board.en_06", "en-07": "board.en_07", "en-08": "board.en_08",
+                 "en-09": "board.en_09", "en-10": "board.en_10", "en-11": "board.en_11", "en-12": "board.en_12" },
       "total": { "label": "score.all_lessons", "count_label": "score.lessons_passed" }
     }
   },
@@ -89,6 +90,38 @@
       "languages": ["en", "en-GB"],
       "files": ["lessons/08/*"],
       "config": { "lesson": "08", "settings": {} }
+    },
+    {
+      "id": "lesson-09",
+      "title": "package.lesson_09",
+      "description": "package.lesson_09_about",
+      "languages": ["en", "en-GB"],
+      "files": ["lessons/09/*"],
+      "config": { "lesson": "09", "settings": {} }
+    },
+    {
+      "id": "lesson-10",
+      "title": "package.lesson_10",
+      "description": "package.lesson_10_about",
+      "languages": ["en", "en-GB"],
+      "files": ["lessons/10/*"],
+      "config": { "lesson": "10", "settings": {} }
+    },
+    {
+      "id": "lesson-11",
+      "title": "package.lesson_11",
+      "description": "package.lesson_11_about",
+      "languages": ["en", "en-GB"],
+      "files": ["lessons/11/*"],
+      "config": { "lesson": "11", "settings": {} }
+    },
+    {
+      "id": "lesson-12",
+      "title": "package.lesson_12",
+      "description": "package.lesson_12_about",
+      "languages": ["en", "en-GB"],
+      "files": ["lessons/12/*"],
+      "config": { "lesson": "12", "settings": {} }
     }
   ],
   "authors": ["Togetherings"],

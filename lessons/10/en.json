@@ -1,0 +1,109 @@
+{
+  "_notes": {
+    "about": "Lesson 10 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-10",
+  "title": "Lesson 10: B and N",
+  "intro": {
+    "title": "Index fingers down and in to B and N",
+    "paragraphs": [
+      "[B] and [N] are on the bottom row, between your hands: down one row, and in towards the middle of the keyboard.",
+      "The left index finger reaches from [F] down and to the right to [B]. The right index finger reaches from [J] down and to the left to [N].",
+      "Now each index finger looks after six keys: [R] [F] [V] [T] [G] [B] on the left, and [U] [J] [M] [Y] [H] [N] on the right."
+    ],
+    "reach": {
+      "li": "b",
+      "ri": "n"
+    }
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "w",
+    "o",
+    "t",
+    "y",
+    "q",
+    "p",
+    "v",
+    "m",
+    "space"
+  ],
+  "newKeys": [
+    "b",
+    "n"
+  ],
+  "advice": [
+    "[B] is down and to the right of [F], below [G]. Reach with your left index finger, press [B], and come back to [F].",
+    "[N] is down and to the left of [J], below [H]. Reach with your right index finger, press [N], and come back to [J].",
+    "Keep your other fingers on the home row while the index finger reaches."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "brima and bintu are in the band;",
+        "abdul is singing a bright song;",
+        "aminata baked a big bun for sia;",
+        "ibrahim and hassan ran to the bank;",
+        "mabinty will bring a basket of nuts;",
+        "tejan found a bundle under the bed;",
+        "jeneba ate a banana and hid the skin;",
+        "sulaiman sang as the bird flew in;",
+        "bintu was born in a small town;",
+        "musa and brima fed the lambs;",
+        "fatmata lent mabinty a blue dress;",
+        "foday is kind and never rude;",
+        "alusine broke a bone in a fall;",
+        "hawa and nenneh bought bananas;",
+        "kadiatu hung a bell in the barn;",
+        "mariama is learning to read;",
+        "sahr and mohamed ride a bus to town;",
+        "isatu is tending a bed of beans;",
+        "bangura sent a bundle by boat;",
+        "ernest and abu entered the garden;",
+        "haja is knitting a bright blanket;",
+        "rugiatu bent down and lifted a bag;",
+        "ansu is grand and brave in a fight;",
+        "saidu and umaru bring a basin;",
+        "binta sings a song as she bakes;",
+        "the brown bull stands in the field;",
+        "lansana hunted a boar in the bush;",
+        "memunatu mended a blue net;",
+        "bashiru and sia bring an umbrella;",
+        "kamara sends a letter in the evening;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}
