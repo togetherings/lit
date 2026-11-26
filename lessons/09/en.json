@@ -1,0 +1,107 @@
+{
+  "_notes": {
+    "about": "Lesson 9 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-09",
+  "title": "Lesson 9: V and M",
+  "intro": {
+    "title": "Index fingers down to V and M",
+    "paragraphs": [
+      "Now your fingers reach down to the bottom row. The index fingers go first: the left one from [F] down to [V], and the right one from [J] down to [M].",
+      "To reach down, curl the finger in a little: don't move the whole hand. Press the key, then come straight back to the bump.",
+      "From this lesson on, the sentences use names that are common in Sierra Leone."
+    ],
+    "reach": {
+      "li": "v",
+      "ri": "m"
+    }
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "w",
+    "o",
+    "t",
+    "y",
+    "q",
+    "p",
+    "space"
+  ],
+  "newKeys": [
+    "v",
+    "m"
+  ],
+  "advice": [
+    "[V] is just below [F], a little to the right. Curl your left index finger down, press [V], and bring it back to [F].",
+    "[M] is just below [J], a little to the right. Curl your right index finger down, press [M], and bring it back to [J].",
+    "Keep your wrists still: only the index finger moves."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "mariama gave a vase to musa;",
+        "fatmata moved a heavy sled;",
+        "isatu gave mohamed a movie;",
+        "very few girls love summer;",
+        "alimamy drove the family home;",
+        "kadiatu moved a gift to the village;",
+        "sorie gave mariatu a red mug;",
+        "salamatu will give a warm meal;",
+        "mohamed made a sweet milk dish;",
+        "fatima loves every movie as mom;",
+        "hawa moved a seat to the farm;",
+        "musa gave a heavy jar of milk;",
+        "jattu drove past the very tall elm;",
+        "mamie will move to a quiet village;",
+        "foday dreamed of a sharp silver sword;",
+        "ishmael was very sad as he left;",
+        "the muddy mule slid to the stream;",
+        "sia will visit the village market;",
+        "idrissa gave sweet yams to musa;",
+        "mariama drives a red velvet sled;",
+        "saidu moved from the hill to a farm;",
+        "kemoh made a map of the valley;",
+        "umaru gave a warm hug to mamie;",
+        "haja will move her mother to a home;",
+        "ramatu smiled as the team made a goal;",
+        "sheku hid every gem for mariama;",
+        "fatu made a mess as she swam;",
+        "kadie gave all her love to the family;",
+        "joseph drove his mule to the river;",
+        "alhaji gave me a very warm smile;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

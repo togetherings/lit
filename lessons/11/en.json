@@ -1,0 +1,112 @@
+{
+  "_notes": {
+    "about": "Lesson 11 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-11",
+  "title": "Lesson 11: C, X and Z",
+  "intro": {
+    "title": "The left hand's bottom row: C, X and Z",
+    "paragraphs": [
+      "Now the rest of the left hand reaches down: the middle finger from [D] to [C], the ring finger from [S] to [X], and the little finger from [A] to [Z].",
+      "With these three keys you know **every letter of the alphabet**. [C] comes up often (as in \"ch\" and \"ck\"); [X] and [Z] are rarer."
+    ],
+    "reach": {
+      "lm": "c",
+      "lr": "x",
+      "lp": "z"
+    }
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "w",
+    "o",
+    "t",
+    "y",
+    "q",
+    "p",
+    "v",
+    "m",
+    "b",
+    "n",
+    "space"
+  ],
+  "newKeys": [
+    "c",
+    "x",
+    "z"
+  ],
+  "advice": [
+    "[C] is just below [D], a little to the right. Curl your left middle finger down, press [C], and bring it back to [D].",
+    "[X] is just below [S]. Curl your left ring finger down, press [X], and bring it back to [S].",
+    "[Z] is just below [A]. Curl your left little finger down, press [Z], and bring it back to [A]."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "zainab checked the chicken coop;",
+        "chernor picked a sack of rice;",
+        "cecilia can catch a chicken;",
+        "francis cut a cake for the class;",
+        "isaac clicked on the clock;",
+        "mabinty counted six chairs;",
+        "alex fixed the clock at the market;",
+        "felix mixed a cup of rice and beans;",
+        "kadiatu sat in the crowd;",
+        "brima zipped his black jacket;",
+        "the zebra zigzagged across the road;",
+        "ibrahim quickly cracked a nut;",
+        "sia drank cold juice at lunch;",
+        "mariama danced on a rock;",
+        "sorie chose a nice place to rest;",
+        "mercy picked a juicy peach;",
+        "patrick fixed a broken clock;",
+        "rebecca made a cup of hot coffee;",
+        "zainab and alex mixed the sauce;",
+        "hassan checked the clock twice;",
+        "fatmata kicked a ball across the track;",
+        "grace scrubbed the chalk off the desk;",
+        "isatu danced as the music faded;",
+        "emmanuel can reach the ice cream;",
+        "alusine fixed six cars on the street;",
+        "foday sneezed twice in the cold;",
+        "mohamed zoomed past the maze;",
+        "cecil can pick a box of oranges;",
+        "christiana chose a pink dress;",
+        "jeneba carried a crate of mangoes;"
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

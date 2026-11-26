@@ -1,0 +1,113 @@
+{
+  "_notes": {
+    "about": "Lesson 12 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-12",
+  "title": "Lesson 12: Comma and period",
+  "intro": {
+    "title": "Comma and period",
+    "paragraphs": [
+      "The right hand's bottom row has punctuation. Your right middle finger reaches down from [K] to the comma [,], and your right ring finger from [L] to the period [.] (called a full stop in British English).",
+      "From now on, sentences end with a period, and commas break them up. Type a space after a comma, just as you write it. In short forms like a.m. and e.g., there is a period after each letter."
+    ],
+    "reach": {
+      "rm": ",",
+      "rr": "."
+    }
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "w",
+    "o",
+    "t",
+    "y",
+    "q",
+    "p",
+    "v",
+    "m",
+    "b",
+    "n",
+    "c",
+    "x",
+    "z",
+    "space"
+  ],
+  "newKeys": [
+    ",",
+    "."
+  ],
+  "advice": [
+    "[,] is just below [K], a little to the right. Curl your right middle finger down, press [,], and bring it back to [K].",
+    "[.] is just below [L], a little to the right. Curl your right ring finger down, press [.], and bring it back to [L].",
+    "After a comma comes a space: [,] then [space] with your thumb."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "we ate rice, beans, and fish.",
+        "she woke up at six a.m. today.",
+        "i sat down, and he read a book.",
+        "first, mix the flour and the eggs.",
+        "we left at nine p.m., tired but happy.",
+        "yes, i can come, but not now.",
+        "the dog ran, jumped, and barked.",
+        "e.g., a pear, a plum, or a fig.",
+        "he is tall, kind, and quite funny.",
+        "after lunch, we walked to the farm.",
+        "the sign said p.m., not a.m.",
+        "once, we saw a fox and an owl.",
+        "we drove at fifty m.p.h., not more.",
+        "mix it well, then pour it out.",
+        "she paid ten dollars, i.e., a lot.",
+        "the bus, the boat, and the car.",
+        "wait, i forgot my keys.",
+        "we met at ten a.m., not at noon.",
+        "dark, cold, and quiet, the night fell.",
+        "please sit, relax, and enjoy the meal.",
+        "my sister, a nurse, works at night.",
+        "he can swim, run, jump, and climb.",
+        "the mayor, a kind man, spoke first.",
+        "the doc said rest, drink, and sleep.",
+        "pens, pads, tape, etc., were sold.",
+        "in the spring, it is wet and green.",
+        "the shop opens at nine a.m. daily.",
+        "we ate, we sang, and we laughed.",
+        "bring a hat, a coat, and a scarf.",
+        "ask first, then act, as the c.e.o. said."
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

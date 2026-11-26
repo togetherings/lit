@@ -22,6 +22,9 @@ with EduGame Kit.
   results kept before are kept, and a learner who chose `es-419` gets `es-la`.
 - `tests/check_lessons.js` checks each lesson's board id is `<language>-NN`; the browser test plays the website and
   the offline copy.
+- **Lessons 9-12 in English** (en and en-GB), from the lesson plan, with an intro picture of each reach down to the
+  bottom row: V and M, B and N, C X and Z (the whole alphabet), and the comma and period (a full stop in the UK
+  lesson's title). Sentences use names common in Sierra Leone from lesson 9 on, and end with a period in lesson 12.
 - EduGame Kit 0.3.5.
 
 ## 0.24.0
