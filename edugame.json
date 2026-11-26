@@ -7,7 +7,7 @@
   "color": "#1c3557",
   "options": { "theme": "auto" },
   "content": ["keyboards", "lessons"],
-  "exclude": ["art/*", "tools/*", "tests/*", "README.md", "CHANGELOG.md", "site/*"],
+  "exclude": ["art/*", "tools/*", "tests/*", "README.md", "CHANGELOG.md", "site/*", "_site/*"],
   "scoring": {
     "fields": [
       { "key": "acc", "label": "score.accuracy", "unit": "%", "order": "desc", "min": 0, "max": 100, "total": "average" },
