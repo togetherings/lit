@@ -10,7 +10,16 @@ with EduGame Kit.
   the home row (3) and E I R U (5); reviews 2 and 3 the latest group's keys (5) and everything so far (3), 20 to pick
   from in each part. Page 2 lists the keys in the review. The results page names the lesson that teaches each key to
   practise, linked to it on the website ("D (lesson 1)").
-- **The menu**: each review has a star for its number and takes a whole row, under the four lessons it covers.
+- **The menu**: each review has a blue star on a yellow circle where the number goes, and takes a whole row, under
+  the four lessons it covers. "x of y passed" counts lessons only, not reviews. Reviews are named with a # ("Review
+  #1"), so they don't look like lesson numbers.
+- **Lessons 15 and 16: the numbers** (en and en-GB): 1 to 5 with the left hand, 6 to 0 with the right, 30 sentences
+  each, 10 words a minute to pass. Page 1's two pictures show the four fingers reaching straight up, then the index
+  finger's reach in (to 5 or 6).
+- **Review #4** after lesson 16: capitals and numbers (5), and everything so far (3); 12 words a minute.
+- **Results**: a review says "Review complete!", and the button back to Page 2 says "Back" in every lesson.
+- **"Use LIT in your school"**: the menu's download link is now its own section under the lessons, like the old front
+  page: the latest release, Kolibri, Moodle and RACHEL, the offline all-lessons zip, and LIT's code.
 
 ## 0.25.0
 

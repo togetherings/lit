@@ -23,7 +23,7 @@
   "start": "Commencer à taper",
   "tryAgain": "Réessayer",
   "backToKeys": "Retour aux nouvelles touches",
-  "reviewKeys": "Revoir les nouvelles touches",
+  "reviewKeys": "Retour",
   "newKeysHeading": "Les touches à apprendre",
   "leftHeading": "Main gauche",
   "rightHeading": "Main droite",
@@ -72,7 +72,6 @@
   "menuNext": "Suivante",
   "menuMore": "D'autres leçons existent en : {names}. Choisissez une langue dans Options.",
   "nextLesson": "Leçon suivante",
-  "menuDownload": "Télécharger LIT pour l'utiliser hors ligne ou dans Kolibri, Moodle ou RACHEL",
   "listPart": "Partie {n} sur {total} : {name}",
   "noteChange": "Tapez **{from}**, puis remplacez-le par **{to}**",
   "notePress": {
@@ -89,5 +88,13 @@
   "reviewKeysHeading": "Touches de cette révision",
   "practiseLesson": "leçon {n}",
   "reviewPassed": "Révision terminée ! Bravo.",
-  "reviewKeysAgain": "Revoir les touches"
+  "menuGetTitle": "Utiliser LIT dans votre école",
+  "menuGetDownload": "Téléchargez LIT depuis la {link}. Chaque leçon est un zip, et le même zip fonctionne dans :",
+  "menuGetDownloadLink": "dernière version",
+  "menuGetKolibri": "**Kolibri** : importez-le dans une chaîne de Kolibri Studio",
+  "menuGetScorm": "**Moodle** et les autres plateformes d'apprentissage : ajoutez-le comme paquet SCORM",
+  "menuGetRachel": "**RACHEL** : décompressez-le dans le dossier des modules",
+  "menuGetOffline": "Pour utiliser toutes les leçons sur un ordinateur sans internet, téléchargez lit-all-lessons, décompressez-le et ouvrez index.html.",
+  "menuGetCode": "{link} est sur GitHub.",
+  "menuGetCodeLink": "Le code de LIT"
 }

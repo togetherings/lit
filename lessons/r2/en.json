@@ -7,10 +7,10 @@
     "review": "true: no new keys are taught. newKeys lists the keys reviewed (Page 2's heading says so), and practise names the lesson that teaches each key (the results page sends learners there)."
   },
   "id": "en-r2",
-  "title": "Review 2: The top row",
+  "title": "Review #2: The top row",
   "review": true,
   "intro": {
-    "title": "Review 2: The top row",
+    "title": "Review #2: The top row",
     "paragraphs": [
       "This review mixes everything from lessons 1 to 8: the home row and the whole top row, from [Q] to [P].",
       "**The keyboard isn't shown while you type**, so keep your eyes on the screen. Part 1 is about the keys from lessons 5 to 8, and part 2 mixes everything so far."

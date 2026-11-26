@@ -1,0 +1,136 @@
+{
+  "_notes": {
+    "about": "Lesson 15 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-15",
+  "title": "Lesson 15: Numbers 1 to 5",
+  "intro": {
+    "title": "The number row: 1 to 5",
+    "paragraphs": [
+      "The numbers are on the top row of the keyboard, above the letters. It's the longest reach yet: two rows up from the home row.",
+      "The left hand types [1] to [5]: the little finger [1], the ring finger [2], the middle finger [3], and the index finger both [4] and [5]. Lift your hand a little, reach up, and come back to the home row after each number."
+    ],
+    "keys": "symbols",
+    "reaches": [
+      {
+        "reach": {
+          "lp": "1",
+          "lr": "2",
+          "lm": "3",
+          "li": "4"
+        },
+        "caption": "[1] [2] [3] [4]: each finger straight up from its home key"
+      },
+      {
+        "reach": {
+          "li": "5"
+        },
+        "caption": "[5]: the left index finger, up and in"
+      }
+    ]
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "w",
+    "o",
+    "t",
+    "y",
+    "q",
+    "p",
+    "v",
+    "m",
+    "b",
+    "n",
+    "c",
+    "x",
+    "z",
+    ",",
+    ".",
+    "ShiftL",
+    "ShiftR",
+    "Caps",
+    "Backspace",
+    "space"
+  ],
+  "newKeys": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+  ],
+  "advice": [
+    "[1] is above [Q]: reach up with your left little finger. [2] is above [W] (ring finger), and [3] above [E] (middle finger).",
+    "[4] is above [R], and [5] above [T]: both are for your left index finger.",
+    "Keep your eyes on the screen. If you must look, look quickly, then find the home row again by the bump on [F]."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "Mariama has 2 sisters and 3 brothers.",
+        "We need 4 cups of rice for 5 people.",
+        "The school has 3 classes on the 1st floor.",
+        "Musa ran 5 laps in 4 minutes.",
+        "Bus 12 leaves at 3 PM.",
+        "Hawa bought 24 eggs and 3 loaves of bread.",
+        "There are 15 pupils in class 4.",
+        "The market opens at 5 AM.",
+        "Ibrahim scored 2 goals in the 3rd game.",
+        "Room 214 is on the 2nd floor.",
+        "Fatmata planted 35 mango seeds.",
+        "Our team won 4 games and lost 1.",
+        "Kadiatu read 25 pages today.",
+        "The trip to Bo takes 4 hours.",
+        "Sheku is 13 and his sister is 11.",
+        "Add 2 and 3 to get 5.",
+        "There are 52 cards in a pack.",
+        "We meet at 4 PM on Saturday.",
+        "The farm has 314 chickens.",
+        "Jeneba walked 5 miles to the well.",
+        "The bridge is 45 meters long.",
+        "Brima has 3 goats and 12 hens.",
+        "The test has 25 questions.",
+        "Sahr turned 14 in March.",
+        "Chapter 3 starts on page 41.",
+        "The bus has 54 seats.",
+        "Isatu counted 123 coins.",
+        "Lesson 15 teaches the keys 1 to 5.",
+        "Abu sold 42 oranges and 15 limes.",
+        "The clinic is 2 miles from here."
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

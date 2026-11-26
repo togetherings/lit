@@ -830,9 +830,6 @@
     // Text on the left; the picture (a different one for success and failure) centred in the space to its right
     var layout = make("div", "result-layout"), text = make("div", "result-text");
     text.appendChild(make("h2", passed ? "pass" : "notyet", passed ? t(lesson.review ? "reviewPassed" : "resultsPassed") : t("resultsNotYet")));
-    var back = lesson.review ? "reviewKeysAgain" : "reviewKeys";      // a review has no new keys
-    el("resultsBack").setAttribute("data-t", back);
-    el("resultsBack").textContent = t(back);
     text.appendChild(make("p", st.accuracy >= need.accuracy ? "met" : "unmet",
       t("accuracyLine", { acc: st.accuracy, needAcc: need.accuracy })));
     text.appendChild(make("p", st.wpm >= need.wpm ? "met" : "unmet",

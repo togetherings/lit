@@ -66,7 +66,10 @@
       li.appendChild(b);
       list.appendChild(li);
     });
-    el("menuSummary").textContent = t("menuPassed", { n: passed, total: site.packages.length });
+    // Reviews aren't lessons: "3 of 16 passed" counts lessons only
+    var lessons = site.packages.filter(function (p) { return !p.config.review; });
+    var done = lessons.filter(function (p) { return results[board(p)]; }).length;
+    el("menuSummary").textContent = t("menuPassed", { n: done, total: lessons.length });
 
     // Other languages with more lessons than this one
     var more = site.languages.filter(function (l) { return l.packages > site.packages.length; });
@@ -74,7 +77,31 @@
     el("moreNote").textContent = t("menuMore", { names: more.map(function (l) { return l.name; }).join(", ") });
   }
 
-  el("downloadLink").href = TT.config.downloadUrl;
+  // "Use LIT in your school": words with a {link} in them become text with a link
+  function linked(id, key, url) {
+    var box = el(id), parts = t(key).split("{link}");
+    while (box.firstChild) { box.removeChild(box.firstChild); }
+    box.appendChild(document.createTextNode(parts[0]));
+    if (parts.length > 1) {
+      var a = make("a", null, t(key + "Link"));
+      a.href = url; a.target = "_blank"; a.rel = "noopener";
+      box.appendChild(a);
+      box.appendChild(document.createTextNode(parts[1]));
+    }
+  }
+  function getSection() {
+    linked("menuGetDownload", "menuGetDownload", TT.config.downloadUrl);
+    ["Kolibri", "Scorm", "Rachel"].forEach(function (k) {
+      var li = el("menuGet" + k), words = t("menuGet" + k).split("**");
+      while (li.firstChild) { li.removeChild(li.firstChild); }
+      li.appendChild(make("b", null, words[1] || ""));
+      li.appendChild(document.createTextNode(words[2] || words[0]));
+    });
+    el("menuGetOffline").textContent = t("menuGetOffline");
+    linked("menuGetCode", "menuGetCode", TT.config.codeUrl);
+  }
+  getSection();
+  EduGame.on("languagechange", getSection);
 
   if (!site) {   // opened from a lesson's zip, where there is no menu
     el("lessonList").appendChild(make("li", null, "This page is only for the website."));

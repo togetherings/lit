@@ -315,7 +315,8 @@ def check_site(browser, shots):
         assert lessons.count() == len(GAME.packages()), lessons.count()
         assert page.locator("button.lesson.next").get_attribute("data-lesson") == "lesson-01"
         assert page.locator("#moreNote").is_hidden()
-        assert page.locator("#downloadLink").get_attribute("href").endswith("/lit/releases/latest")
+        assert page.locator("#menuGetDownload a").get_attribute("href").endswith("/lit/releases/latest")
+        assert "Kolibri" in page.locator("#menuGet").inner_text()
         lessons.first.click()
         page.wait_for_url("**/lit/en/lesson-01/")
         assert page.locator(".eg-menu-link").inner_text().strip() == "Lessons"

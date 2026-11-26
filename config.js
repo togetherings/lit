@@ -54,5 +54,6 @@ TT.config = {
   showNextKeyHint: true,       // outline the next key to press on that keyboard
 
   // ---------- THE MENU (website and offline copy only: menu.html) ----------
-  downloadUrl: "https://github.com/togetherings/lit/releases/latest"   // where the menu's download link goes
+  downloadUrl: "https://github.com/togetherings/lit/releases/latest",  // the menu's "latest release" link
+  codeUrl: "https://github.com/togetherings/lit"                       // the menu's link to LIT's code
 };
