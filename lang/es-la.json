@@ -88,13 +88,7 @@
   "reviewKeysHeading": "Teclas de este repaso",
   "practiseLesson": "lección {n}",
   "reviewPassed": "¡Repaso completo! Bien hecho.",
-  "menuGetTitle": "Usa LIT en tu escuela",
-  "menuGetDownload": "Descarga LIT desde la {link}. Cada lección es un zip, y el mismo zip funciona en:",
-  "menuGetDownloadLink": "versión más reciente",
-  "menuGetKolibri": "**Kolibri**: súbelo a un canal en Kolibri Studio",
-  "menuGetScorm": "**Moodle** y otras plataformas de aprendizaje: agrégalo como paquete SCORM",
-  "menuGetRachel": "**RACHEL**: descomprímelo en la carpeta de módulos",
-  "menuGetOffline": "Para usar todas las lecciones en una computadora sin internet, descarga lit-all-lessons, descomprímelo y abre index.html.",
-  "menuGetCode": "{link} está en GitHub.",
-  "menuGetCodeLink": "El código de LIT"
+  "kit.get_title": "Usa LIT en tu escuela",
+  "kit.get_download": "Descarga LIT desde la {link}. Cada lección es un zip, y el mismo zip funciona en:",
+  "kit.get_code_link": "El código de LIT"
 }

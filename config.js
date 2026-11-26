@@ -51,9 +51,5 @@ TT.config = {
   showShiftKeysOnPage1: false, // true = Page 1's picture also shows the Shift keys, Caps Lock and the key beside a
                                // short Shift, for lessons whose intro doesn't say ("keys" in the lesson's intro)
   showKeyboard: true,          // draw the keyboard during practice
-  showNextKeyHint: true,       // outline the next key to press on that keyboard
-
-  // ---------- THE MENU (website and offline copy only: menu.html) ----------
-  downloadUrl: "https://github.com/togetherings/lit/releases/latest",  // the menu's "latest release" link
-  codeUrl: "https://github.com/togetherings/lit"                       // the menu's link to LIT's code
+  showNextKeyHint: true        // outline the next key to press on that keyboard
 };
