@@ -26,7 +26,7 @@ jobs:
     uses: togetherings/edugame-kit/.github/workflows/game.yml@v0.3.4
     with:
       # LIT's own check: a sentence using an untaught key, a key with no finger ... fails the build
-      tests: node tests/check_lessons.js
+      tests: node tests/check_lessons.js && node tests/engine_test.js
       # Every lesson and language played on the kit's test page (Playwright)
       browser-tests: python -m tests.e2e_browser --screenshots screenshots
       # One zip per lesson and language too (in the run's Artifacts, game-zips)

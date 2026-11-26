@@ -3,8 +3,22 @@
 LIT used three-digit version numbers up to 022. From 0.23.0 it uses `major.minor.patch`, like the other games made
 with EduGame Kit.
 
-## Unreleased
+## 0.24.0
 
+- **Fairer accuracy.** What is typed is lined up with the sentence, the way a spell-checker does (`js/align.js`): a
+  wrong key, a missed letter, an extra key or two letters swapped is one mistake each, and everything typed after
+  it still counts. (Before, every key was compared with the letter in the same place, so one missed or extra letter
+  made the rest of the sentence wrong: 13% for one missed letter in a 24-letter sentence, now 96%.) Accuracy is
+  (letters - mistakes) / letters; speed counts the letters typed right. A sentence ends when the typing reaches its
+  last letter, so a missed letter no longer needs an extra key press.
+- **Each kind of mistake is marked as it is typed**, with its own look (not colour alone): a wrong key in red with a
+  badge showing the key typed, a missed letter as a dashed crossed-out box, a swapped pair in orange with a two-way
+  arrow, an extra key as a small red tab between letters. A mark can change with the next key ("jule" is a wrong
+  letter until "jule " shows the i was missed).
+- **The results page lists the mistakes by kind, and the keys to practise** (the three letters that went wrong
+  most often), in English, French and Spanish.
+- `tests/engine_test.js` checks the counting (also run in the Build workflow); the browser test types a sentence
+  with a missed letter and a swap in every lesson.
 - **Page 1's picture is the lesson's own keyboard with the hands over it**, so every layout comes out right (the UK
   keyboard's short Shift and extra key, AZERTY ...). Keys are coloured by finger, and a lesson's intro chooses which
   keys show (`keys`: letters, shift, symbols or all). **Fingers reach for the keys a lesson teaches** (`reach`): a

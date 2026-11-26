@@ -2,7 +2,7 @@
   "format": 1,
   "type": "scored",
   "id": "org.togetherings.lit",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "languages": ["en", "en-GB", "fr", "es-419"],
   "color": "#1c3557",
   "options": { "theme": "auto" },
