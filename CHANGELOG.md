@@ -3,6 +3,26 @@
 LIT used three-digit version numbers up to 022. From 0.23.0 it uses `major.minor.patch`, like the other games made
 with EduGame Kit.
 
+## 0.25.0
+
+- **A menu of every lesson, and an address for each lesson in each language** on the website
+  (togetherings.github.io/lit): `/en/` is the English menu, `/en/lesson-03/` lesson 3 with a US keyboard, `/en-gb/`
+  the UK keyboard, `/fr/`, `/es-la/`. The bare address opens the menu in the visitor's language, and the old
+  `/play/lesson-NN/` addresses go to the new ones. Each lesson on the menu is one oval button: a passed lesson shows a
+  tick and its best result, and the first lesson not passed yet is highlighted. Only the lessons written in the chosen
+  language are listed, with a note when another language has more. Made with EduGame Kit 0.3.5 (`menu.html`,
+  `js/menu.js`, `"pages": {"menu": ...}`); never in a lesson's zip.
+- **Lessons** in each lesson's header goes back to the menu, **Next lesson** on a passed lesson's results page goes
+  on, and **Options** changes language by going to the same lesson in that language (or its menu).
+- **`lit-all-lessons-0.25.0.zip`** with each release: every lesson with the menu, to use on its own (unzip it and open
+  `index.html`, offline). Not for Kolibri or other learning systems.
+- **Latin American Spanish is now `es-la`** (it was `es-419`): `lang/es-la.json`, `keyboards/es-la.json`,
+  `lessons/01/es-la.json`, the `lit-es-la-...` bundle and the `/es-la/` address. Its scoreboard is still `es-01`, so
+  results kept before are kept, and a learner who chose `es-419` gets `es-la`.
+- `tests/check_lessons.js` checks each lesson's board id is `<language>-NN`; the browser test plays the website and
+  the offline copy.
+- EduGame Kit 0.3.5.
+
 ## 0.24.0
 
 - **Fairer accuracy.** What is typed is lined up with the sentence, the way a spell-checker does (`js/align.js`): a

@@ -1,0 +1,35 @@
+<!doctype html>
+<!--
+  LIT: Lessons In Typing - the menu of lessons, for the website and the offline copy only (never in a lesson's zip:
+  edugame.json "pages": {"menu": ...}). The EduGame Kit builds one menu for each language, at /<language>/, and each
+  lesson at /<language>/lesson-NN/. js/menu.js fills in the list from EduGame.site(); the kit's helper adds the
+  header (the title and the Options button, which changes language and theme).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LIT: Lessons In Typing</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<main>
+  <section id="page-menu">
+    <div id="menuTop">
+      <h2 data-t="menuTitle"></h2>
+      <span id="menuSummary"></span>
+    </div>
+    <ul id="lessonList" class="lessons"></ul>
+    <p id="moreNote" hidden></p>
+  </section>
+</main>
+
+<script src="edugame-config.js"></script> <!-- made by the EduGame Kit: the words, settings and where the lessons are -->
+<script src="edugame.js"></script>        <!-- the kit's helper: saving, language, theme, the header and Options -->
+<script src="js/core.js"></script>        <!-- shared TT object -->
+<script src="config.js"></script>         <!-- settings (the skin tones) -->
+<script src="js/prefs.js"></script>       <!-- the hands' skin tone, an option in the Options panel -->
+<script src="js/menu.js"></script>        <!-- fills in the list of lessons -->
+</body>
+</html>

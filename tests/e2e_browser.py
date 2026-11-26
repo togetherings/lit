@@ -7,6 +7,9 @@ language: Page 1 -> 2 -> 3, types every sentence, and checks that
   * the language changes in the kit's Options panel, with the lesson's own edition and keyboard
   * nothing is wider than a phone (390 px), and the browser shows no errors or warnings
 
+Then the website (edugame pages, with menu.html) and its offline copy: the menu in the visitor's language, a passed
+lesson's result on the menu, Next lesson, the header's Lessons link, and Options going to the other language's page.
+
     python -m tests.e2e_browser [--screenshots DIR]
 
 Needs EduGame Kit (pip install git+https://github.com/togetherings/edugame-kit) and Playwright.
@@ -226,6 +229,100 @@ def check_options(browser, base, lesson, shots):
     page.close()
 
 
+def serve_folder(folder):
+    import functools
+    from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+
+    class Quiet(SimpleHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(Quiet, directory=folder))
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    return server, "http://127.0.0.1:%d/" % server.server_address[1]
+
+
+def check_site(browser, shots):
+    """The website: lessons at /<language>/lesson-NN/, the menu at /<language>/, and the offline copy."""
+    import shutil
+    import tempfile
+    import zipfile
+
+    from playwright.sync_api import expect
+    from edugame import pages
+
+    work = tempfile.mkdtemp(prefix="lit-site-")
+    pages.build_pages(GAME, os.path.join(work, "lit"))
+    server, base = serve_folder(work)
+    try:
+        context = browser.new_context(locale="en-US", viewport={"width": 1000, "height": 800})
+        context.on("page", lambda pg: pg.on("pageerror", lambda e: problems.append(str(e))))
+        problems = []
+        page = context.new_page()
+        page.goto(base + "lit/")
+        page.wait_for_url("**/lit/en/")
+        lessons = page.locator("button.lesson")
+        lessons.first.wait_for()
+        assert lessons.count() == len(GAME.packages()), lessons.count()
+        assert page.locator("button.lesson.next").get_attribute("data-lesson") == "lesson-01"
+        assert page.locator("#moreNote").is_hidden()
+        lessons.first.click()
+        page.wait_for_url("**/lit/en/lesson-01/")
+        assert page.locator(".eg-menu-link").inner_text().strip() == "Lessons"
+        page.locator("#touchNext").click()
+        play(page, page, "01")
+        page.locator("#nextLessonBtn").click()                       # passed: on to lesson 2
+        page.wait_for_url("**/lit/en/lesson-02/")
+        page.locator(".eg-menu-link").click()
+        page.wait_for_url("**/lit/en/")
+        page.locator("button.lesson.passed").first.wait_for()
+        assert page.locator("button.lesson.passed").count() == 1
+        assert page.locator("button.lesson.next").get_attribute("data-lesson") == "lesson-02"
+        assert "%" in page.locator("button.lesson.passed .best").inner_text()
+        if shots:
+            page.screenshot(path=os.path.join(shots, "site-menu.png"), full_page=True)
+        lessons.nth(2).click()                                       # lesson 3, then British English: the same lesson
+        page.wait_for_url("**/lit/en/lesson-03/")
+        page.locator(".eg-options-button").click()
+        page.locator("input[name=eg-language][value='en-GB']").check()
+        page.locator(".eg-actions .eg-primary").click()
+        page.wait_for_url("**/lit/en-gb/lesson-03/")
+        page.locator(".eg-options-button").click()                   # French has no lesson 3: the French menu
+        page.locator("input[name=eg-language][value=fr]").check()
+        page.locator(".eg-actions .eg-primary").click()
+        page.wait_for_url("**/lit/fr/")
+        page.locator("button.lesson").first.wait_for()
+        assert page.locator("button.lesson").count() == 1 and page.locator("#moreNote").is_visible()
+        assert page.title() == GAME.text("title", "fr")
+        if shots:
+            page.screenshot(path=os.path.join(shots, "site-menu-fr.png"), full_page=True)
+        page.goto(base + "lit/play/lesson-02/?lang=en")              # an old address
+        page.wait_for_url("**/lit/en/lesson-02/")
+        context.close()
+
+        # The offline copy, opened from a folder
+        folder = os.path.join(work, "offline")
+        zipfile.ZipFile(pages.offline_zip(GAME, work)).extractall(folder)
+        context = browser.new_context(locale="es-MX", viewport={"width": 1000, "height": 800})
+        page = context.new_page()
+        page.on("pageerror", lambda e: problems.append(str(e)))
+        page.goto("file://" + os.path.join(folder, "index.html"))
+        page.locator("button.lesson").first.wait_for()
+        assert page.url.endswith("#es-la"), page.url
+        page.locator("button.lesson").first.click()
+        expect(page).to_have_url(re.compile("#es-la/lesson-01$"))
+        page.locator("#touchNext").wait_for()
+        page.locator(".eg-menu-link").click()
+        expect(page).to_have_url(re.compile("#es-la$"))
+        page.locator("button.lesson").first.wait_for()
+        context.close()
+        assert not problems, problems
+    finally:
+        server.shutdown()
+        shutil.rmtree(work, ignore_errors=True)
+    print("website and offline copy: OK")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--screenshots")
@@ -249,6 +346,7 @@ def main():
                 print("%s: OK" % pkg["id"])
             finally:
                 server.shutdown()
+        check_site(browser, args.screenshots)
         browser.close()
     if errors:
         print("\n".join(errors))

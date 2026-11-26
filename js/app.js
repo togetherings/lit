@@ -745,6 +745,12 @@
     var pic = sideImage(passed ? "passed" : "failed", "result");
     if (pic) { var space = make("div", "result-pic"); space.appendChild(pic); layout.appendChild(space); }
     box.appendChild(layout);
+    // On the website (and the offline copy), a passed lesson leads on to the next one
+    var site = EduGame.site && EduGame.site();
+    var next = passed && site && site.next;
+    el("nextLessonBtn").hidden = !next;
+    el("retryBtn").className = next ? "" : "primary";
+    if (next) { nextLessonUrl = next; }
 
     stopPractice();   // this attempt is over
     showPage("results");
@@ -842,6 +848,8 @@
   el("startBtn").addEventListener("click", startPractice);
   el("practiceBack").addEventListener("click", showKeysPage);   // back to Page 2
   el("retryBtn").addEventListener("click", startPractice);
+  var nextLessonUrl = null;
+  el("nextLessonBtn").addEventListener("click", function () { if (nextLessonUrl) { EduGame.goTo(nextLessonUrl); } });
   el("resultsBack").addEventListener("click", showKeysPage);
 
   setLanguage(TT.firstLanguage);

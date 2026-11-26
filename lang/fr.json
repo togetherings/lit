@@ -64,5 +64,12 @@
   "finger.rp": "auriculaire",
   "finger.lt": "pouce",
   "finger.rt": "pouce",
-  "typeHere": "Tapez ici"
+  "typeHere": "Tapez ici",
+  "kit.menu": "Leçons",
+  "menuTitle": "Leçons",
+  "menuPassed": "{n} sur {total} réussies",
+  "menuBest": "Meilleur : {acc} % · {wpm} mots par minute",
+  "menuNext": "Suivante",
+  "menuMore": "D'autres leçons existent en : {names}. Choisissez une langue dans Options.",
+  "nextLesson": "Leçon suivante"
 }

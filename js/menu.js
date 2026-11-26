@@ -1,0 +1,83 @@
+/*
+  menu.js - the menu of lessons (menu.html), on the website and in the offline copy.
+
+  EduGame.site() (the EduGame Kit) lists the lessons in this page's language, each with its title, description,
+  address and config (config.lesson: "03"). Each lesson is one button: the whole oval opens it. A passed lesson shows a
+  tick and its best result; the first lesson not passed yet is highlighted as the next one. Every lesson stays open.
+
+  Results come from the helper (EduGame.ready().results): one board per lesson edition, named "<language>-<NN>" after
+  the lesson file's language ("en-03" for en and en-GB, "es-01" for es-la). tests/check_lessons.js checks that rule.
+*/
+(function () {
+  var t = EduGame.t;
+  var site = EduGame.site();
+  var results = {};
+
+  function el(id) { return document.getElementById(id); }
+  function make(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) { e.className = cls; }
+    if (text != null) { e.textContent = text; }
+    return e;
+  }
+
+  function board(pkg) { return site.language.split("-")[0].toLowerCase() + "-" + pkg.config.lesson; }
+
+  // "LIT 3: Reaching up: E and I" -> "Reaching up: E and I" (the number is in the circle)
+  function shortTitle(title) {
+    var s = title.replace(/^LIT\s*\d+\s*:\s*/, "");
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  function render() {
+    var list = el("lessonList");
+    while (list.firstChild) { list.removeChild(list.firstChild); }
+    var passed = 0, nextShown = false;
+    site.packages.forEach(function (pkg) {
+      var n = parseInt(pkg.config.lesson, 10);
+      var best = results[board(pkg)];
+      var b = make("button", "lesson");
+      b.type = "button";
+      b.setAttribute("data-lesson", pkg.id);
+      var text = make("span", "text");
+      var name = make("span", "name", (best ? n + ". " : "") + shortTitle(pkg.title));
+      text.appendChild(name);
+      if (best) {
+        passed++;
+        b.className += " passed";
+        text.appendChild(make("span", "best", t("menuBest", { acc: EduGame.number(best.acc), wpm: EduGame.number(best.wpm) })));
+      } else {
+        text.appendChild(make("span", "about", pkg.description));
+        if (!nextShown) {
+          nextShown = true;
+          b.className += " next";
+          name.appendChild(document.createTextNode(" "));
+          name.appendChild(make("span", "tag", t("menuNext")));
+        }
+      }
+      var num = make("span", "num", best ? "✓" : String(n));
+      num.setAttribute("aria-hidden", "true");
+      b.appendChild(num);
+      b.appendChild(text);
+      b.addEventListener("click", function () { EduGame.goTo(pkg.url); });
+      var li = make("li");
+      li.appendChild(b);
+      list.appendChild(li);
+    });
+    el("menuSummary").textContent = t("menuPassed", { n: passed, total: site.packages.length });
+
+    // Other languages with more lessons than this one
+    var more = site.languages.filter(function (l) { return l.packages > site.packages.length; });
+    el("moreNote").hidden = !more.length;
+    el("moreNote").textContent = t("menuMore", { names: more.map(function (l) { return l.name; }).join(", ") });
+  }
+
+  if (!site) {   // opened from a lesson's zip, where there is no menu
+    el("lessonList").appendChild(make("li", null, "This page is only for the website."));
+    return;
+  }
+  EduGame.ready().then(function (info) {
+    results = info.results || {};
+    render();
+  });
+})();
