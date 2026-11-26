@@ -32,6 +32,7 @@ fs.readdirSync(path.join(root, "lessons")).sort().forEach(function (lesson) {
   vm.createContext(sandbox);
   vm.runInContext(fs.readFileSync(path.join(root, "js/core.js"), "utf8"), sandbox);
   vm.runInContext("this.TT = TT", sandbox);
+  vm.runInContext(fs.readFileSync(path.join(root, "js/engine.js"), "utf8"), sandbox);   // TT.parseChanges
   const pkg = (game.packages || []).find(p => p.config && p.config.lesson === lesson);
   if (!pkg) {
     warnings.push("no package in edugame.json has config.lesson \"" + lesson + "\"");

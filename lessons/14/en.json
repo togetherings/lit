@@ -1,0 +1,153 @@
+{
+  "_notes": {
+    "about": "Lesson 14 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter.",
+    "changes": "In a sentence, {typed>fixed} is a planned change: the learner types the first word, deletes back with Backspace to what the two words share, and types the rest. Only the sentence up to the next change shows, with a note above the typing saying what to do.",
+    "allowBackspace": "true: Backspace works in this lesson. With an accuracy pass mark of 100 (edugame.json, the package's settings) every mistake must be fixed before the sentence ends."
+  },
+  "id": "en-14",
+  "title": "Lesson 14: Backspace",
+  "intro": {
+    "title": "Fixing mistakes: Backspace",
+    "paragraphs": [
+      "[Backspace] deletes the last letter you typed. Press it with your right little finger: reach up and to the right from [;], then come straight back.",
+      "In this lesson you'll type a word, then change it: delete back to the letter that changes, and type the right letters. A note above the typing tells you what to do.",
+      "Every mistake must be fixed before you go on, so this lesson needs **100% accuracy**."
+    ],
+    "keys": "all",
+    "reach": {
+      "rp": "Backspace"
+    }
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "w",
+    "o",
+    "t",
+    "y",
+    "q",
+    "p",
+    "v",
+    "m",
+    "b",
+    "n",
+    "c",
+    "x",
+    "z",
+    ",",
+    ".",
+    "ShiftL",
+    "ShiftR",
+    "Caps",
+    "space"
+  ],
+  "newKeys": [
+    "Backspace"
+  ],
+  "advice": [
+    "[Backspace] is at the right end of the number row. Reach up with your right little finger, press it, and come back to [;].",
+    "Each press deletes one letter. To change a letter at the start or in the middle of a word, delete back to it, then type the rest of the word again.",
+    "Keep your eyes on the screen: the note shows how many times to press [Backspace]."
+  ],
+  "allowBackspace": true,
+  "sentenceLists": [
+    {
+      "name": "Fix a letter",
+      "count": 2,
+      "sentences": [
+        "The cat {sad>sat} on the {met>mat}.",
+        "Fatmata {pet>put} the rice in a {pat>pan}.",
+        "We {sap>sat} by the river at {moon>noon}.",
+        "Hawa {dog>dug} a hole in the {yarn>yard}.",
+        "The {log>dog} ran after the {bad>bat}.",
+        "Sorie wrote with a {hen>pen} on a {pal>pad}.",
+        "Jeneba {can>ran} to the {bun>bus}.",
+        "The {sum>sun} is {hit>hot} today.",
+        "Brima {cot>cut} a big {yak>yam}.",
+        "Isatu drank warm {silk>milk} from a {mud>mug}.",
+        "The {mice>rice} is in the {pop>pot}.",
+        "Musa sailed a {coat>boat} across the {bat>bay}.",
+        "Kadiatu put the {jab>jam} on her {broad>bread}.",
+        "Ibrahim saw a {fax>fox} near the {hilt>hill}.",
+        "The {toad>road} to Bo is {web>wet} today.",
+        "Sia keeps her {bold>gold} ring in a {bog>box}.",
+        "Foday fed the {luck>duck} some {cord>corn}.",
+        "Mohamed reads a {cook>book} in the {cab>car}.",
+        "The {form>farm} has a {cop>cow}.",
+        "Aminata {pit>put} the {pie>pin} in her hair."
+      ]
+    },
+    {
+      "name": "Change a word",
+      "count": 2,
+      "sentences": [
+        "Isatu drank a cup of {winter>water}.",
+        "We ride the {truck>bus} to Freetown.",
+        "Mohamed reads a {brook>book} every night.",
+        "The baby sleeps in a {basket>cradle}.",
+        "Fatu planted {seats>seeds} in the garden.",
+        "Alusine wears a {jumper>jacket} when it is cold.",
+        "The teacher wrote on the {bored>board}.",
+        "We cook rice in a {pan>pot}.",
+        "The fish swim in the {seat>sea}.",
+        "Kadiatu sweeps the floor with a {brush>broom}.",
+        "Hawa buys {bread>beans} at the market.",
+        "Sheku kicked the {bell>ball} across the field.",
+        "Mariama wrote a {latter>letter} to her aunt.",
+        "The goat ate the {grease>grass}.",
+        "Brima fixed the {roof>door} of the house.",
+        "Jeneba carried water in a {bucket>basin}.",
+        "The sun rises in the {west>east}.",
+        "Saidu found his {shoes>socks} under the bed.",
+        "We eat {lunch>supper} after dark.",
+        "Ramatu sang a {story>song} at school."
+      ]
+    },
+    {
+      "name": "Fix your own mistakes",
+      "count": 3,
+      "sentences": [
+        "Zainab fixed six broken zippers, quickly and quietly.",
+        "Sheku bought a dozen bright exercise books.",
+        "Strong winds swept through Kambia at midnight.",
+        "Jeneba juggled twelve unusual pumpkins.",
+        "The excited children squealed, laughed, and danced.",
+        "Ibrahim unbuckled his muddy brown sandals.",
+        "Chernor crunched the crispy fried plantain.",
+        "Mabinty swiftly wrapped the gifts in bright paper.",
+        "Each puzzle seemed strangely tricky; nobody minded.",
+        "Sahr hummed a jolly tune by the swamp.",
+        "Twenty zebras zigzagged across the dusty plain.",
+        "The quick brown fox jumps over the lazy dog.",
+        "Abdulai typed his password twice, then logged in.",
+        "Hassan smudged the blackboard with his elbow.",
+        "Unexpected thunder rumbled over Kenema; everyone hurried home.",
+        "Kemoh explained the rhythm of the drums.",
+        "Hawa knitted a thick woolly scarf for her brother.",
+        "Yabom mixed honey, lemon, and ginger in a mug.",
+        "The python crept through the dry grass silently.",
+        "Musa quickly squeezed six juicy oranges."
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

@@ -76,6 +76,44 @@ test("speed: correct letters / 5 per minute of typing (pauses not counted)", () 
   assert.strictEqual(s.stats(now).wpm, Math.round(10 / 5 / (54 / 60) * 10) / 10);
 });
 
+test("the clock stops between sentences, from one's last key to the next one's first key", () => {
+  const s = TT.createSession(["ab", "cd"]);
+  s.type("a", 0); s.type("b", 1000);                       // 1 s for the first sentence
+  assert.strictEqual(s.elapsedMs(30000), 1000);            // waiting before the next sentence: not counted
+  s.type("c", 60000); s.type("d", 61000);                  // 1 s for the second
+  assert.ok(s.finished);
+  assert.strictEqual(s.elapsedMs(90000), 2000);
+});
+
+test("planned changes: {typed>fixed} is parsed into the sentence as it ends up, and the steps", () => {
+  const p = TT.parseChanges("The cat {sad>sat} on the {met>mat}.");
+  assert.strictEqual(p.text, "The cat sat on the mat.");
+  assert.deepStrictEqual(p.changes.map(c => [c.at, c.from, c.to, c.keep]), [[8, "sad", "sat", 2], [19, "met", "mat", 1]]);
+  assert.deepStrictEqual(p.stages.map(st => st.kind + ":" + st.target),
+    ["type:The cat sad", "delete:The cat sa", "type:The cat sat on the met", "delete:The cat sat on the m", "type:The cat sat on the mat."]);
+  assert.strictEqual(TT.parseChanges("no changes.").stages.length, 1);
+  assert.strictEqual(TT.parseChanges("{chair>banana} x").changes[0].keep, 0);
+});
+
+test("planned changes: type the first word, Backspace, then the fix; 100% when done right", () => {
+  const S2 = "The cat {sad>sat} on the {met>mat}.";
+  const s = typeAll([S2], "The cat sad\bt on the met\b\bat.", { allowBackspace: true, requireCorrect: true });
+  assert.ok(s.finished);
+  const st = s.stats(100000);
+  assert.strictEqual(st.accuracy, 100);
+  // Backspace is asked for: other keys typed then are mistakes to fix, and the step waits for them
+  const w = typeAll([S2], "The cat sad", { allowBackspace: true, requireCorrect: true });
+  assert.ok(w.wantsBackspace() && w.expectedChar() === "");
+  w.type("x", 5000);
+  assert.ok(w.wantsBackspace() && w.currentStage().kind === "delete");
+  w.backspace(); w.backspace();
+  assert.strictEqual(w.currentStage().kind, "type");
+  assert.strictEqual(w.expectedChar(), "t");
+  // without "fix every mistake", Backspace still works for a planned change
+  const n = typeAll(["a {cat>cut}."], "a cat\b\but.");
+  assert.ok(n.finished);
+});
+
 test("Backspace (when allowed) takes back the last key; a fixed mistake does not count", () => {
   const s = typeAll([S], "julie lo\bi" + S.slice(8), { allowBackspace: true });
   assert.ok(s.finished);

@@ -49,8 +49,14 @@ def problem(message):
 
 def check_hands(game, page, code):
     """Page 1's hands: every fingertip on its key (the key the lesson's intro says it reaches, or its home key),
-    measured on the lesson's own keyboard."""
-    game.locator(".intro-keyboard svg.hands-real").wait_for()
+    measured on the lesson's own keyboard. An intro with "reaches" has one picture for each, taking turns."""
+    frames = page.get("reaches") or [{"reach": page.get("reach") or {}}]
+    game.locator(".intro-keyboard svg.hands-real").first.wait_for()
+    assert game.locator(".intro-keyboard svg.hands-real").count() == len(frames), code
+    if len(frames) > 1:
+        assert game.locator(".reach-frames button").count() == len(frames), code
+        game.locator(".reach-frames button").nth(1).click()                   # a caption shows its picture
+        assert game.locator(".intro-keyboard svg.hands-real").nth(1).evaluate("s => s.classList.contains('shown')"), code
     misses = game.locator(".intro-keyboard").evaluate("""holder => {
       const hb = holder.getBoundingClientRect(), out = [];
       holder.querySelectorAll("svg.hands-real [data-finger]").forEach(g => {
@@ -65,12 +71,14 @@ def check_hands(game, page, code):
       return out;
     }""")
     assert not misses, (code, misses)
-    reach = page.get("reach") or {}
-    fingers = game.locator(".intro-keyboard svg.hands-real [data-finger]").evaluate_all("a => a.map(g => [g.dataset.finger, g.dataset.key])")
-    assert len(fingers) == 8, (code, fingers)
-    for finger, key in fingers:
-        if finger in reach:
-            assert key == reach[finger], (code, finger, key)
+    for n, frame in enumerate(frames):
+        reach = frame.get("reach") or {}
+        fingers = game.locator(".intro-keyboard svg.hands-real").nth(n).locator("[data-finger]").evaluate_all(
+            "a => a.map(g => [g.dataset.finger, g.dataset.key])")
+        assert len(fingers) == 8, (code, fingers)
+        for finger, key in fingers:
+            if finger in reach:
+                assert key == reach[finger], (code, finger, key)
 
 
 # Reaches no lesson uses yet, drawn on lesson 1's keyboard in each of its languages: every fingertip must
@@ -119,6 +127,38 @@ def with_slips(text):
     t = text[:gone] + text[gone + 1:]
     sw = next(i for i in range(gone + 2, len(t) - 2) if t[i] != t[i + 1] and " " not in t[i:i + 2])
     return t[:sw] + t[sw + 1] + t[sw] + t[sw + 2:]
+
+
+def play_stepwise(page, game, ed):
+    """Plays a lesson with planned changes ({typed>fixed}: the Backspace lesson) or "fix every mistake", one key
+    at a time as the page asks (#sentence's data-next: a character, or "Backspace"). In the last list it makes a
+    mistake on purpose: the note must say how to fix it, and the sentence must wait until it is fixed."""
+    game.locator("#startBtn").click()
+    sentence, slipped, notes = game.locator("#sentence"), False, set()
+    for _ in range(5000):
+        if game.locator("#page-results").is_visible():
+            break
+        nxt = sentence.get_attribute("data-next")
+        if not nxt:
+            page.wait_for_timeout(100)
+            continue
+        note = game.locator("#sentence .type-note")
+        if note.count():
+            notes.add(note.inner_text().split()[0])
+        if not slipped and "3 of 3" in game.locator("#listName").inner_text() and nxt != "q" and nxt != "Backspace":
+            slipped = True
+            page.keyboard.type("q")                                         # a real mistake
+            assert sentence.get_attribute("data-next") == "Backspace"
+            assert game.locator("#sentence .ch.bad").count() == 1
+            assert "fix" in game.locator("#sentence .type-note").inner_text()
+            continue
+        if nxt == "Backspace":
+            page.keyboard.press("Backspace")
+        else:
+            page.keyboard.type(nxt)
+    game.locator("#resultsBody .pass").wait_for()
+    assert slipped
+    assert {"Type", "Press", "Now"} <= notes, notes                    # every kind of note was shown
 
 
 def play(page, game, lesson, slips=False):
@@ -179,8 +219,8 @@ def check(browser, base, package, lesson, shots):
             # Page 1 is the lesson's own, in its edition's language, with **bold** and [E] keys drawn as keys
             assert game.locator("#touchBody h2").inner_text() == intro(ed)["title"], code
             text = " ".join(intro(ed)["paragraphs"])
-            assert game.locator("#touchBody kbd.keycap").count() == len(re.findall(r"\[[^\[\]\s][^\[\]]{0,11}\]", text)), code
-            assert game.locator("#touchBody strong").count() == len(re.findall(r"\*\*[^*]+\*\*", text)), code
+            assert game.locator("#touchBody p kbd.keycap").count() == len(re.findall(r"\[[^\[\]\s][^\[\]]{0,11}\]", text)), code
+            assert game.locator("#touchBody p strong").count() == len(re.findall(r"\*\*[^*]+\*\*", text)), code
             assert "**" not in game.locator("#touchBody").inner_text(), code
             if shots and code == languages(package)[0]:
                 page.screenshot(path=os.path.join(shots, "%s-intro.png" % package))
@@ -188,10 +228,14 @@ def check(browser, base, package, lesson, shots):
         if shots and code == languages(package)[0]:
             page.screenshot(path=os.path.join(shots, "%s-keys.png" % package))
         assert game.locator("#keysBody h2").inner_text() == ed["title"], code
-        play(page, game, lesson, slips=(code == languages(package)[0]))
+        stepwise = bool(ed.get("allowBackspace"))
+        if stepwise:
+            play_stepwise(page, game, ed)
+        else:
+            play(page, game, lesson, slips=(code == languages(package)[0]))
         store, record = saved(page)
         assert store["cmi.core.lesson_status"] == "passed" and "cmi.core.score.raw" not in store, store
-        slipped = code == languages(package)[0]          # two slips in the first sentence: 2 mistakes in all
+        slipped = code == languages(package)[0] and not stepwise   # two slips in the first sentence: 2 mistakes in all
         assert record[ed["id"]][2] == 1, record                                   # [accuracy, speed, plays]
         assert (90 <= record[ed["id"]][0] < 100) if slipped else record[ed["id"]][0] == 100, record
         if shots and code == languages(package)[0]:

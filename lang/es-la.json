@@ -72,5 +72,18 @@
   "menuNext": "Siguiente",
   "menuMore": "Hay más lecciones en: {names}. Elige un idioma en Opciones.",
   "nextLesson": "Siguiente lección",
-  "menuDownload": "Descarga LIT para usarlo sin conexión o en Kolibri, Moodle o RACHEL"
+  "menuDownload": "Descarga LIT para usarlo sin conexión o en Kolibri, Moodle o RACHEL",
+  "listPart": "Parte {n} de {total}: {name}",
+  "noteChange": "Escribe **{from}** y luego cámbialo por **{to}**",
+  "notePress": {
+    "one": "Presiona [Backspace] una vez",
+    "other": "Presiona [Backspace] {n} veces"
+  },
+  "noteMore": {
+    "one": "[Backspace] 1 vez más",
+    "other": "[Backspace] {n} veces más"
+  },
+  "noteType": "Ahora escribe **{word}**",
+  "noteFix": "Presiona [Backspace] para corregir",
+  "capsWordsHint": "Bloq Mayús está activado: desactívalo después de la palabra"
 }

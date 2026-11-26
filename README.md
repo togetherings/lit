@@ -18,8 +18,10 @@ finger types each → **3.** typing practice with sentences → **4.** results (
 practise). What is typed is lined up with the sentence, the way a spell-checker does (`js/align.js`): a wrong key, a
 missed letter, an extra key or two letters swapped is **one** mistake each, marked on the sentence as it is typed,
 and everything typed after it still counts. Accuracy is (letters - mistakes) / letters; speed counts the letters typed
-right (5 to a word) per minute. The lesson is *passed* when the accuracy
-and speed targets in `config.js` are both reached. Every page's text belongs to the lesson, in each language.
+right (5 to a word) per minute of typing: the clock stops from the end of a sentence until the next sentence's first
+key. The lesson is *passed* when the accuracy and speed targets are both reached: 90% and 8 words a minute in
+`config.js`, with faster targets in later lessons (each package's settings in `edugame.json`: 10 for lessons 6-8, 12
+for 9-12, 10 for 13; lesson 14 needs 100% accuracy). Every page's text belongs to the lesson, in each language.
 
 ## Get the zips
 
@@ -140,8 +142,16 @@ merge it when **Checks passed** passes, after reading the release's **What games
      finger stretches up, curls down to the bottom row, the palm lifts for the number row, and turns towards a Shift
      key. `keys` says which keys show: `"letters"` (with `;` `,` `.` and the space bar; the default), `"shift"` (and
      Shift, Caps Lock, and the key beside a short Shift), `"symbols"` (and numbers and punctuation), or `"all"`.
+     `reaches` instead of `reach` gives several pictures that take turns, each `{"reach": {...}, "caption": "..."}`
+     (lesson 13: the left Shift with a capital I, then the right Shift with a capital E).
    - In `intro` and `advice` paragraphs, `**bold**` is bold and `[E]` draws a key as a key: `[;]`, `[space]`,
-     `[Tab]`, `[Enter]`, `[ShiftL]` ...
+     `[Tab]`, `[Enter]`, `[ShiftL]`, `[Backspace]` ...
+   - Sentence lists can have a `name` (shown above the typing; with several named lists, as "Part 1 of 4: ...") and
+     `"caps": true` for words in capitals (the Caps Lock notice then says to turn it off after the word).
+   - `{typed>fixed}` in a sentence is a planned change, for the Backspace lesson (14): the learner types the first
+     word, deletes back to what the two words share, and types the rest. Only the sentence up to the next change
+     shows, with a note above it saying what to do. With `"allowBackspace": true` in the lesson and an accuracy pass
+     mark of 100, every mistake must be fixed before the sentence ends.
    - A lesson written only in some languages lists them in its package: `"languages": ["en", "en-GB"]`. Only
      those get its zips, and `tests/check_lessons.js` fails if a listed language has no edition of its own (French
      would otherwise get the English lesson). en-GB uses `en.json` and its own UK keyboard.

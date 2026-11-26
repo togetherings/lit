@@ -106,7 +106,13 @@ var TT = {
       if (sentences.length > 0 && count > sentences.length) { console.warn("List " + (n + 1) + ": count is " + count + " but it has only " + sentences.length + " sentences"); }
       if (count > 0) { total += Math.min(count, sentences.length); }
       sentences.forEach(function (s) {
-        s.split("").forEach(function (ch) {
+        // planned changes ({typed>fixed}, the Backspace lesson): both words must use taught keys, and differ
+        var plan = TT.parseChanges ? TT.parseChanges(s) : { text: s, changes: [] };
+        if (/[{}]/.test(plan.text)) { console.warn("List " + (n + 1) + ": sentence \"" + s + "\" has a { or } that isn't a change written {typed>fixed}"); }
+        plan.changes.forEach(function (c) {
+          if (c.from === c.to) { console.warn("List " + (n + 1) + ": sentence \"" + s + "\" changes \"" + c.from + "\" to itself"); }
+        });
+        (plan.text + plan.changes.map(function (c) { return c.from; }).join("")).replace(/[{}]/g, "").split("").forEach(function (ch) {
           if (allowed.indexOf(ch) < 0) { console.warn("List " + (n + 1) + ": sentence \"" + s + "\" uses \"" + ch + "\", which has not been taught (a capital needs Shift or Caps taught, and a shifted symbol such as ! must itself be listed in newKeys/knownKeys)"); }
         });
       });
