@@ -16,7 +16,12 @@ with EduGame Kit.
 - **Lessons 15 and 16: the numbers** (en and en-GB): 1 to 5 with the left hand, 6 to 0 with the right, 30 sentences
   each, 10 words a minute to pass. Page 1's two pictures show the four fingers reaching straight up, then the index
   finger's reach in (to 5 or 6).
-- **Review #4** after lesson 16: capitals and numbers (5), and everything so far (3); 12 words a minute.
+- **Review #4** after lesson 16, in three parts: capitals and numbers (3), **Fix it** (2: change a number or a word
+  with Backspace, written `{typed>fixed}` as in lesson 14; every mistake must be fixed in this part, so it is always
+  100%), and everything so far (3); 12 words a minute, 90% accuracy overall.
+- **Backspace works in every lesson from 15 on** (and Review #4). Fixing is optional: a fixed mistake doesn't count
+  against accuracy. A sentence list can now have `"fixAll": true` to make fixing every mistake required in that part
+  only.
 - **Results**: a review says "Review complete!", and the button back to Page 2 says "Back" in every lesson.
 - **"Use LIT in your school"**: the menu's download link is now its own section under the lessons, like the old front
   page: the latest release, Kolibri, Moodle and RACHEL, the offline all-lessons zip (by its file name), and LIT's code.

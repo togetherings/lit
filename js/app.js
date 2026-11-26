@@ -609,7 +609,7 @@
     // "Fix every mistake" mode: Backspace is allowed AND the accuracy pass mark is 100
     var strict = !!allowBack && cfg.thresholds.accuracy >= 100;
     el("strictNote").textContent = t("strictNotice");
-    el("strictNote").hidden = !strict;
+    el("strictNote").hidden = true;                 // shown in render(), for the sentences it's about
     el("capsWarning").textContent = t("capsWarning");
     el("capsWarning").hidden = true;
 
@@ -636,7 +636,10 @@
       showPage("practice");
       return;
     }
-    session = TT.createSession(attempt.sentences, { allowBackspace: allowBack, requireCorrect: strict });
+    // A list with "fixAll": true needs every mistake fixed, even when the rest of the lesson doesn't
+    var fixAll = listOf.map(function (l) { return strict || !!l.fixAll; });
+    session = TT.createSession(attempt.sentences, { allowBackspace: allowBack || fixAll.indexOf(true) >= 0,
+                                                    requireCorrect: strict ? true : fixAll });
     TT.progress.start();                                // the helper times the attempt (for the scoreboards)
 
     clockTimer = setInterval(updateClock, 250);
@@ -728,6 +731,7 @@
 
     // Caps Lock on: a warning, or (in a list of words in capitals) a reminder to turn it off after the word
     var list = listOf[showing] || {};
+    el("strictNote").hidden = !session.isStrict(showing);       // "fix every mistake": the lesson, or this list
     el("capsWarning").textContent = t(list.caps ? "capsWordsHint" : "capsWarning");
 
     // Highlight the next key(s) on the on-screen keyboard (not during the pause)
@@ -746,7 +750,7 @@
   function noteFor(al) {
     var k = session.sentenceIndex, typed = session.typed[k], target = session.target(k), st = session.currentStage();
     var plan = session.plans[k], stages = plan.stages, at = session.stage[k];
-    if (session.requireCorrect && al.mistakes > 0 && st.kind === "type") {
+    if (session.isStrict() && al.mistakes > 0 && st.kind === "type") {
       var bad = 0;
       while (bad < al.at && al.marks[bad] && al.marks[bad].ok) { bad++; }
       bad = Math.min(bad, target.length - 1);

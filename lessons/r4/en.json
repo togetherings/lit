@@ -4,7 +4,9 @@
     "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
     "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
     "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter.",
-    "review": "true: no new keys are taught. newKeys lists the keys reviewed (Page 2's heading says so), and practise names the lesson that teaches each key (the results page sends learners there)."
+    "review": "true: no new keys are taught. newKeys lists the keys reviewed (Page 2's heading says so), and practise names the lesson that teaches each key (the results page sends learners there).",
+    "allowBackspace": "true: Backspace works (from lesson 15 on). Accuracy is judged on what's left, so a mistake that's been fixed doesn't count; fixing is optional except in a list with \"fixAll\": true.",
+    "fixAll": "In a sentence list, \"fixAll\": true: every mistake must be fixed before the sentence ends (100% for that part only). {typed>fixed} marks a planned change, as in lesson 14."
   },
   "id": "en-r4",
   "title": "Review #4: Capitals and numbers",
@@ -12,8 +14,8 @@
   "intro": {
     "title": "Review #4: Capitals and numbers",
     "paragraphs": [
-      "This review mixes everything from lessons 1 to 16: every letter, capitals with Shift, and the numbers.",
-      "**The keyboard isn't shown while you type**, so keep your eyes on the screen. Part 1 is about capitals and numbers, and part 2 mixes everything so far."
+      "This review mixes everything from lessons 1 to 16: every letter, capitals with Shift, Backspace, and the numbers.",
+      "**The keyboard isn't shown while you type**, so keep your eyes on the screen. Part 1 is about capitals and numbers, part 2 changes a number or a word with Backspace (every mistake must be fixed there), and part 3 mixes everything so far. Backspace works in every part."
     ],
     "picture": "none"
   },
@@ -115,10 +117,11 @@
     "9": "16",
     "0": "16"
   },
+  "allowBackspace": true,
   "sentenceLists": [
     {
       "name": "Capitals and numbers",
-      "count": 5,
+      "count": 3,
       "sentences": [
         "Mariama was born on 14 May 2010.",
         "The WAEC exam has 50 questions.",
@@ -140,6 +143,33 @@
         "Mount Bintumani is about 1945 meters high.",
         "The school was built in 1987.",
         "Hawa bought 2 kilos of rice and 6 eggs."
+      ]
+    },
+    {
+      "name": "Fix it",
+      "count": 2,
+      "fixAll": true,
+      "sentences": [
+        "Musa has {3>4} goats and 2 sheep.",
+        "Bus {12>15} leaves at {2>3} PM.",
+        "The shop opens at {8>9} AM every day.",
+        "Mariama was born in {2011>2012}.",
+        "Our class has {34>43} pupils.",
+        "Room {108>180} is next to the office.",
+        "The ferry to Lungi takes about {40>50} minutes.",
+        "Jeneba scored {69>96} in English.",
+        "The match ended {2>3} to 1.",
+        "Sheku lives in {Bo>Kenema}.",
+        "Hawa bought {6>8} eggs and {3>2} kilos of rice.",
+        "The exam starts at {10>11} AM.",
+        "We meet on {Monday>Friday} at 4 PM.",
+        "Ibrahim read Chapter {15>16} today.",
+        "Sierra Leone became independent in {1916>1961}.",
+        "Fatu turned {17>18} in June.",
+        "The library has {700>900} books.",
+        "Call Kadiatu at {6>7} PM.",
+        "The {UK>UN} was founded in 1945.",
+        "Isatu flew to {Lagos>Accra} on Flight 287."
       ]
     },
     {
@@ -167,11 +197,6 @@
         "Mohamed listens to the radio every night.",
         "Learning to type well takes patience and practice."
       ]
-    },
-    {
-      "name": "",
-      "count": 0,
-      "sentences": []
     },
     {
       "name": "",

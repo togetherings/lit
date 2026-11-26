@@ -158,7 +158,9 @@ merge it when **Checks passed** passes, after reading the release's **What games
    - `{typed>fixed}` in a sentence is a planned change, for the Backspace lesson (14): the learner types the first
      word, deletes back to what the two words share, and types the rest. Only the sentence up to the next change
      shows, with a note above it saying what to do. With `"allowBackspace": true` in the lesson and an accuracy pass
-     mark of 100, every mistake must be fixed before the sentence ends.
+     mark of 100, every mistake must be fixed before the sentence ends; with `"fixAll": true` on a sentence list,
+     only in that part (Review #4's "Fix it"). Lessons from 15 on set `"allowBackspace": true`: fixing is optional,
+     and a fixed mistake doesn't count.
    - A lesson written only in some languages lists them in its package: `"languages": ["en", "en-GB"]`. Only
      those get its zips, and `tests/check_lessons.js` fails if a listed language has no edition of its own (French
      would otherwise get the English lesson). en-GB uses `en.json` and its own UK keyboard.

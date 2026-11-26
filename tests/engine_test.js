@@ -114,6 +114,18 @@ test("planned changes: type the first word, Backspace, then the fix; 100% when d
   assert.ok(n.finished);
 });
 
+test("fix every mistake in some sentences only (a list with fixAll)", () => {
+  const s = TT.createSession(["ab", "cd"], { allowBackspace: true, requireCorrect: [false, true] });
+  assert.ok(!s.isStrict(0) && s.isStrict(1));
+  s.type("a", 0); s.type("x", 100);                    // a mistake left in the first sentence: it still ends
+  assert.strictEqual(s.sentenceIndex, 1);
+  s.type("c", 200); s.type("x", 300);                  // in the second, it must be fixed
+  assert.ok(!s.finished && s.wantsBackspace());
+  s.backspace(); s.type("d", 400);
+  assert.ok(s.finished);
+  assert.strictEqual(s.stats(500).count.wrong, 1);     // only the first sentence's mistake is left
+});
+
 test("Backspace (when allowed) takes back the last key; a fixed mistake does not count", () => {
   const s = typeAll([S], "julie lo\bi" + S.slice(8), { allowBackspace: true });
   assert.ok(s.finished);

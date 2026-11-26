@@ -132,7 +132,7 @@ def with_slips(text):
 def play_stepwise(page, game, ed):
     """Plays a lesson with planned changes ({typed>fixed}: the Backspace lesson) or "fix every mistake", one key
     at a time as the page asks (#sentence's data-next: a character, or "Backspace"). In the last list it makes a
-    mistake on purpose: the note must say how to fix it, and the sentence must wait until it is fixed."""
+    mistake on purpose where every mistake must be fixed: the note must say how, and the sentence must wait."""
     game.locator("#startBtn").click()
     sentence, slipped, notes = game.locator("#sentence"), False, set()
     for _ in range(5000):
@@ -145,7 +145,8 @@ def play_stepwise(page, game, ed):
         note = game.locator("#sentence .type-note")
         if note.count():
             notes.add(note.inner_text().split()[0])
-        if not slipped and "3 of 3" in game.locator("#listName").inner_text() and nxt != "q" and nxt != "Backspace":
+        if not slipped and game.locator("#strictNote").is_visible() and nxt not in ("q", "Backspace") \
+                and not game.locator("#sentence .type-note").count():
             slipped = True
             page.keyboard.type("q")                                         # a real mistake
             assert sentence.get_attribute("data-next") == "Backspace"
@@ -228,7 +229,9 @@ def check(browser, base, package, lesson, shots):
         if shots and code == languages(package)[0]:
             page.screenshot(path=os.path.join(shots, "%s-keys.png" % package))
         assert game.locator("#keysBody h2").inner_text() == ed["title"], code
-        stepwise = bool(ed.get("allowBackspace"))
+        # planned changes ({typed>fixed}) or "fix every mistake": played key by key as the page asks
+        lists = [l for l in ed.get("sentenceLists", []) if l.get("count")]
+        stepwise = any(l.get("fixAll") or any("{" in x for x in l.get("sentences", [])) for l in lists)
         if stepwise:
             play_stepwise(page, game, ed)
         else:
