@@ -23,7 +23,7 @@
   "start": "Empezar a escribir",
   "tryAgain": "Intentar de nuevo",
   "backToKeys": "Volver a las teclas nuevas",
-  "reviewKeys": "Repasar las teclas nuevas",
+  "reviewKeys": "Volver",
   "newKeysHeading": "Teclas que aprenderás",
   "leftHeading": "Mano izquierda",
   "rightHeading": "Mano derecha",
@@ -72,7 +72,6 @@
   "menuNext": "Siguiente",
   "menuMore": "Hay más lecciones en: {names}. Elige un idioma en Opciones.",
   "nextLesson": "Siguiente lección",
-  "menuDownload": "Descarga LIT para usarlo sin conexión o en Kolibri, Moodle o RACHEL",
   "listPart": "Parte {n} de {total}: {name}",
   "noteChange": "Escribe **{from}** y luego cámbialo por **{to}**",
   "notePress": {
@@ -89,5 +88,13 @@
   "reviewKeysHeading": "Teclas de este repaso",
   "practiseLesson": "lección {n}",
   "reviewPassed": "¡Repaso completo! Bien hecho.",
-  "reviewKeysAgain": "Ver las teclas otra vez"
+  "menuGetTitle": "Usa LIT en tu escuela",
+  "menuGetDownload": "Descarga LIT desde la {link}. Cada lección es un zip, y el mismo zip funciona en:",
+  "menuGetDownloadLink": "versión más reciente",
+  "menuGetKolibri": "**Kolibri**: súbelo a un canal en Kolibri Studio",
+  "menuGetScorm": "**Moodle** y otras plataformas de aprendizaje: agrégalo como paquete SCORM",
+  "menuGetRachel": "**RACHEL**: descomprímelo en la carpeta de módulos",
+  "menuGetOffline": "Para usar todas las lecciones en una computadora sin internet, descarga lit-all-lessons, descomprímelo y abre index.html.",
+  "menuGetCode": "{link} está en GitHub.",
+  "menuGetCodeLink": "El código de LIT"
 }

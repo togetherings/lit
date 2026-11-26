@@ -252,7 +252,8 @@ kbd.keycap { display: inline-block; min-width: 1.6em; padding: 0 .35em; border: 
 @media (min-width: 46rem) { .lessons { grid-template-columns: 1fr 1fr; } }   /* two columns on wide screens */
 .lessons li { margin: 0; }
 .lessons li.review { grid-column: 1 / -1; }   /* a review: the whole row, under the lessons it covers */
-.lesson.review:not(.next) { border-style: dashed; }
+.lesson.review .num { background: var(--sun); color: #1d3557; }          /* a review: a blue star on yellow */
+.lesson.review.passed .num { background: var(--ok); color: var(--on-ok); }
 button.lesson { width: 100%; height: 100%; display: flex; align-items: center; gap: .8rem; text-align: left; border-radius: 999px;
                 padding: .5rem 1.3rem .5rem .5rem; font-weight: normal; min-height: 4.2rem; }
 .lesson .num { flex: none; width: 2.9rem; height: 2.9rem; border-radius: 50%; border: 3px solid var(--ink); display: flex;
@@ -266,6 +267,8 @@ button.lesson { width: 100%; height: 100%; display: flex; align-items: center; g
 .lesson.next .about { color: var(--on-color); }
 .lesson.next .num { background: var(--paper); color: var(--ink); }
 .lesson .tag { display: inline-block; padding: 0 .5rem; border-radius: 999px; font-size: .75rem; background: var(--ink); color: var(--paper); vertical-align: middle; }
-#download { margin: 1rem 0 0; font-size: .95rem; }
-#download a { color: var(--ink); font-weight: bold; }
+#menuGet { margin-top: 1.2rem; }                      /* "Use LIT in your school", under the lessons */
+#menuGet h2 { font-size: 1.15rem; margin: 0 0 .4rem; }
+#menuGet p, #menuGet li { margin: .3rem 0; }
+#menuGet a { color: var(--ink); font-weight: bold; }
 #moreNote { margin: .9rem 0 0; padding: .4rem .7rem; background: var(--notice-bg); border-left: 4px solid var(--sun); border-radius: 6px; font-size: .95rem; }

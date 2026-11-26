@@ -1,0 +1,141 @@
+{
+  "_notes": {
+    "about": "Lesson 16 in English (en and en-GB, which has its own keyboard). From the lesson plan \"Typing Game Sentence Bank: Lessons 2-13\". The id is the lesson's scoreboard: never change it.",
+    "intro": "Page 1, before the keys: anything that doesn't fit on Page 2 (lesson 1: \"what is touch typing?\"). Leave it out and the lesson starts at the new keys. \"title\" and \"paragraphs\"; in a paragraph, **bold** and [E] (a key drawn as a key: [space], [;], [Tab] ...). \"picture\": \"hands\" (the default: the hands over the lesson's keyboard), \"none\", or a picture file in images/ (with \"pictureAlt\", what it shows). With \"hands\": \"reach\" sends fingers to keys ({\"lm\": \"e\", \"rm\": \"i\"}: lp lr lm li, rp rr rm ri; keys \"e\", \";\", \"ShiftL\", \"ShiftR\" ...; the others stay home), and \"keys\" says which keys show: \"letters\" (the default), \"shift\", \"symbols\" or \"all\".",
+    "hideHand": "\"left\", \"right\" or \"none\": that hand isn't drawn on Page 2, and its column of new keys isn't listed.",
+    "sentenceLists": "Up to four lists: name (shown above the typing box, or \"\"), count (how many to pick at random each attempt; 0 = unused) and sentences. Use real words, and only keys taught so far. Lesson 1 has no end mark because \";\" hasn't been taught. Write ⇥ for the Tab key and ↵ for Enter."
+  },
+  "id": "en-16",
+  "title": "Lesson 16: Numbers 6 to 0",
+  "intro": {
+    "title": "The number row: 6 to 0",
+    "paragraphs": [
+      "The right hand types [6] to [0]: the index finger both [6] and [7], the middle finger [8], the ring finger [9], and the little finger [0].",
+      "Like 1 to 5, lift your hand a little, reach up two rows, and come straight back to the home row."
+    ],
+    "keys": "symbols",
+    "reaches": [
+      {
+        "reach": {
+          "ri": "7",
+          "rm": "8",
+          "rr": "9",
+          "rp": "0"
+        },
+        "caption": "[7] [8] [9] [0]: each finger straight up from its home key"
+      },
+      {
+        "reach": {
+          "ri": "6"
+        },
+        "caption": "[6]: the right index finger, up and in"
+      }
+    ]
+  },
+  "knownKeys": [
+    "a",
+    "s",
+    "d",
+    "f",
+    "j",
+    "k",
+    "l",
+    ";",
+    "e",
+    "i",
+    "r",
+    "u",
+    "g",
+    "h",
+    "w",
+    "o",
+    "t",
+    "y",
+    "q",
+    "p",
+    "v",
+    "m",
+    "b",
+    "n",
+    "c",
+    "x",
+    "z",
+    ",",
+    ".",
+    "ShiftL",
+    "ShiftR",
+    "Caps",
+    "Backspace",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "space"
+  ],
+  "newKeys": [
+    "6",
+    "7",
+    "8",
+    "9",
+    "0"
+  ],
+  "advice": [
+    "[7] is above [U], and [6] above [Y]: both are for your right index finger.",
+    "[8] is above [I] (middle finger), [9] above [O] (ring finger), and [0] above [P] (little finger).",
+    "Numbers with more than one digit often use both hands: 1961 is left, right, right, left."
+  ],
+  "sentenceLists": [
+    {
+      "name": "",
+      "count": 6,
+      "sentences": [
+        "There are 7 days in a week.",
+        "A year has 12 months and 365 days.",
+        "Bo is about 250 kilometers from Freetown.",
+        "The school bell rings at 8 every morning.",
+        "Mohamed scored 98 on his math test.",
+        "We bought 6 bags of rice.",
+        "The bus left at 9 and arrived at 10.",
+        "Our class has 40 pupils.",
+        "Fatu was born in 2009.",
+        "The football match ended 3 to 0.",
+        "There are 60 minutes in an hour.",
+        "Grandmother is 78 years old.",
+        "Call me at 7, not 8.",
+        "The road is 80 kilometers long.",
+        "Room 906 is at the end of the hall.",
+        "A week has 168 hours.",
+        "Sierra Leone became independent in 1961.",
+        "The shop sold 70 bottles of water.",
+        "Isatu read 9 books during the holidays.",
+        "The team trained for 90 minutes.",
+        "It rained for 6 days in a row.",
+        "Kemoh lives at number 87.",
+        "The library has 900 books.",
+        "Count from 6 to 10 and back.",
+        "Bus 69 goes to the market.",
+        "There are 26 letters in the alphabet.",
+        "Our village has 680 people.",
+        "The exam starts at 9 and ends at 12.",
+        "Ramatu planted 8 rows of cassava.",
+        "Lesson 16 teaches the keys 6 to 0."
+      ]
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    },
+    {
+      "name": "",
+      "count": 0,
+      "sentences": []
+    }
+  ]
+}

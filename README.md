@@ -21,7 +21,7 @@ and everything typed after it still counts. Accuracy is (letters - mistakes) / l
 right (5 to a word) per minute of typing: the clock stops from the end of a sentence until the next sentence's first
 key. The lesson is *passed* when the accuracy and speed targets are both reached: 90% and 8 words a minute in
 `config.js`, with faster targets in later lessons (each package's settings in `edugame.json`: 10 for lessons 6-8, 12
-for 9-12, 10 for 13; lesson 14 needs 100% accuracy; reviews 1-3: 10, 12, 15). Every page's text belongs to the lesson, in each language.
+for 9-12, 10 for 13, 15 and 16; lesson 14 needs 100% accuracy; reviews #1-#4: 10, 12, 15, 12). Every page's text belongs to the lesson, in each language.
 
 ## Get the zips
 
