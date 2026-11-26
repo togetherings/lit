@@ -64,5 +64,13 @@
   "finger.rp": "meñique",
   "finger.lt": "pulgar",
   "finger.rt": "pulgar",
-  "typeHere": "Escribe aquí"
+  "typeHere": "Escribe aquí",
+  "kit.menu": "Lecciones",
+  "menuTitle": "Lecciones",
+  "menuPassed": "{n} de {total} aprobadas",
+  "menuBest": "Mejor: {acc} % · {wpm} palabras por minuto",
+  "menuNext": "Siguiente",
+  "menuMore": "Hay más lecciones en: {names}. Elige un idioma en Opciones.",
+  "nextLesson": "Siguiente lección",
+  "menuDownload": "Descarga LIT para usarlo sin conexión o en Kolibri, Moodle o RACHEL"
 }

@@ -224,3 +224,27 @@ kbd.keycap { display: inline-block; min-width: 1.6em; padding: 0 .35em; border: 
 /* The Options panel is the EduGame Kit's (edugame.js); the header above is its header, in LIT's colours. */
 
 #capture { position: absolute; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; }
+
+/* The menu of lessons (menu.html: the website and the offline copy). Each lesson is one oval button. */
+#menuTop { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .3rem 1rem; margin-bottom: .8rem; }
+#menuTop h2 { margin: 0; }
+#menuSummary { color: var(--muted); font-weight: bold; }
+.lessons { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: .6rem; }
+@media (min-width: 46rem) { .lessons { grid-template-columns: 1fr 1fr; } }   /* two columns on wide screens */
+.lessons li { margin: 0; }
+button.lesson { width: 100%; height: 100%; display: flex; align-items: center; gap: .8rem; text-align: left; border-radius: 999px;
+                padding: .5rem 1.3rem .5rem .5rem; font-weight: normal; min-height: 4.2rem; }
+.lesson .num { flex: none; width: 2.9rem; height: 2.9rem; border-radius: 50%; border: 3px solid var(--ink); display: flex;
+               align-items: center; justify-content: center; font-weight: bold; font-size: 1.25rem; background: var(--field); color: var(--ink); }
+.lesson .text { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.lesson .name { font-weight: bold; }
+.lesson .about { font-size: .88rem; color: var(--muted); }
+.lesson .best { font-size: .88rem; font-weight: bold; color: var(--good); }
+.lesson.passed .num { background: var(--ok); color: var(--on-ok); }
+.lesson.next { background: var(--sun); color: var(--on-color); }   /* the next lesson to do */
+.lesson.next .about { color: var(--on-color); }
+.lesson.next .num { background: var(--paper); color: var(--ink); }
+.lesson .tag { display: inline-block; padding: 0 .5rem; border-radius: 999px; font-size: .75rem; background: var(--ink); color: var(--paper); vertical-align: middle; }
+#download { margin: 1rem 0 0; font-size: .95rem; }
+#download a { color: var(--ink); font-weight: bold; }
+#moreNote { margin: .9rem 0 0; padding: .4rem .7rem; background: var(--notice-bg); border-left: 4px solid var(--sun); border-radius: 6px; font-size: .95rem; }

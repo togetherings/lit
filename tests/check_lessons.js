@@ -47,6 +47,8 @@ fs.readdirSync(path.join(root, "lessons")).sort().forEach(function (lesson) {
                     "or leave " + code + " out of the package's \"languages\" in edugame.json");
       return;
     }
+    // The menu (js/menu.js) finds each lesson's best result by this rule
+    if (id !== from.split("-")[0] + "-" + lesson) { warnings.push(code + ": the board id must be \"" + from.split("-")[0] + "-" + lesson + "\", not \"" + id + "\" (js/menu.js relies on it)"); }
     if (boards[id] && boards[id] !== lesson + "/" + from) { warnings.push(code + ": the board id \"" + id + "\" is also used by lessons/" + boards[id]); }
     boards[id] = lesson + "/" + from;
     sandbox.kb = kb.data; sandbox.les = les.data; sandbox.code = code;

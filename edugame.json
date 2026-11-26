@@ -2,8 +2,8 @@
   "format": 1,
   "type": "scored",
   "id": "org.togetherings.lit",
-  "version": "0.24.0",
-  "languages": ["en", "en-GB", "fr", "es-419"],
+  "version": "0.25.0",
+  "languages": ["en", "en-GB", "fr", "es-la"],
   "color": "#1c3557",
   "options": { "theme": "auto" },
   "content": ["keyboards", "lessons"],
@@ -25,6 +25,7 @@
     }
   },
   "package_files": ["lessons/*"],
+  "pages": { "menu": { "page": "menu.html", "files": ["js/menu.js"], "offline": "all-lessons" } },
   "packages": [
     {
       "id": "lesson-01",

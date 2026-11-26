@@ -92,5 +92,13 @@
   "finger.rp": "little finger",
   "finger.lt": "thumb",
   "finger.rt": "thumb",
-  "typeHere": "Type here"
+  "typeHere": "Type here",
+  "kit.menu": "Lessons",
+  "menuTitle": "Lessons",
+  "menuPassed": "{n} of {total} passed",
+  "menuBest": "Best: {acc}% · {wpm} words per minute",
+  "menuNext": "Next",
+  "menuMore": "More lessons are ready in: {names}. Choose a language in Options.",
+  "nextLesson": "Next lesson",
+  "menuDownload": "Download LIT to use offline or in Kolibri, Moodle or RACHEL"
 }

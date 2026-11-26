@@ -8,7 +8,9 @@ plugin can show scoreboards for it. Plain HTML, CSS and JavaScript: no framework
 quickly and works offline.
 
 **[▶ Try LIT in your browser: togetherings.github.io/lit](https://togetherings.github.io/lit/)**: every lesson, in
-each of its languages and keyboards. Progress is kept in your browser only.
+each of its languages and keyboards, from a menu. Each lesson has its own address, like
+`togetherings.github.io/lit/en/lesson-03/` (`en-gb` for the UK keyboard, `fr`, `es-la`). Progress is kept in your
+browser only.
 
 Each lesson walks the learner through: **1.** an introduction (optional: what is touch typing, leaving the home
 row ...) → **2.** the new keys and which
@@ -23,14 +25,16 @@ and speed targets in `config.js` are both reached. Every page's text belongs to 
 
 * **Releases** (right-hand side of the repository page): every version has a few **bundles**, each a zip holding one
   zip per lesson (unzip the bundle, then upload each lesson's zip to Kolibri Studio on its own):
-  * `lit-en-0.24.0.zip`, `lit-en-GB-0.24.0.zip`, `lit-fr-0.24.0.zip` ...: one language and keyboard, with every lesson
-    written in it (`lit-lesson-01-en-0.24.0.zip` ...);
-  * `lit-all-languages-0.24.0.zip`: each lesson with all its languages (`lit-lesson-01-0.24.0.zip` ...): the learner
+  * `lit-en-0.25.0.zip`, `lit-en-GB-0.25.0.zip`, `lit-fr-0.25.0.zip` ...: one language and keyboard, with every lesson
+    written in it (`lit-lesson-01-en-0.25.0.zip` ...);
+  * `lit-all-languages-0.25.0.zip`: each lesson with all its languages (`lit-lesson-01-0.25.0.zip` ...): the learner
     chooses in *Options*, and gets Kolibri's language until they do.
 
-  Each bundle's `README.txt` lists its lessons. Every push's zips are also in the Build run's Artifacts (game-zips).
-* **Live site** (GitHub Pages): [togetherings.github.io/lit](https://togetherings.github.io/lit/) - every lesson with all
-  its languages, to try or share a link. Nothing is reported to a coach there, and progress is kept in the browser only.
+  Each bundle's `README.txt` lists its lessons. There is also **`lit-all-lessons-0.25.0.zip`**: every lesson with the
+  menu, to use on its own without Kolibri (unzip it and open `index.html`; it works offline). It isn't for Kolibri or
+  other learning systems, since they need one zip per lesson to record each lesson as passed. Every push's zips are also in the Build run's Artifacts (game-zips).
+* **Live site** (GitHub Pages): [togetherings.github.io/lit](https://togetherings.github.io/lit/) - the menu and every
+  lesson in each language, to try or share a link. Nothing is reported to a coach there, and progress is kept in the browser only.
 * Or build them yourself with [EduGame Kit](https://github.com/togetherings/edugame-kit) (see below).
 
 ## Repository layout
@@ -46,7 +50,7 @@ lang/<language>.json       the wording on screen in one language, and the finger
 keyboards/<language>.json  one physical keyboard: rows, Shift/AltGr layers, dead keys, which finger types which key
 lessons/
   01/                      LESSON 1, one edition per language:
-    en.json  fr.json  es-419.json     the introduction page, keys taught, advice, practice sentences
+    en.json  fr.json  es-la.json        the introduction page, keys taught, advice, practice sentences
   02/  03/  ...            the next lessons (English only so far: en.json, used by en and en-GB)
 art/                       the hand drawings (Inkscape SVGs): the source for js/hand-art.js
 tools/import_hands.py      rebuilds js/hand-art.js from art/
@@ -57,7 +61,7 @@ tests/                     check_lessons.js and engine_test.js (no browser neede
 .github/dependabot.yml     a pull request here for each EduGame Kit release (and for the GitHub actions)
 ```
 
-A *language* is a code: `en` (English, US keyboard), `en-GB` (English, UK keyboard), `fr` (French, AZERTY) and `es-419`
+A *language* is a code: `en` (English, US keyboard), `en-GB` (English, UK keyboard), `fr` (French, AZERTY) and `es-la`
 (Latin American Spanish). For each, the game takes the nearest file in `lang/`, `keyboards/` and the lesson's folder:
 `en-GB` has its own keyboard, but no lesson file of its own, so it gets the English edition (`lessons/01/en.json`) and
 `lang/en.json`'s words (`lang/en-GB.json` only names the language). So each lesson is written once per language.
@@ -82,20 +86,37 @@ edugame check .                            missing words, and other problems
 edugame build . -o dist                    each lesson with every language: dist/lit-lesson-01-0.23.0.zip
 edugame build . -o dist --each-language    each lesson, one language at a time: dist/lit-lesson-01-fr-0.23.0.zip
 edugame build . --package lesson-01 --lang en,en-GB
-edugame pages . -o site                    the GitHub Pages site: a front page and every lesson
+edugame pages . -o site                    the GitHub Pages site: the menu and every lesson, in each language
+edugame bundle . -o bundles                the release bundles, and the offline copy (lit-all-lessons-...zip)
 ```
 
 ## Releasing
 
-1. Change `version` in `edugame.json` (for example `0.24.0`), add a line to `CHANGELOG.md`, and merge into `main`.
-2. Publish a release on GitHub's Releases page with the tag `v0.24.0` (it must equal `v` + the version). The workflow
-   builds every zip and attaches the bundles to the release (one with every language, one for each language).
+1. Change `version` in `edugame.json` (for example `0.25.0`), add a line to `CHANGELOG.md`, and merge into `main`.
+2. Publish a release on GitHub's Releases page with the tag `v0.25.0` (it must equal `v` + the version). The workflow
+   builds every zip and attaches the bundles to the release (one with every language, one for each language, and the
+   offline copy with the menu).
 
 ## GitHub Pages (the live site)
 
 The `GitHub Pages` workflow publishes the site (`edugame pages`) every time `main` changes. **One-time setup:** in the
-repository, Settings → Pages → Source = **GitHub Actions**. (Free Pages need a public repository.) Each lesson is a
-package, with its own Play button on the front page.
+repository, Settings → Pages → Source = **GitHub Actions**. (Free Pages need a public repository.)
+
+The site is made from `menu.html` and `js/menu.js` (`"pages": {"menu": ...}` in `edugame.json`; never in a lesson's
+zip):
+
+```
+togetherings.github.io/lit/                  the menu in the visitor's language (the last one chosen, or the browser's)
+togetherings.github.io/lit/en/               the menu in English: every lesson as one button
+togetherings.github.io/lit/en/lesson-03/     lesson 3, English, US keyboard (en-gb: UK keyboard; fr; es-la)
+togetherings.github.io/lit/play/lesson-03/   an old address: goes to the new one
+```
+
+The kit adds a *Lessons* button to each lesson's header, and *Options* changes language by going to the same lesson in
+that language (or that language's menu, if the lesson isn't written in it yet). A passed lesson's results page has
+*Next lesson*. The menu shows each passed lesson's best result, highlights the first lesson not passed yet, and links
+to the latest release for schools (`downloadUrl` in `config.js`). It
+finds results by the lesson's board id, which must be `<language>-NN` (`tests/check_lessons.js` checks).
 
 ## Kit updates
 
@@ -167,7 +188,8 @@ shows scoreboards from it.
 ```
 node tests/check_lessons.js        lesson checks, no browser needed (this also runs in the workflow)
 node tests/engine_test.js          how mistakes, accuracy and speed are counted (this also runs in the workflow)
-python3 -m tests.e2e_browser       plays every lesson in every language in Chromium (needs EduGame Kit and Playwright)
+python3 -m tests.e2e_browser       plays every lesson in every language in Chromium, then the website and its offline
+                                   copy (needs EduGame Kit and Playwright)
 edugame kolibri-test .             plays every lesson in a throwaway real Kolibri (--packages 1: only lesson 1, as the
                                    workflow does; needs kolibri and Playwright)
 ```
