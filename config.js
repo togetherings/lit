@@ -6,7 +6,8 @@
 TT.config = {
   // ---------- PASS MARKS (change these to make the lesson easier or harder) ----------
   thresholds: {
-    accuracy: 90,              // percent of keystrokes that must be correct
+    accuracy: 90,              // percent: (letters - mistakes) / letters. A wrong, missed, extra or swapped key is one
+                               // mistake each, and what is typed after it still counts (js/align.js)
     wpm: 8                     // words per minute (one "word" = 5 characters)
   },
 
@@ -14,7 +15,7 @@ TT.config = {
   sentenceDelaySeconds: 0.5,   // pause after each finished sentence before the next one appears.
                                // Typing is switched off during the pause. 0 = no pause.
   showTimer: true,             // small count-up timer in the corner of the practice page
-  allowBackspace: false,       // false = wrong keys stay wrong. If true, accuracy is judged on the FINAL
+  allowBackspace: false,       // false = mistakes stay. If true, accuracy is judged on the FINAL
                                // text (a mistake you have fixed with Backspace does not count against you).
                                // If this is true AND the accuracy
                                // pass mark above is 100, a sentence will not advance until every

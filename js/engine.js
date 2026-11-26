@@ -27,22 +27,24 @@ TT.buildAttempt = function (lists) {
   return { sentences: sentences, listNames: listNames };
 };
 
-// A "session" is one attempt at the lesson.
-// options.allowBackspace    Backspace undoes the last character. Accuracy is then judged on the FINAL
-//                           text: a mistake that has been fixed does not count against accuracy.
-// options.requireCorrect    a sentence does not advance until every character is correct (the learner
-//                           must Backspace and fix mistakes). Needs allowBackspace.
+// A "session" is one attempt at the lesson. Every key typed for a sentence is kept, and after each key the
+// typing is lined up with the sentence (align.js): a missed letter, an extra key, a wrong key or a swapped
+// pair is ONE mistake, and the letters typed after it still count as right.
+// options.allowBackspace    Backspace takes back the last key. Accuracy is judged on what is left, so a
+//                           mistake that has been fixed does not count.
+// options.requireCorrect    a sentence does not end until it is typed exactly right (the learner must Backspace
+//                           and fix mistakes). Needs allowBackspace.
 TT.createSession = function (sentences, options) {
   options = options || {};
 
   var session = {
     sentences: sentences,
     sentenceIndex: 0,          // which sentence we are on
-    pos: 0,                    // which character of that sentence is next
-    status: sentences.map(function (s) { return new Array(s.length); }), // "ok" | "bad" | undefined
-    keystrokes: 0,             // keys pressed that count
-    correctKeys: 0,
-    errors: 0,
+    pos: 0,                    // how far through it the typing has reached (where the cursor is)
+    typed: sentences.map(function () { return ""; }),     // the keys typed for each sentence
+    aligned: sentences.map(function () { return null; }), // TT.align() of each sentence's typing
+    keystrokes: 0,             // keys pressed
+    wrongKeys: {},             // letter -> how often it went wrong (typed wrong, missed or swapped), for practice
     startTime: null,           // set on the first key, so reading time is not counted
     pausedMs: 0,               // time spent in the pauses between sentences (not counted)
     endTime: null,
@@ -51,25 +53,30 @@ TT.createSession = function (sentences, options) {
     requireCorrect: !!options.requireCorrect && !!options.allowBackspace
   };
 
-  // Handle one typed character. "now" is a timestamp in milliseconds.
+  function realign() {
+    var k = session.sentenceIndex, a = TT.align(session.sentences[k], session.typed[k]);
+    session.aligned[k] = a;
+    session.pos = a.at;
+    return a;
+  }
+
+  // Handle one typed character. "now" is a timestamp in milliseconds. Returns true if it was the key expected.
   session.type = function (ch, now) {
     if (session.finished) { return false; }
-    // End of the sentence reached with mistakes left in it: ignore typing until Backspace fixes them.
-    if (session.pos >= session.sentences[session.sentenceIndex].length) { return false; }
+    var k = session.sentenceIndex, sentence = session.sentences[k];
+    // "Fix every mistake" mode, end of the sentence reached with mistakes left in it: only Backspace helps now.
+    if (session.requireCorrect && session.pos >= sentence.length) { return false; }
     if (session.startTime === null) { session.startTime = now; }
-
-    var expected = session.sentences[session.sentenceIndex].charAt(session.pos);
-    var right = (ch === expected);
-
+    var expected = sentence.charAt(session.pos);
+    session.typed[k] += ch;
     session.keystrokes++;
-    if (right) { session.correctKeys++; } else { session.errors++; }
-    session.status[session.sentenceIndex][session.pos] = right ? "ok" : "bad";
-    session.pos++;
+    var a = realign();
 
-    // End of sentence: move on straight away to the next one (no Enter key needed).
-    if (session.pos >= session.sentences[session.sentenceIndex].length) {
-      // "Fix every mistake" mode: stay here until the whole sentence is correct (the timer keeps running).
-      if (session.requireCorrect && session.status[session.sentenceIndex].indexOf("bad") >= 0) { return right; }
+    // The sentence ends when the typing reaches its last letter (no Enter key needed).
+    if (a.at >= sentence.length && !(session.requireCorrect && a.mistakes > 0)) {
+      a.marks.forEach(function (mark, i) {
+        if (!mark.ok) { var c = sentence.charAt(i); session.wrongKeys[c] = (session.wrongKeys[c] || 0) + 1; }
+      });
       session.sentenceIndex++;
       session.pos = 0;
       if (session.sentenceIndex >= session.sentences.length) {
@@ -77,17 +84,15 @@ TT.createSession = function (sentences, options) {
         session.endTime = now;
       }
     }
-    return right;
+    return ch === expected;
   };
 
-  // Backspace: only works if the lesson allows it. A mistake stays counted as a
-  // mistake even after it is corrected, so accuracy stays honest.
+  // Backspace: only works if the lesson allows it. It takes back the last key typed in this sentence.
   session.backspace = function () {
-    if (!session.allowBackspace || session.finished || session.pos === 0) { return false; }
-    session.pos--;
-    var was = session.status[session.sentenceIndex][session.pos];
-    session.status[session.sentenceIndex][session.pos] = undefined;
-    if (was === "ok") { session.correctKeys--; session.keystrokes--; }
+    var k = session.sentenceIndex;
+    if (!session.allowBackspace || session.finished || !session.typed[k]) { return false; }
+    session.typed[k] = session.typed[k].slice(0, -1);
+    realign();
     return true;
   };
 
@@ -107,18 +112,22 @@ TT.createSession = function (sentences, options) {
     return Math.max(0, end - session.startTime - session.pausedMs);
   };
 
-  // Accuracy (whole %) and speed (words per minute, one decimal).
-  // One "word" is 5 characters, and only correct characters count towards speed.
+  // Accuracy (whole %): (letters - mistakes) / letters, over the sentences typed so far.
+  // Speed (words per minute, one decimal): one "word" is 5 characters, and only letters typed right count.
+  // count: the mistakes of each kind; wrongKeys: which letters went wrong, and how often.
   session.stats = function (now) {
+    var letters = 0, mistakes = 0, correct = 0, count = { wrong: 0, missed: 0, extra: 0, swapped: 0 };
+    session.aligned.forEach(function (a, i) {
+      if (!a) { return; }
+      letters += session.sentences[i].length;
+      mistakes += a.mistakes;
+      correct += a.correct;
+      Object.keys(count).forEach(function (c) { count[c] += a.count[c]; });
+    });
+    var acc = letters ? Math.max(0, 100 * (letters - mistakes) / letters) : 100;
     var minutes = session.elapsedMs(now) / 60000;
-    var acc = session.keystrokes ? 100 * session.correctKeys / session.keystrokes : 100;
-    if (session.allowBackspace) {                      // Backspace allowed: judged on the final text, so fixed mistakes do not count
-      var total = 0, bad = 0;
-      session.sentences.forEach(function (s, i) { total += s.length; bad += session.status[i].filter(function (m) { return m === "bad"; }).length; });
-      acc = total ? 100 * (total - bad) / total : 100;
-    }
-    var wpm = minutes > 0 ? (session.correctKeys / 5) / minutes : 0;
-    return { accuracy: Math.round(acc), wpm: Math.round(wpm * 10) / 10 };
+    var wpm = minutes > 0 ? (correct / 5) / minutes : 0;
+    return { accuracy: Math.round(acc), wpm: Math.round(wpm * 10) / 10, count: count, wrongKeys: session.wrongKeys };
   };
 
   return session;

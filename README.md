@@ -12,7 +12,11 @@ each of its languages and keyboards. Progress is kept in your browser only.
 
 Each lesson walks the learner through: **1.** an introduction (optional: what is touch typing, leaving the home
 row ...) → **2.** the new keys and which
-finger types each → **3.** typing practice with sentences → **4.** results. The lesson is *passed* when the accuracy
+finger types each → **3.** typing practice with sentences → **4.** results (with the mistakes by kind, and the keys to
+practise). What is typed is lined up with the sentence, the way a spell-checker does (`js/align.js`): a wrong key, a
+missed letter, an extra key or two letters swapped is **one** mistake each, marked on the sentence as it is typed,
+and everything typed after it still counts. Accuracy is (letters - mistakes) / letters; speed counts the letters typed
+right (5 to a word) per minute. The lesson is *passed* when the accuracy
 and speed targets in `config.js` are both reached. Every page's text belongs to the lesson, in each language.
 
 ## Get the zips
@@ -46,7 +50,8 @@ lessons/
   02/  03/  ...            the next lessons (English only so far: en.json, used by en and en-GB)
 art/                       the hand drawings (Inkscape SVGs): the source for js/hand-art.js
 tools/import_hands.py      rebuilds js/hand-art.js from art/
-tests/                     check_lessons.js (no browser needed), e2e_browser.py (plays every lesson and language),
+tests/                     check_lessons.js and engine_test.js (no browser needed), e2e_browser.py (plays every
+                           lesson and language),
                            kolibri_play.py (play steps for the kit's real-Kolibri test)
 .github/workflows/         checks and builds on every push; attaches the zips to a release; publishes the site
 .github/dependabot.yml     a pull request here for each EduGame Kit release (and for the GitHub actions)
@@ -161,6 +166,7 @@ shows scoreboards from it.
 
 ```
 node tests/check_lessons.js        lesson checks, no browser needed (this also runs in the workflow)
+node tests/engine_test.js          how mistakes, accuracy and speed are counted (this also runs in the workflow)
 python3 -m tests.e2e_browser       plays every lesson in every language in Chromium (needs EduGame Kit and Playwright)
 edugame kolibri-test .             plays every lesson in a throwaway real Kolibri (--packages 1: only lesson 1, as the
                                    workflow does; needs kolibri and Playwright)

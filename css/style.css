@@ -96,6 +96,19 @@ button:focus-visible { outline: 4px solid var(--bad); outline-offset: 2px; }
 #strictNote { margin: .3rem 0 .6rem; padding: .4rem .7rem; background: var(--notice-bg); border-left: 4px solid var(--sun); border-radius: 6px; font-size: .95rem; }
 .ch.ok  { background: var(--ok); color: var(--on-ok); }
 .ch.bad { background: var(--bad); color: #fff; border-bottom-color: #7a1f16; text-decoration: underline wavy; } /* not colour alone */
+/* the four kinds of mistake (align.js), each with its own shape so colour is not the only sign */
+.ch.bad { position: relative; }
+.ch .typed { position: absolute; right: -.25em; bottom: -.45em; min-width: 1.1em; padding: .05em .15em; font-size: .45em;
+             line-height: 1.1; color: #fff; background: #7a1f16; border-radius: .35em; font-weight: bold; text-align: center;
+             text-decoration: none; z-index: 1; }
+.ch.miss { color: var(--bad); outline: 2px dashed var(--bad); outline-offset: -3px; text-decoration: line-through; }
+.ch.swap { background: #f2a33a; color: #2b1a00; border-bottom-color: #8a5200; }
+.ch.swap-first { position: relative; }
+.ch.swap-first::after { content: "\21C4"; position: absolute; left: 100%; top: -.85em; transform: translateX(-50%);
+                        font-size: .55em; color: #8a5200; }
+.extra { display: inline-block; width: .5em; margin: 0 -.05em; vertical-align: top; font-size: .55em; line-height: 1;
+         color: #fff; background: var(--bad); border-radius: 3px; text-align: center; padding: .1em 0; }
+#resultsBody .mistakes, #resultsBody .practise { margin-top: .4em; }
 .ch.cur { background: var(--sun); color: var(--on-color); border-bottom-color: var(--ink); }
 /* Always occupies its line; only its visibility changes, so buttons below never jump. */
 #focusHint { color: var(--bad); font-weight: bold; margin: .4rem 0; min-height: 1.5em; visibility: hidden; }

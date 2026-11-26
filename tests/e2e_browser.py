@@ -110,16 +110,33 @@ def saved(page):
     return store, json.loads(store.get("cmi.suspend_data") or "{}")
 
 
-def play(page, game, lesson):
+def with_slips(text):
+    """The sentence typed with two slips: a letter left out, and two neighbouring letters swapped."""
+    gone = next(i for i in range(2, len(text) - 1) if text[i] != " " and text[i] != text[i + 1])
+    t = text[:gone] + text[gone + 1:]
+    sw = next(i for i in range(gone + 2, len(t) - 2) if t[i] != t[i + 1] and " " not in t[i:i + 2])
+    return t[:sw] + t[sw + 1] + t[sw] + t[sw + 2:]
+
+
+def play(page, game, lesson, slips=False):
+    """Plays the lesson. With slips, the first sentence has two (a missed letter and a swap): each must count as
+    one mistake and be marked, and the sentence must end at its last letter, with no extra key."""
     game.locator("#startBtn").click()
     total = int(re.search(r"(\d+)\D*$", game.locator("#progressText").inner_text()).group(1))
     for n in range(total):
         game.locator("#progressText:has-text('%d')" % (n + 1)).wait_for()
-        text = game.locator("#sentence").inner_text().replace(" ", " ")
+        text = game.locator("#sentence").inner_text().replace("\u00a0", " ")
         game.locator("#sentence").click()
-        page.keyboard.type(text, delay=70)          # about 170 words a minute: fast, but possible
+        page.keyboard.type(with_slips(text) if slips and n == 0 else text, delay=70)   # about 170 words a minute
+        if slips and n == 0:
+            marks = game.locator("#sentence .miss, #sentence .swap-first, #sentence .bad, #sentence .extra").count()
+            assert marks == 2, "two slips, two marks (%d)" % marks
+            assert game.locator("#sentence .ok").count() == len(text) - 3, "everything else stays right"
         page.wait_for_timeout(700)                   # the pause between sentences
     game.locator("#resultsBody .pass").wait_for()
+    if slips:
+        assert game.locator("#resultsBody .mistakes").inner_text().count("1") >= 2      # one missed, one swapped
+        assert game.locator("#resultsBody .practise kbd").count() >= 1
 
 
 def languages(package):
@@ -168,10 +185,12 @@ def check(browser, base, package, lesson, shots):
         if shots and code == languages(package)[0]:
             page.screenshot(path=os.path.join(shots, "%s-keys.png" % package))
         assert game.locator("#keysBody h2").inner_text() == ed["title"], code
-        play(page, game, lesson)
+        play(page, game, lesson, slips=(code == languages(package)[0]))
         store, record = saved(page)
         assert store["cmi.core.lesson_status"] == "passed" and "cmi.core.score.raw" not in store, store
-        assert record[ed["id"]][0] == 100 and record[ed["id"]][2] == 1, record   # [accuracy, speed, plays]
+        slipped = code == languages(package)[0]          # two slips in the first sentence: 2 mistakes in all
+        assert record[ed["id"]][2] == 1, record                                   # [accuracy, speed, plays]
+        assert (90 <= record[ed["id"]][0] < 100) if slipped else record[ed["id"]][0] == 100, record
         if shots and code == languages(package)[0]:
             page.screenshot(path=os.path.join(shots, "%s-results.png" % package))
         # Phone width

@@ -615,17 +615,33 @@
     var text = el("sentence");
     clear(text);
     var sentence = session.sentences[showing];
-    var marks = session.status[showing];
-
+    // What was typed, lined up with the sentence (align.js). Each kind of mistake has its own look, not colour
+    // alone: wrong = red, with a badge showing the key typed; missed = a dashed, crossed-out box; swapped = orange,
+    // with a two-way arrow; extra = a small red tab between two letters, showing the key typed.
+    var al = session.aligned[showing] || { at: 0, marks: [], extras: [] };
+    function keyShown(c) { return c === " " ? "\u2423" : c; }
+    function extras(i) {
+      (al.extras[i] || []).forEach(function (c) {
+        var x = make("span", "extra", keyShown(c));
+        x.title = t("extraKeyTitle");
+        text.appendChild(x);
+      });
+    }
     for (var i = 0; i < sentence.length; i++) {
-      var cls = "ch";
-      if (marks[i] === "ok") { cls += " ok"; }
-      else if (marks[i] === "bad") { cls += " bad"; }
-      else if (isCurrent && i === session.pos) { cls += " cur"; }
+      extras(i);
+      var cls = "ch", mark = i < al.at ? al.marks[i] : null, typedKey = null;
+      if (mark && mark.ok) { cls += " ok"; }
+      else if (mark && mark.wrong !== undefined) { cls += " bad"; typedKey = keyShown(mark.wrong); }
+      else if (mark && mark.missed) { cls += " miss"; }
+      else if (mark && mark.swapped) { cls += " swap" + (mark.first ? " swap-first" : ""); }
+      else if (isCurrent && i === al.at) { cls += " cur"; }
       if (sentence.charAt(i) === " ") { cls += " sp"; }
       if (specialByChar[sentence.charAt(i)]) { cls += " sym"; }         // the Tab / Enter symbols
-      text.appendChild(make("span", cls, sentence.charAt(i) === " " ? "\u00a0" : sentence.charAt(i)));
+      var span = make("span", cls, sentence.charAt(i) === " " ? "\u00a0" : sentence.charAt(i));
+      if (typedKey !== null) { span.appendChild(make("span", "typed", typedKey)); }
+      text.appendChild(span);
     }
+    extras(sentence.length);
 
     el("progressText").textContent = t("sentenceOf", { n: showing + 1, total: session.sentences.length });
 
@@ -711,6 +727,20 @@
       t("accuracyLine", { acc: st.accuracy, needAcc: need.accuracy })));
     text.appendChild(make("p", st.wpm >= need.wpm ? "met" : "unmet",
       t("wpmLine", { wpm: st.wpm, needWpm: need.wpm })));
+    // The mistakes, by kind, and the keys that went wrong most often
+    var kinds = ["wrong", "missed", "extra", "swapped"].filter(function (k) { return st.count[k]; });
+    text.appendChild(make("p", "mistakes", kinds.length ?
+      t("mistakesLine", { list: kinds.map(function (k) { return t("mistakes_" + k, { n: st.count[k] }); }).join(", ") }) :
+      t("noMistakes")));
+    var practise = Object.keys(st.wrongKeys).sort(function (x, y) { return st.wrongKeys[y] - st.wrongKeys[x]; }).slice(0, 3);
+    if (practise.length) {
+      var line = make("p", "practise", t("keysToPractise") + " ");
+      practise.forEach(function (k, n) {
+        if (n) { line.appendChild(document.createTextNode(" ")); }
+        line.appendChild(make("kbd", "keycap", keyLabel(k)));
+      });
+      text.appendChild(line);
+    }
     layout.appendChild(text);
     var pic = sideImage(passed ? "passed" : "failed", "result");
     if (pic) { var space = make("div", "result-pic"); space.appendChild(pic); layout.appendChild(space); }
