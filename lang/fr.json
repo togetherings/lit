@@ -88,13 +88,7 @@
   "reviewKeysHeading": "Touches de cette révision",
   "practiseLesson": "leçon {n}",
   "reviewPassed": "Révision terminée ! Bravo.",
-  "menuGetTitle": "Utiliser LIT dans votre école",
-  "menuGetDownload": "Téléchargez LIT depuis la {link}. Chaque leçon est un zip, et le même zip fonctionne dans :",
-  "menuGetDownloadLink": "dernière version",
-  "menuGetKolibri": "**Kolibri** : importez-le dans une chaîne de Kolibri Studio",
-  "menuGetScorm": "**Moodle** et les autres plateformes d'apprentissage : ajoutez-le comme paquet SCORM",
-  "menuGetRachel": "**RACHEL** : décompressez-le dans le dossier des modules",
-  "menuGetOffline": "Pour utiliser toutes les leçons sur un ordinateur sans internet, téléchargez lit-all-lessons, décompressez-le et ouvrez index.html.",
-  "menuGetCode": "{link} est sur GitHub.",
-  "menuGetCodeLink": "Le code de LIT"
+  "kit.get_title": "Utiliser LIT dans votre école",
+  "kit.get_download": "Téléchargez LIT depuis la {link}. Chaque leçon est un zip, et le même zip fonctionne dans :",
+  "kit.get_code_link": "Le code de LIT"
 }

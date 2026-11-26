@@ -19,7 +19,9 @@ with EduGame Kit.
 - **Review #4** after lesson 16: capitals and numbers (5), and everything so far (3); 12 words a minute.
 - **Results**: a review says "Review complete!", and the button back to Page 2 says "Back" in every lesson.
 - **"Use LIT in your school"**: the menu's download link is now its own section under the lessons, like the old front
-  page: the latest release, Kolibri, Moodle and RACHEL, the offline all-lessons zip, and LIT's code.
+  page: the latest release, Kolibri, Moodle and RACHEL, the offline all-lessons zip (by its file name), and LIT's code.
+  It comes from EduGame Kit 0.3.7 (`data-eg="get"`), with LIT's own wording.
+- EduGame Kit 0.3.7.
 
 ## 0.25.0
 

@@ -301,7 +301,7 @@ def check_site(browser, shots):
     from edugame import pages
 
     work = tempfile.mkdtemp(prefix="lit-site-")
-    pages.build_pages(GAME, os.path.join(work, "lit"))
+    pages.build_pages(GAME, os.path.join(work, "lit"), repo="togetherings/lit")
     server, base = serve_folder(work)
     try:
         context = browser.new_context(locale="en-US", viewport={"width": 1000, "height": 800})
@@ -315,7 +315,8 @@ def check_site(browser, shots):
         assert lessons.count() == len(GAME.packages()), lessons.count()
         assert page.locator("button.lesson.next").get_attribute("data-lesson") == "lesson-01"
         assert page.locator("#moreNote").is_hidden()
-        assert page.locator("#menuGetDownload a").get_attribute("href").endswith("/lit/releases/latest")
+        assert page.locator("#menuGet a").first.get_attribute("href").endswith("/lit/releases/latest")
+        assert "lit-all-lessons-" in page.locator("#menuGet").inner_text()
         assert "Kolibri" in page.locator("#menuGet").inner_text()
         lessons.first.click()
         page.wait_for_url("**/lit/en/lesson-01/")

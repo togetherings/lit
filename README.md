@@ -116,9 +116,11 @@ togetherings.github.io/lit/play/lesson-03/   an old address: goes to the new one
 
 The kit adds a *Lessons* button to each lesson's header, and *Options* changes language by going to the same lesson in
 that language (or that language's menu, if the lesson isn't written in it yet). A passed lesson's results page has
-*Next lesson*. The menu shows each passed lesson's best result, highlights the first lesson not passed yet, and links
-to the latest release for schools (`downloadUrl` in `config.js`). It
-finds results by the lesson's board id, which must be `<language>-NN` (`tests/check_lessons.js` checks).
+*Next lesson*. The menu shows each passed lesson's best result and highlights the first lesson not passed yet. It
+finds results by the lesson's board id, which must be `<language>-NN` (`tests/check_lessons.js` checks). Under the
+lessons, **Use LIT in your school** comes from the kit (`<section data-eg="get">`): the latest release, Kolibri,
+Moodle and RACHEL, the offline copy and LIT's code, with LIT's own wording in `lang/` (`kit.get_title`,
+`kit.get_download`, `kit.get_code_link`).
 
 ## Kit updates
 

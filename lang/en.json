@@ -152,13 +152,7 @@
   "reviewKeysHeading": "Keys in this review",
   "practiseLesson": "lesson {n}",
   "reviewPassed": "Review complete! Well done.",
-  "menuGetTitle": "Use LIT in your school",
-  "menuGetDownload": "Download LIT from the {link}. Each lesson is its own zip, and the same zip works in:",
-  "menuGetDownloadLink": "latest release",
-  "menuGetKolibri": "**Kolibri**: upload it to a channel in Kolibri Studio",
-  "menuGetScorm": "**Moodle** and other learning systems: add it as a SCORM package",
-  "menuGetRachel": "**RACHEL**: unzip it into the modules folder",
-  "menuGetOffline": "To use every lesson on a computer without the internet, download lit-all-lessons, unzip it and open index.html.",
-  "menuGetCode": "{link} is on GitHub.",
-  "menuGetCodeLink": "LIT's code"
+  "kit.get_title": "Use LIT in your school",
+  "kit.get_download": "Download LIT from the {link}. Each lesson is its own zip, and the same zip works in:",
+  "kit.get_code_link": "LIT's code"
 }
